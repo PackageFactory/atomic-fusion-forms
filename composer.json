@@ -1,0 +1,27 @@
+{
+    "description": "Forms powered by atomic fusion",
+    "type": "neos-package",
+    "name": "packagefactory/atomicfusion-forms",
+	"license": "GPL-3.0+",
+	"authors": [
+		{
+			"name": "Wilhelm Behncke",
+			"email": "wilhelm.behncke@googlemail.com",
+			"role": "Developer"
+		}
+	],
+    "require": {
+        "typo3/flow": "*",
+        "typo3/typoscript": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "PackageFactory\\AtomicFusion\\Forms": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "PackageFactory.AtomicFusion.Forms"
+        }
+    }
+}
