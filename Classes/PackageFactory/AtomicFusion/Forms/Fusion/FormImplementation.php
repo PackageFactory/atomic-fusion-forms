@@ -51,6 +51,10 @@ class FormImplementation extends AbstractTypoScriptObject
 		$action = $this->tsValue('action');
 		$formContext = new FormContext($this->path, $action, $fields, $finishers, $request);
 
+		$this->tsRuntime->pushContextArray([
+			$this->tsValue('formContext') => $formContext
+		]);
+
 		if (!$formContext->getFormState()->isInitialCall()) {
 			$result = $this->formProcessingService->process($formContext, $this->tsRuntime);
 
@@ -66,10 +70,8 @@ class FormImplementation extends AbstractTypoScriptObject
 		//
 		// Render
 		//
-		$this->tsRuntime->pushContextArray([
-			$this->tsValue('formContext') => $formContext
-		]);
 		$renderedForm = $this->tsRuntime->render(sprintf('%s/renderer', $this->path));
+
 		$this->tsRuntime->popContext();
 
 		//

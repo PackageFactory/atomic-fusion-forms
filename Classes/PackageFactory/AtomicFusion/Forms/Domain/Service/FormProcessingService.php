@@ -13,6 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Error\Result;
+use TYPO3\Flow\Error\Error;
 use TYPO3\Flow\Utility\Arrays;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use TYPO3\Flow\Property\PropertyMapper;
@@ -61,7 +62,14 @@ class FormProcessingService
 				);
 			}
 
-			$result->forProperty($fieldName)->merge($validator->validate($value));
+			$validationResult = $validator->validate($value);
+			$configuredMessage = $fusionRuntime->canRender($validatorConfiguration['message']) ? $fusionRuntime->render($validatorConfiguration['message']) : '';
+
+			if ($validationResult->hasErrors() && !empty($configuredMessage)) {
+				$result->forProperty($fieldName)->addError(new Error($configuredMessage));
+			} else {
+				$result->forProperty($fieldName)->merge($validator->validate($value));
+			}
 		}
 
 		return $result;
