@@ -15,5 +15,29 @@ use TYPO3\Flow\Annotations as Flow;
 
 class FormState
 {
+	/**
+	 * @var boolean
+	 */
+	protected $__isInitialCall = true;
 
+	/**
+	 * Determine whether the form is initially called
+	 *
+	 * @return boolean
+	 */
+	public function isInitialCall()
+	{
+		return $this->__isInitialCall;
+	}
+
+	/**
+	 * Indicate, that the form has already been called when this object gets
+	 * unserialized
+	 *
+	 * @return void
+	 */
+	public function __wakeup()
+	{
+		$this->__isInitialCall = false;
+	}
 }
