@@ -59,9 +59,18 @@ class FormImplementation extends AbstractTypoScriptObject
 			$result = $this->formProcessingService->process($formContext, $this->tsRuntime);
 
 			if (!$result->hasErrors()) {
-				//
-				// TODO: Run finishers
-				//
+				$stringResult = null;
+
+				foreach ($finishers as $finisher) {
+					if ($finisherResult = $finisher->execute()) {
+						$stringResult = $finisherResult;
+					}
+				}
+
+				if ($stringResult !== null) {
+					return $stringResult;
+					$this->tsRuntime->popContext();
+				}
 			}
 
 			$formContext->setValidationResult($result);

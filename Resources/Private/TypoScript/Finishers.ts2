@@ -1,0 +1,12 @@
+prototype(PackageFactory.AtomicFusion.Forms:Finisher) {
+	@class = ''
+	form = ${form}
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:Finisher.Message) < prototype(PackageFactory.AtomicFusion.Forms:Finisher) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Finishers\\MessageFinisherImplementation'
+}
+prototype(PackageFactory.AtomicFusion.Forms:Finisher.Log) < prototype(PackageFactory.AtomicFusion.Forms:Finisher) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Finishers\\LogFinisherImplementation'
+	severity = 'INFO'
+}

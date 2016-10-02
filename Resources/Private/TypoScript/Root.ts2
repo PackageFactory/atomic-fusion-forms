@@ -1,52 +1,5 @@
-/*image = PackageFactory.AtomicFusion.Forms:Field {
-	identifier = 'image'
-	type = 'TYPO3\\Media\\Domain\\Model\\ImageInterface'
+include: ./Finishers.ts2
 
-	renderer = TYPO3.TypoScript:Array {
-		resource = PackageFactory.AtomicFusion.Forms:Field {
-			identifier = ${property('asset.resource')}
-			validators {
-				required = PackageFactory.AtomicFusion.Forms:Validators.NotEmpty {
-					message = 'Please provide a file'
-				}
-			}
-
-			renderer = TYPO3.TypoScript:Tag {
-				tagName = 'input'
-				attributes {
-					name = ${field.name}
-					data-validate = 'required'
-					data-validate.@if.1 = ${field.validators.required != null}
-				}
-			}
-		}
-	}
-}
-prototype(PackageFactory.AtomicFusion.Forms:Field) {
-	identifier = ${property('')}
-	validators = TYPO3.TypoScript:RawArray
-	fieldContext = 'field'
-	propertyContext = 'property'
-}
-
-contact = PackageFactory.AtomicFusion.Forms:Form {
-	label = 'My Custom Contact Form'
-	renderer = TYPO3.TypoScript:Array {
-
-	}
-
-	finishers {
-		sendConfirmationEmail = PackageFactory.AtomicFusion.Forms:Finishers.Mail {
-
-		}
-		sendInformationEmail = PackageFactory.AtomicFusion.Forms:Finishers.Mail {
-
-		}
-		displayConfirmationMessage = PackageFactory.AtomicFusion.Forms:Finishers.Message {
-			renderer = TYPO3.TypoScript:Template
-		}
-	}
-}*/
 prototype(PackageFactory.AtomicFusion.Forms:Form) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FormImplementation'
 	formContext = 'form'
