@@ -52,3 +52,10 @@ prototype(PackageFactory.AtomicFusion.Forms:Form) {
 	formContext = 'form'
 	action = ${request.parentRequest.uri}
 }
+
+prototype(PackageFactory.AtomicFusion.Forms:Field) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldImplementation'
+	validators = TYPO3.TypoScript:RawArray
+	fieldContext = 'field'
+	propertyContext = 'property'
+}
