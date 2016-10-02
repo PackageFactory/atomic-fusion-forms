@@ -27,7 +27,7 @@ class CryptographyService
 
 	public function encodeHiddenFormMetadata($formMetadata)
 	{
-		$serializedFormState = base64_encode(serialize($this->arguments['object']->getFormState()));
+		$serializedFormState = base64_encode(serialize($formMetadata));
         return $this->hashService->appendHmac($serializedFormState);
 	}
 

@@ -14,10 +14,24 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractArrayTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\FormContext;
+use PackageFactory\AtomicFusion\Forms\Service\FormAugmentationService;
+use PackageFactory\AtomicFusion\Forms\Service\HiddenInputTagMappingService;
 
 class FormImplementation extends AbstractArrayTypoScriptObject
 {
 	const CONTEXT_IDENTIFIER_FORMCONTEXT = '@@' . self::class . ':formContext';
+
+	/**
+	 * @Flow\Inject
+	 * @var FormAugmentationService
+	 */
+	protected $formAugmentationService;
+
+	/**
+	 * @Flow\Inject
+	 * @var HiddenInputTagMappingService
+	 */
+	protected $hiddenInputTagMappingService;
 
 	public function evaluate()
 	{
@@ -42,6 +56,14 @@ class FormImplementation extends AbstractArrayTypoScriptObject
 		// - Form State
 		// - Trusted Properties
 		//
-		return $renderedForm;
+		return $this->formAugmentationService->injectStringAfterOpeningFormTag(
+			$renderedForm,
+			sprintf(
+				'<div style="display: none;">%s</div>',
+				$this->hiddenInputTagMappingService->convertFlatMapToHiddenInputTags([
+					'__state' => $formContext->getEncodedFormState()
+				], $formContext->getArgumentNamespace())
+			)
+		);
 	}
 }

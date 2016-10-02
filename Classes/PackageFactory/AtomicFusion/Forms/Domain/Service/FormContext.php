@@ -56,7 +56,7 @@ class FormContext
 	public function __construct($path, array $properties, ActionRequest $request)
 	{
 		$this->path = $path;
-		$this->identifier = rawurlencode($this->path);
+		$this->identifier = md5($this->path);
 		$this->argumentNamespace = '--' . $this->identifier;
 		$this->properties = $properties;
 
@@ -69,17 +69,52 @@ class FormContext
         $this->request = new ActionRequest($request);
         $this->request->setArgumentNamespace($this->argumentNamespace);
 
+
         if (isset($pluginArguments[$this->identifier])) {
             $this->request->setArguments($pluginArguments[$this->identifier]);
         }
+	}
 
-		//
-		// Assemble or restore form state
-		//
+	/**
+	 * Restore or initialize form state
+	 * @return void
+	 */
+	protected function initializeObject()
+	{
 		if ($serializedFormStateWithHmac = $this->request->getInternalArgument('__state')) {
 			$this->formState = $this->cryptographyService->decodeHiddenFormMetadata($serializedFormStateWithHmac);
 		} else {
 			$this->formState = new FormState();
 		}
+	}
+
+	/**
+	 * Get the argument namespace
+	 *
+	 * @return string
+	 */
+	public function getArgumentNamespace()
+	{
+		return $this->argumentNamespace;
+	}
+
+	/**
+	 * Get the form state
+	 *
+	 * @return FormState
+	 */
+	public function getFormState()
+	{
+		return $this->formState;
+	}
+
+	/**
+	 * Get the encoded form state in preparation for rendering it within a hidden input tag
+	 *
+	 * @return string
+	 */
+	public function getEncodedFormState()
+	{
+		return $this->cryptographyService->encodeHiddenFormMetadata($this->formState);
 	}
 }
