@@ -17,8 +17,7 @@ use TYPO3\Flow\Utility\Arrays;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use TYPO3\Flow\Property\PropertyMapper;
 use TYPO3\Flow\Validation\Validator\ConjunctionValidator;
-use TYPO3\Flow\Object\Configuration\Configuration as ObjectConfiguration;
-use TYPO3\Flow\Object\ObjectManagerInterface;
+use TYPO3\Flow\Validation\ValidatorResolver;
 
 /**
  * @Flow\Scope("singleton")
@@ -33,9 +32,9 @@ class FormProcessingService
 
 	/**
      * @Flow\Inject
-     * @var ObjectManagerInterface
+     * @var ValidatorResolver
      */
-    protected $objectManager;
+    protected $validatorResolver;
 
 	public function process(FormContext $formContext)
 	{
@@ -53,18 +52,12 @@ class FormProcessingService
 			}
 
 			foreach ($configuration['validators'] as $validatorConfiguration) {
-				if ($this->objectManager->getScope($validatorConfiguration['className']) === ObjectConfiguration::SCOPE_PROTOTYPE) {
-					$validator->addValidator(
-						$this->objectManager->get(
-							$validatorConfiguration['className'],
-							[$validatorConfiguration['options']]
-						)
-					);
-				} else {
-					$validator->addValidator(
-						$this->objectManager->get($validatorConfiguration['className'])
-					);
-				}
+				$validator->addValidator(
+					$this->validatorResolver->createValidator(
+						$validatorConfiguration['className'],
+						$validatorConfiguration['options']
+					)
+				);
 			}
 
 			$result->forProperty($fieldName)->merge($validator->validate($value));
