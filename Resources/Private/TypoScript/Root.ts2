@@ -51,11 +51,25 @@ prototype(PackageFactory.AtomicFusion.Forms:Form) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FormImplementation'
 	formContext = 'form'
 	action = ${request.parentRequest.uri}
+	fields = PackageFactory.AtomicFusion.Forms:Fields
+	finishers = TYPO3.TypoScript:RawArray
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:Fields) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldsImplementation'
 }
 
 prototype(PackageFactory.AtomicFusion.Forms:Field) {
-	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldImplementation'
-	validators = TYPO3.TypoScript:RawArray
-	fieldContext = 'field'
-	propertyContext = 'property'
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldsImplementation'
+	type = 'mixed'
+	validators = PackageFactory.AtomicFusion.Forms:Validators
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:Validators) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\ValidatorsImplementation'
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:Validator) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\ValidatorImplementation'
+	options = TYPO3.TypoScript:RawArray
 }

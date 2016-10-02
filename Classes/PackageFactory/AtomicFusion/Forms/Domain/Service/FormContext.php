@@ -13,14 +13,21 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\ActionRequest;
+use TYPO3\Eel\ProtectedContextAwareInterface;
+use TYPO3\Flow\Utility\Arrays;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
 
-class FormContext
+class FormContext implements ProtectedContextAwareInterface
 {
 	/**
 	 * @var string
 	 */
 	protected $path;
+
+	/**
+	 * @var string
+	 */
+	protected $action;
 
 	/**
 	 * @var string
@@ -35,7 +42,12 @@ class FormContext
 	/**
 	 * @var array
 	 */
-	protected $properties;
+	protected $fields;
+
+	/**
+	 * @var array
+	 */
+	protected $finishers;
 
 	/**
 	 * @var ActionRequest
@@ -53,12 +65,14 @@ class FormContext
 	 */
 	protected $cryptographyService;
 
-	public function __construct($path, array $properties, ActionRequest $request)
+	public function __construct($path, $action, array $fields, array $finishers, ActionRequest $request)
 	{
 		$this->path = $path;
+		$this->action = $action;
 		$this->identifier = md5($this->path);
 		$this->argumentNamespace = '--' . $this->identifier;
-		$this->properties = $properties;
+		$this->fields = $fields;
+		$this->finishers = $finishers;
 
 		//
 		// Create sub request
@@ -81,11 +95,21 @@ class FormContext
 	 */
 	protected function initializeObject()
 	{
-		if ($serializedFormStateWithHmac = $this->request->getInternalArgument('__state')) {
-			$this->formState = $this->cryptographyService->decodeHiddenFormMetadata($serializedFormStateWithHmac);
+		if ($serializedFormState = $this->request->getInternalArgument('__state')) {
+			$this->formState = $this->cryptographyService->decodeHiddenFormMetadata($serializedFormState);
 		} else {
 			$this->formState = new FormState();
 		}
+	}
+
+	/**
+	 * Get the identifier
+	 *
+	 * @return string
+	 */
+	public function getAction()
+	{
+		return $this->action;
 	}
 
 	/**
@@ -127,4 +151,40 @@ class FormContext
 	{
 		return $this->cryptographyService->encodeHiddenFormMetadata($this->formState);
 	}
+
+	public function field($fieldName)
+	{
+		$propertyPath = explode('.', $fieldName);
+		$name = array_shift($propertyPath);
+
+		if (!isset($this->fields[$name])) {
+			throw new \Exception(sprintf('Field `%s` is currently not configured.', $name), 1475433971);
+		}
+
+		return new FieldContext($this, $name, $propertyPath);
+	}
+
+	public function getFieldValueForPath($path)
+	{
+		$arguments = $this->request->getArguments();
+
+		return Arrays::getValueByPath($arguments, $path);
+	}
+
+	/**
+     * @param string $methodName
+     * @return boolean
+     */
+    public function allowsCallOfMethod($methodName)
+    {
+		switch ($methodName) {
+			case 'getAction':
+			case 'getIdentifier':
+			case 'field':
+				return true;
+
+			default:
+				return false;
+		}
+    }
 }

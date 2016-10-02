@@ -13,27 +13,31 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
-use PackageFactory\AtomicFusion\Forms\Eel\PropertyContextHelper;
 
 class FieldImplementation extends AbstractTypoScriptObject
 {
+	protected function getName()
+	{
+		if ($this->canRender(sprintf('%s/name', $this->path, $key))) {
+			return $this->canRender(sprintf('%s/name', $this->path, $key));
+		}
+
+		$context = $this->tsRuntime->getCurrentContext();
+
+		if (isset($context[FieldsImplementation::FIELD_NAME_CONTEXT])) {
+			return $context[FieldsImplementation::FIELD_NAME_CONTEXT];
+		}
+
+		// TODO: Exception: Could not determine field name
+	}
+
 	public function evaluate()
 	{
-		$identifier = $this->tsValue('identifier');
-
-		//
-		// Render
-		//
-		$this->tsRuntime->pushContextArray([
-			$this->tsValue('propertyContext') => new PropertyContextHelper($identifier),
-			$this->tsValue('fieldContext') => [
-				'identifier' => $identifier,
-				'validators' => $this->tsValue('validators')
-			]
-		]);
-		$renderedField = $this->tsRuntime->render(sprintf('%s/renderer', $this->path));
-		$this->tsRuntime->popContext();
-
-		return $renderedField;
+		return [
+			'name' => $this->getName(),
+			'label' => $this->tsValue('label'),
+			'type' => $this->tsValue('type'),
+			'validators' => $this->tsValue('validators')
+		];
 	}
 }

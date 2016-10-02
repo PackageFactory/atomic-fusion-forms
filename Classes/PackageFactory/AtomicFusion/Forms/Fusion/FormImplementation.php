@@ -12,12 +12,12 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\TypoScript\TypoScriptObjects\AbstractArrayTypoScriptObject;
+use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\FormContext;
 use PackageFactory\AtomicFusion\Forms\Service\FormAugmentationService;
 use PackageFactory\AtomicFusion\Forms\Service\HiddenInputTagMappingService;
 
-class FormImplementation extends AbstractArrayTypoScriptObject
+class FormImplementation extends AbstractTypoScriptObject
 {
 	const CONTEXT_IDENTIFIER_FORMCONTEXT = '@@' . self::class . ':formContext';
 
@@ -39,17 +39,16 @@ class FormImplementation extends AbstractArrayTypoScriptObject
 		// Create Form context with subrequest
 		//
 		$request = $this->tsRuntime->getControllerContext()->getRequest();
-		$formContext = new FormContext($this->path, $this->properties, $request);
+		$fields = $this->tsValue('fields');
+		$finishers = $this->tsValue('finishers');
+		$action = $this->tsValue('action');
+		$formContext = new FormContext($this->path, $action, $fields, $finishers, $request);
 
 		//
 		// Render
 		//
 		$this->tsRuntime->pushContextArray([
-			self::CONTEXT_IDENTIFIER_FORMCONTEXT => $formContext,
-			$this->tsValue('formContext') => [
-				'identifier' => $formContext->getIdentifier(),
-				'action' => $this->tsValue('action')
-			]
+			$this->tsValue('formContext') => $formContext
 		]);
 		$renderedForm = $this->tsRuntime->render(sprintf('%s/renderer', $this->path));
 		$this->tsRuntime->popContext();
