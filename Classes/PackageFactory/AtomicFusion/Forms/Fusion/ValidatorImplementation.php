@@ -28,7 +28,7 @@ class ValidatorImplementation extends AbstractTypoScriptObject
 	{
 		return [
 			'className' => $this->getClassName(),
-			'options' => $this->tsValue('options'),
+			'options' => sprintf('%s/options', $this->path),
 			'message' => sprintf('%s/message', $this->path)
 		];
 	}

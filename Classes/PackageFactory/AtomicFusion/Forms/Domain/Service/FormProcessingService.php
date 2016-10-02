@@ -18,6 +18,7 @@ use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use TYPO3\Flow\Property\PropertyMapper;
 use TYPO3\Flow\Validation\Validator\ConjunctionValidator;
 use TYPO3\Flow\Validation\ValidatorResolver;
+use TYPO3\TypoScript\Core\Runtime;
 
 /**
  * @Flow\Scope("singleton")
@@ -36,7 +37,7 @@ class FormProcessingService
      */
     protected $validatorResolver;
 
-	public function process(FormContext $formContext)
+	public function process(FormContext $formContext, Runtime $fusionRuntime)
 	{
 		$result =  new Result();
 		$fieldConfiguration = $formContext->getFieldConfiguration();
@@ -55,7 +56,7 @@ class FormProcessingService
 				$validator->addValidator(
 					$this->validatorResolver->createValidator(
 						$validatorConfiguration['className'],
-						$validatorConfiguration['options']
+						$fusionRuntime->render($validatorConfiguration['options'])
 					)
 				);
 			}

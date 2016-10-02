@@ -52,7 +52,7 @@ class FormImplementation extends AbstractTypoScriptObject
 		$formContext = new FormContext($this->path, $action, $fields, $finishers, $request);
 
 		if (!$formContext->getFormState()->isInitialCall()) {
-			$result = $this->formProcessingService->process($formContext);
+			$result = $this->formProcessingService->process($formContext, $this->tsRuntime);
 
 			if (!$result->hasErrors()) {
 				//
