@@ -89,6 +89,16 @@ class FormContext
 	}
 
 	/**
+	 * Get the identifier
+	 *
+	 * @return string
+	 */
+	public function getIdentifier()
+	{
+		return $this->identifier;
+	}
+
+	/**
 	 * Get the argument namespace
 	 *
 	 * @return string

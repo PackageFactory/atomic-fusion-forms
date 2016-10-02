@@ -45,7 +45,11 @@ class FormImplementation extends AbstractArrayTypoScriptObject
 		// Render
 		//
 		$this->tsRuntime->pushContextArray([
-			self::CONTEXT_IDENTIFIER_FORMCONTEXT => $formContext
+			self::CONTEXT_IDENTIFIER_FORMCONTEXT => $formContext,
+			$this->tsValue('formContext') => [
+				'identifier' => $formContext->getIdentifier(),
+				'action' => $this->tsValue('action')
+			]
 		]);
 		$renderedForm = $this->tsRuntime->render(sprintf('%s/renderer', $this->path));
 		$this->tsRuntime->popContext();

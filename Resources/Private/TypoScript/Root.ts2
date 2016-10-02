@@ -49,4 +49,6 @@ contact = PackageFactory.AtomicFusion.Forms:Form {
 }*/
 prototype(PackageFactory.AtomicFusion.Forms:Form) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FormImplementation'
+	formContext = 'form'
+	action = ${request.parentRequest.uri}
 }
