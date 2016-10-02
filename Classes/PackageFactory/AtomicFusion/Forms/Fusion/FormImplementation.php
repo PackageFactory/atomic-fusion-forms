@@ -14,6 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\FormContext;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\FormProcessingService;
 use PackageFactory\AtomicFusion\Forms\Service\FormAugmentationService;
 use PackageFactory\AtomicFusion\Forms\Service\HiddenInputTagMappingService;
 
@@ -33,6 +34,12 @@ class FormImplementation extends AbstractTypoScriptObject
 	 */
 	protected $hiddenInputTagMappingService;
 
+	/**
+	 * @Flow\Inject
+	 * @var FormProcessingService
+	 */
+	protected $formProcessingService;
+
 	public function evaluate()
 	{
 		//
@@ -43,6 +50,18 @@ class FormImplementation extends AbstractTypoScriptObject
 		$finishers = $this->tsValue('finishers');
 		$action = $this->tsValue('action');
 		$formContext = new FormContext($this->path, $action, $fields, $finishers, $request);
+
+		if (!$formContext->getFormState()->isInitialCall()) {
+			$result = $this->formProcessingService->process($formContext);
+
+			if (!$result->hasErrors()) {
+				//
+				// TODO: Run finishers
+				//
+			}
+
+			$formContext->setValidationResult($result);
+		}
 
 		//
 		// Render

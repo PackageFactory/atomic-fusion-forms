@@ -15,6 +15,7 @@ use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Eel\ProtectedContextAwareInterface;
 use TYPO3\Flow\Utility\Arrays;
+use TYPO3\Flow\Error\Result;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
 
 class FormContext implements ProtectedContextAwareInterface
@@ -60,6 +61,11 @@ class FormContext implements ProtectedContextAwareInterface
 	protected $state;
 
 	/**
+	 * @var Result
+	 */
+	protected $validationResult;
+
+	/**
 	 * @Flow\Inject
 	 * @var CryptographyService
 	 */
@@ -73,6 +79,7 @@ class FormContext implements ProtectedContextAwareInterface
 		$this->argumentNamespace = '--' . $this->identifier;
 		$this->fields = $fields;
 		$this->finishers = $finishers;
+		$this->validationResult = new Result();
 
 		//
 		// Create sub request
@@ -169,6 +176,26 @@ class FormContext implements ProtectedContextAwareInterface
 		$arguments = $this->request->getArguments();
 
 		return Arrays::getValueByPath($arguments, $path);
+	}
+
+	public function getFieldConfiguration()
+	{
+		return $this->fields;
+	}
+
+	public function setValidationResult(Result $validationResult)
+	{
+		$this->validationResult = $validationResult;
+	}
+
+	public function errorsExistForPath($path)
+	{
+		return $this->validationResult->forProperty($path)->hasErrors();
+	}
+
+	public function getValidationResultForPath($path)
+	{
+		return $this->validationResult->forProperty($path);
 	}
 
 	/**

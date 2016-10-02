@@ -53,8 +53,22 @@ class FieldContext implements ProtectedContextAwareInterface
 	public function getValue()
 	{
 		$argumentPropertyPath = implode('.', [$this->name] + $this->propertyPath);
-		
+
 		return $this->formContext->getFieldValueForPath($argumentPropertyPath);
+	}
+
+	public function getHasErrors()
+	{
+		$argumentPropertyPath = implode('.', [$this->name] + $this->propertyPath);
+
+		return $this->formContext->errorsExistForPath($argumentPropertyPath);
+	}
+
+	public function getValidationResult()
+	{
+		$argumentPropertyPath = implode('.', [$this->name] + $this->propertyPath);
+
+		return $this->formContext->getValidationResultForPath($argumentPropertyPath);
 	}
 
 	/**
