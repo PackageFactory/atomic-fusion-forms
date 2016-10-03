@@ -1,5 +1,9 @@
 include: ./Finishers.ts2
 
+prototype(PackageFactory.AtomicFusion.Forms:Spread) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\SpreadImplementation'
+}
+
 prototype(PackageFactory.AtomicFusion.Forms:Form) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FormImplementation'
 	formContext = 'form'
@@ -12,9 +16,13 @@ prototype(PackageFactory.AtomicFusion.Forms:Form) {
 prototype(PackageFactory.AtomicFusion.Forms:Pages) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\PagesImplementation'
 }
+prototype(PackageFactory.AtomicFusion.Forms:Pages.Spread) < prototype(PackageFactory.AtomicFusion.Forms:Spread)
 
 prototype(PackageFactory.AtomicFusion.Forms:Fields) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldsImplementation'
+}
+prototype(PackageFactory.AtomicFusion.Forms:Fields.Spread) < prototype(PackageFactory.AtomicFusion.Forms:Spread) {
+	itemRenderer = PackageFactory.AtomicFusion.Forms:Field
 }
 
 prototype(PackageFactory.AtomicFusion.Forms:Field) {
@@ -28,6 +36,9 @@ prototype(PackageFactory.AtomicFusion.Forms:Field) {
 
 prototype(PackageFactory.AtomicFusion.Forms:Validators) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\ValidatorsImplementation'
+}
+prototype(PackageFactory.AtomicFusion.Forms:Validators.Spread) < prototype(PackageFactory.AtomicFusion.Forms:Spread) {
+	itemRenderer = PackageFactory.AtomicFusion.Forms:Validator
 }
 
 prototype(PackageFactory.AtomicFusion.Forms:Validator) {

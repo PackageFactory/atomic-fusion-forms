@@ -54,7 +54,7 @@ class FormImplementation extends AbstractTypoScriptObject
 
 		$currentPage = $formContext->getFormState()->getCurrentPage();
 
-		$this->tsRuntime->pushContextArray([
+		$this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
 			$this->tsValue('formContext') => $formContext
 		]);
 

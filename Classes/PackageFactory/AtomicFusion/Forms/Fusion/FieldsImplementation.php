@@ -26,13 +26,23 @@ class FieldsImplementation extends AbstractArrayTypoScriptObject
 				$fieldConfiguration = $this->tsRuntime->render(sprintf('%s/%s<PackageFactory.AtomicFusion.Forms:Field>', $this->path, $key));
 			}
 
-			if (empty($fieldConfiguration['name'])) {
-				$fieldConfiguration['name'] = $key;
+			if ($fieldConfiguration instanceof Helpers\Spread) {
+				foreach ($fieldConfiguration->getCollection() as $key => $item) {
+					$this->appendResult($result, $key, $item);
+				}
+			} else {
+				$this->appendResult($result, $key, $fieldConfiguration);
 			}
-
-			$result[$fieldConfiguration['name']] = $fieldConfiguration;
 		}
 
 		return $result;
+	}
+
+	protected function appendResult(&$result, $key, $fieldConfiguration) {
+		if (empty($fieldConfiguration['name'])) {
+			$fieldConfiguration['name'] = $key;
+		}
+
+		$result[$fieldConfiguration['name']] = $fieldConfiguration;
 	}
 }

@@ -13,7 +13,6 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\ArrayImplementation;
-use TYPO3\Flow\Utility\PositionalArraySorter;
 
 class PagesImplementation extends ArrayImplementation
 {
