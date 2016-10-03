@@ -16,25 +16,11 @@ use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 
 class FieldImplementation extends AbstractTypoScriptObject
 {
-	protected function getName()
-	{
-		if ($this->canRender(sprintf('%s/name', $this->path, $key))) {
-			return $this->canRender(sprintf('%s/name', $this->path, $key));
-		}
-
-		$context = $this->tsRuntime->getCurrentContext();
-
-		if (isset($context[FieldsImplementation::FIELD_NAME_CONTEXT])) {
-			return $context[FieldsImplementation::FIELD_NAME_CONTEXT];
-		}
-
-		// TODO: Exception: Could not determine field name
-	}
-
 	public function evaluate()
 	{
 		return [
-			'name' => $this->getName(),
+			'name' => $this->tsValue('name'),
+			'page' => $this->tsValue('page'),
 			'label' => $this->tsValue('label'),
 			'type' => $this->tsValue('type'),
 			'validators' => $this->tsValue('validators')

@@ -16,23 +16,21 @@ use TYPO3\TypoScript\TypoScriptObjects\AbstractArrayTypoScriptObject;
 
 class FieldsImplementation extends AbstractArrayTypoScriptObject
 {
-	const FIELD_NAME_CONTEXT = '@@' . self::class . ':fieldName';
-
 	public function evaluate()
 	{
 		$result = [];
 		foreach ($this->properties as $key => $value) {
-			$this->tsRuntime->pushContextArray([
-				self::FIELD_NAME_CONTEXT => $key
-			]);
-
 			if ($this->tsRuntime->canRender(sprintf('%s/%s', $this->path, $key))) {
-				$result[$key] = $this->tsRuntime->render(sprintf('%s/%s', $this->path, $key));
+				$fieldConfiguration = $this->tsRuntime->render(sprintf('%s/%s', $this->path, $key));
 			} else {
-				$result[$key] = $this->tsRuntime->render(sprintf('%s/%s<PackageFactory.AtomicFusion.Forms:Field>', $this->path, $key));
+				$fieldConfiguration = $this->tsRuntime->render(sprintf('%s/%s<PackageFactory.AtomicFusion.Forms:Field>', $this->path, $key));
 			}
 
-			$this->tsRuntime->popContext();
+			if (empty($fieldConfiguration['name'])) {
+				$fieldConfiguration['name'] = $key;
+			}
+
+			$result[$fieldConfiguration['name']] = $fieldConfiguration;
 		}
 
 		return $result;

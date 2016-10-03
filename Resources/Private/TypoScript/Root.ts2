@@ -18,8 +18,10 @@ prototype(PackageFactory.AtomicFusion.Forms:Fields) {
 }
 
 prototype(PackageFactory.AtomicFusion.Forms:Field) {
-	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldsImplementation'
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldImplementation'
 	type = 'mixed'
+	name = ''
+	page = ''
 	label = ''
 	validators = PackageFactory.AtomicFusion.Forms:Validators
 }
