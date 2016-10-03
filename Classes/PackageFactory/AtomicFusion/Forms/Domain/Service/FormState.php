@@ -21,6 +21,41 @@ class FormState
 	protected $__isInitialCall = true;
 
 	/**
+	 * @var array
+	 */
+	protected $arguments = [];
+
+	/**
+	 * @var string
+	 */
+	protected $currentPage = null;
+
+	public function setArguments(array $arguments)
+	{
+		$this->arguments = $arguments;
+	}
+
+	public function getArguments()
+	{
+		return $this->arguments;
+	}
+
+	public function setCurrentPage($pageIdentifier)
+	{
+		$this->currentPage = $pageIdentifier;
+	}
+
+	public function getCurrentPage()
+	{
+		return $this->currentPage;
+	}
+
+	public function isCurrentPage($pageIdentifier)
+	{
+		return $this->currentPage === $pageIdentifier;
+	}
+
+	/**
 	 * Determine whether the form is initially called
 	 *
 	 * @return boolean

@@ -4,8 +4,13 @@ prototype(PackageFactory.AtomicFusion.Forms:Form) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FormImplementation'
 	formContext = 'form'
 	action = ${request.parentRequest.uri}
+	pages = PackageFactory.AtomicFusion.Forms:Pages
 	fields = PackageFactory.AtomicFusion.Forms:Fields
 	finishers = TYPO3.TypoScript:RawArray
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:Pages) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\PagesImplementation'
 }
 
 prototype(PackageFactory.AtomicFusion.Forms:Fields) {

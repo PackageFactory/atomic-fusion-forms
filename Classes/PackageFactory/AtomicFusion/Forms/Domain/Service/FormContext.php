@@ -66,6 +66,11 @@ class FormContext implements ProtectedContextAwareInterface
 	protected $validationResult;
 
 	/**
+	 * @var array
+	 */
+	protected $arguments;
+
+	/**
 	 * @Flow\Inject
 	 * @var CryptographyService
 	 */
@@ -107,6 +112,11 @@ class FormContext implements ProtectedContextAwareInterface
 		} else {
 			$this->formState = new FormState();
 		}
+
+		$this->arguments = Arrays::arrayMergeRecursiveOverrule(
+			$this->formState->getArguments(),
+			$this->request->getArguments()
+		);
 	}
 
 	/**
@@ -173,9 +183,7 @@ class FormContext implements ProtectedContextAwareInterface
 
 	public function getFieldValueForPath($path)
 	{
-		$arguments = $this->request->getArguments();
-
-		return Arrays::getValueByPath($arguments, $path);
+		return Arrays::getValueByPath($this->arguments, $path);
 	}
 
 	public function getFieldConfiguration()
@@ -196,6 +204,12 @@ class FormContext implements ProtectedContextAwareInterface
 	public function getValidationResultForPath($path)
 	{
 		return $this->validationResult->forProperty($path);
+	}
+
+
+	public function persistRequestArguments()
+	{
+		$this->formState->setArguments($this->arguments);
 	}
 
 	/**

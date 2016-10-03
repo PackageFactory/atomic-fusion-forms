@@ -48,8 +48,11 @@ class FormImplementation extends AbstractTypoScriptObject
 		$request = $this->tsRuntime->getControllerContext()->getRequest();
 		$fields = $this->tsValue('fields');
 		$finishers = $this->tsValue('finishers');
+		$pages = $this->tsValue('pages');
 		$action = $this->tsValue('action');
 		$formContext = new FormContext($this->path, $action, $fields, $finishers, $request);
+
+		$currentPage = $formContext->getFormState()->getCurrentPage();
 
 		$this->tsRuntime->pushContextArray([
 			$this->tsValue('formContext') => $formContext
@@ -59,27 +62,46 @@ class FormImplementation extends AbstractTypoScriptObject
 			$result = $this->formProcessingService->process($formContext, $this->tsRuntime);
 
 			if (!$result->hasErrors()) {
-				$stringResult = null;
+				if ($nextPage = $pages->getNextPage($currentPage)) {
+					//
+					// Turn page
+					//
+					$formContext->persistRequestArguments();
+					$formContext->getFormState()->setCurrentPage($nextPage);
+					$currentPage = $nextPage;
+				} else {
+					//
+					// Run finisher
+					//
+					$stringResult = null;
 
-				foreach ($finishers as $finisher) {
-					if ($finisherResult = $finisher->execute()) {
-						$stringResult = $finisherResult;
+					foreach ($finishers as $finisher) {
+						if ($finisherResult = $finisher->execute()) {
+							$stringResult = $finisherResult;
+						}
 					}
-				}
 
-				if ($stringResult !== null) {
-					return $stringResult;
-					$this->tsRuntime->popContext();
+					if ($stringResult !== null) {
+						return $stringResult;
+						$this->tsRuntime->popContext();
+					}
 				}
 			}
 
 			$formContext->setValidationResult($result);
+		} else {
+			$currentPage = $pages->getInitialPage();
+			$formContext->getFormState()->setCurrentPage($currentPage);
 		}
 
 		//
 		// Render
 		//
-		$renderedForm = $this->tsRuntime->render(sprintf('%s/renderer', $this->path));
+		if ($currentPage === null) {
+			$renderedForm = $this->tsRuntime->render(sprintf('%s/renderer', $this->path));
+		} else {
+			$renderedForm = $pages->renderPage($currentPage);
+		}
 
 		$this->tsRuntime->popContext();
 

@@ -44,6 +44,9 @@ class FormProcessingService
 		$fieldConfiguration = $formContext->getFieldConfiguration();
 
 		foreach ($fieldConfiguration as $fieldName => $configuration) {
+			if (isset($configuration['page']) && !$formContext->getFormState()->isCurrentPage($configuration['page'])) {
+				continue;
+			}
 			$propertyMappingConfiguration = new PropertyMappingConfiguration();
 			$validator = new ConjunctionValidator();
 			$value = $formContext->getFieldValueForPath($fieldName);
