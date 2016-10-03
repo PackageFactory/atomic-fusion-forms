@@ -15,6 +15,7 @@ prototype(PackageFactory.AtomicFusion.Forms:Fields) {
 prototype(PackageFactory.AtomicFusion.Forms:Field) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldsImplementation'
 	type = 'mixed'
+	label = ''
 	validators = PackageFactory.AtomicFusion.Forms:Validators
 }
 

@@ -168,7 +168,7 @@ class FormContext implements ProtectedContextAwareInterface
 			throw new \Exception(sprintf('Field `%s` is currently not configured.', $name), 1475433971);
 		}
 
-		return new FieldContext($this, $name, $propertyPath);
+		return new FieldContext($this, $name, $this->fields[$name]['label'], $propertyPath);
 	}
 
 	public function getFieldValueForPath($path)

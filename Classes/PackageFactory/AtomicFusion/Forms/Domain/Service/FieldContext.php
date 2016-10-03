@@ -31,11 +31,24 @@ class FieldContext implements ProtectedContextAwareInterface
 	 */
 	protected $propertyPath = [];
 
-	public function __construct(FormContext $formContext, $name, array $propertyPath = [])
+	/**
+	 * @var string
+	 */
+	protected $argumentPropertyPath;
+
+	public function __construct(FormContext $formContext, $name, $label, array $propertyPath = [])
 	{
 		$this->formContext = $formContext;
 		$this->name = $name;
+		$this->label = $label;
 		$this->propertyPath = $propertyPath;
+		$this->argumentPropertyPath = implode('.', [$this->name] + $this->propertyPath);
+		$this->identifier = $formContext->getIdentifier() . '__' . str_replace('.', '_', $this->argumentPropertyPath);
+	}
+
+	public function getIdentifier()
+	{
+		return $this->identifier;
 	}
 
 	public function getName()
@@ -50,25 +63,24 @@ class FieldContext implements ProtectedContextAwareInterface
 		return $result;
 	}
 
+	public function getLabel()
+	{
+		return $this->label;
+	}
+
 	public function getValue()
 	{
-		$argumentPropertyPath = implode('.', [$this->name] + $this->propertyPath);
-
-		return $this->formContext->getFieldValueForPath($argumentPropertyPath);
+		return $this->formContext->getFieldValueForPath($this->argumentPropertyPath);
 	}
 
 	public function getHasErrors()
 	{
-		$argumentPropertyPath = implode('.', [$this->name] + $this->propertyPath);
-
-		return $this->formContext->errorsExistForPath($argumentPropertyPath);
+		return $this->formContext->errorsExistForPath($this->argumentPropertyPath);
 	}
 
 	public function getValidationResult()
 	{
-		$argumentPropertyPath = implode('.', [$this->name] + $this->propertyPath);
-
-		return $this->formContext->getValidationResultForPath($argumentPropertyPath);
+		return $this->formContext->getValidationResultForPath($this->argumentPropertyPath);
 	}
 
 	/**
