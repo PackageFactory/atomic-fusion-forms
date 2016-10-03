@@ -13,6 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Validator;
 
 class ValidatorImplementation extends AbstractTypoScriptObject
 {
@@ -22,14 +23,17 @@ class ValidatorImplementation extends AbstractTypoScriptObject
 			return $className;
 		}
 
-		// TODO: Exception: Could not determine class name
+		throw new \Exception('A Validator must providae a class name', 1475486564);
 	}
+	
 	public function evaluate()
 	{
-		return [
-			'className' => $this->getClassName(),
-			'options' => sprintf('%s/options', $this->path),
-			'message' => sprintf('%s/message', $this->path)
-		];
+		$validator = new Validator();
+		$validator->setValidatorClassName($this->getClassName());
+		$validator->setFusionPathToOptions(sprintf('%s/options', $this->path));
+		$validator->setFusionPathToCustomMessage(sprintf('%s/message', $this->path));
+		$validator->setFusionRuntime($this->tsRuntime);
+
+		return $validator;
 	}
 }

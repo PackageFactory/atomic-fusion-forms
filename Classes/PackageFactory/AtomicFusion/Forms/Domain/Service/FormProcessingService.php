@@ -38,7 +38,7 @@ class FormProcessingService
      */
     protected $validatorResolver;
 
-	public function process(FormContext $formContext, Runtime $fusionRuntime)
+	public function process(FormContext $formContext)
 	{
 		$result =  new Result();
 		$fieldConfiguration = $formContext->getFieldConfiguration();
@@ -48,7 +48,7 @@ class FormProcessingService
 				continue;
 			}
 			$propertyMappingConfiguration = new PropertyMappingConfiguration();
-			$validator = new ConjunctionValidator();
+			$conjunctionValidator = new ConjunctionValidator();
 			$value = $formContext->getFieldValueForPath($fieldName);
 
 			if ($type = Arrays::getValueByPath($configuration, 'type')) {
@@ -56,23 +56,11 @@ class FormProcessingService
 	            $result->forProperty($fieldName)->merge($this->propertyMapper->getMessages());
 			}
 
-			foreach ($configuration['validators'] as $validatorConfiguration) {
-				$validator->addValidator(
-					$this->validatorResolver->createValidator(
-						$validatorConfiguration['className'],
-						$fusionRuntime->render($validatorConfiguration['options'])
-					)
-				);
+			foreach ($configuration['validators'] as $validator) {
+				$conjunctionValidator->addValidator($validator);
 			}
 
-			$validationResult = $validator->validate($value);
-			$configuredMessage = $fusionRuntime->canRender($validatorConfiguration['message']) ? $fusionRuntime->render($validatorConfiguration['message']) : '';
-
-			if ($validationResult->hasErrors() && !empty($configuredMessage)) {
-				$result->forProperty($fieldName)->addError(new Error($configuredMessage));
-			} else {
-				$result->forProperty($fieldName)->merge($validator->validate($value));
-			}
+			$result->forProperty($fieldName)->merge($conjunctionValidator->validate($value));
 		}
 
 		return $result;
