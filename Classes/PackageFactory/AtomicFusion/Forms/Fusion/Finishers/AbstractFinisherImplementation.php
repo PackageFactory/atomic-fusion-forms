@@ -20,6 +20,6 @@ abstract class AbstractFinisherImplementation extends AbstractTypoScriptObject
 
 	final public function evaluate()
 	{
-		return $this;
+		return new Helpers\Envelope($this);
 	}
 }
