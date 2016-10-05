@@ -40,12 +40,14 @@ class PagesImplementation extends ArrayImplementation
 
 	public function getNextPage($currentPage)
 	{
-		$pages = $this->pages;
-		if (($currentPageIndex = array_search($currentPage, $pages)) !== false) {
-			return isset($pages[$currentPageIndex + 1]) ? $pages[$currentPageIndex + 1] : null;
-		}
+		if ($this->pages) {
+			$pages = $this->pages;
+			if (($currentPageIndex = array_search($currentPage, $pages)) !== false) {
+				return isset($pages[$currentPageIndex + 1]) ? $pages[$currentPageIndex + 1] : null;
+			}
 
-		throw new \Exception(sprintf('Error while fetching page: Page `%s` does not exist.', $currentPage), 1475479580);
+			throw new \Exception(sprintf('Error while fetching page: Page `%s` does not exist.', $currentPage), 1475479580);
+		}
 	}
 
 	public function renderPage($pageIdentifier)
