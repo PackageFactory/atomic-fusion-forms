@@ -29,6 +29,12 @@ class PagesImplementation extends ArrayImplementation
 
 	public function getInitialPage()
 	{
+		if (!isset($this->pages[0])) {
+			throw new \Exception(
+				'There are no pages defined yet. Make sure to have a `pages` key in your Form component',
+				1475674275
+			);
+		}
 		return $this->pages[0];
 	}
 
