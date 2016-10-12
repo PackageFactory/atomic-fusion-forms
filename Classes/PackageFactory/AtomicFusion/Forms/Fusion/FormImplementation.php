@@ -21,8 +21,6 @@ use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationServic
 
 class FormImplementation extends AbstractTypoScriptObject
 {
-	const CONTEXT_IDENTIFIER_FORMCONTEXT = '@@' . self::class . ':formContext';
-
 	/**
 	 * @Flow\Inject
 	 * @var FormAugmentationService
@@ -97,7 +95,9 @@ class FormImplementation extends AbstractTypoScriptObject
 
 			$formContext->setValidationResult($result);
 		} else {
-			$currentPage = $pages->getInitialPage();
+			if (!$this->tsRuntime->canRender(sprintf('%s/renderer', $this->path))) {
+				$currentPage = $pages->getInitialPage();
+			}
 			$formContext->getFormState()->setCurrentPage($currentPage);
 		}
 

@@ -29,17 +29,25 @@ class PagesImplementation extends ArrayImplementation
 
 	public function getInitialPage()
 	{
+		if (!isset($this->pages[0])) {
+			throw new \Exception(
+				'There are no pages defined yet. Make sure to have a `pages` key in your Form component',
+				1475674275
+			);
+		}
 		return $this->pages[0];
 	}
 
 	public function getNextPage($currentPage)
 	{
-		$pages = $this->pages;
-		if (($currentPageIndex = array_search($currentPage, $pages)) !== false) {
-			return isset($pages[$currentPageIndex + 1]) ? $pages[$currentPageIndex + 1] : null;
-		}
+		if ($this->pages) {
+			$pages = $this->pages;
+			if (($currentPageIndex = array_search($currentPage, $pages)) !== false) {
+				return isset($pages[$currentPageIndex + 1]) ? $pages[$currentPageIndex + 1] : null;
+			}
 
-		throw new \Exception(sprintf('Error while fetching page: Page `%s` does not exist.', $currentPage), 1475479580);
+			throw new \Exception(sprintf('Error while fetching page: Page `%s` does not exist.', $currentPage), 1475479580);
+		}
 	}
 
 	public function renderPage($pageIdentifier)
