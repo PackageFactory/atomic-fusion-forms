@@ -17,6 +17,7 @@ use PackageFactory\AtomicFusion\Forms\Domain\Service\FormContext;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\FormProcessingService;
 use PackageFactory\AtomicFusion\Forms\Service\FormAugmentationService;
 use PackageFactory\AtomicFusion\Forms\Service\HiddenInputTagMappingService;
+use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationService;
 
 class FormImplementation extends AbstractTypoScriptObject
 {
@@ -40,6 +41,12 @@ class FormImplementation extends AbstractTypoScriptObject
 	 */
 	protected $formProcessingService;
 
+	/**
+	 * @Flow\Inject
+	 * @var PropertyMappingConfigurationService
+	 */
+	protected $propertyMappingConfigurationService;
+
 	public function evaluate()
 	{
 		//
@@ -59,7 +66,7 @@ class FormImplementation extends AbstractTypoScriptObject
 		]);
 
 		if (!$formContext->getFormState()->isInitialCall()) {
-			$result = $this->formProcessingService->process($formContext, $this->tsRuntime);
+			$result = $this->formProcessingService->process($formContext);
 
 			if (!$result->hasErrors()) {
 				if ($nextPage = $pages->getNextPage($currentPage)) {
@@ -116,7 +123,11 @@ class FormImplementation extends AbstractTypoScriptObject
 			sprintf(
 				'<div style="display: none;">%s</div>',
 				$this->hiddenInputTagMappingService->convertFlatMapToHiddenInputTags([
-					'__state' => $formContext->getEncodedFormState()
+					'__state' => $formContext->getEncodedFormState(),
+					'__trustedProperties' => $this->propertyMappingConfigurationService
+						->generateTrustedPropertiesToken(
+							$formContext->getRenderedFieldNames()
+						)
 				], $formContext->getArgumentNamespace())
 			)
 		);

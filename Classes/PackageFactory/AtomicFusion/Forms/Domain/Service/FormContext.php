@@ -76,6 +76,16 @@ class FormContext implements ProtectedContextAwareInterface
 	 */
 	protected $cryptographyService;
 
+	/**
+	 * @var array
+	 */
+	protected $renderedFieldNames = [];
+
+	/**
+	 * @var array
+	 */
+	protected $results = [];
+
 	public function __construct($path, $action, array $fields, array $finishers, ActionRequest $request)
 	{
 		$this->path = $path;
@@ -94,7 +104,6 @@ class FormContext implements ProtectedContextAwareInterface
 
         $this->request = new ActionRequest($request);
         $this->request->setArgumentNamespace($this->argumentNamespace);
-
 
         if (isset($pluginArguments[$this->identifier])) {
             $this->request->setArguments($pluginArguments[$this->identifier]);
@@ -178,6 +187,10 @@ class FormContext implements ProtectedContextAwareInterface
 			throw new \Exception(sprintf('Field `%s` is currently not configured.', $name), 1475433971);
 		}
 
+		if (!in_array($fieldName, $this->renderedFieldNames)) {
+			$this->renderedFieldNames[] = $fieldName;
+		}
+
 		return new FieldContext($this, $name, $this->fields[$name]['label'], $propertyPath);
 	}
 
@@ -212,6 +225,26 @@ class FormContext implements ProtectedContextAwareInterface
 		$this->formState->setArguments($this->arguments);
 	}
 
+	public function getRenderedFieldNames()
+	{
+		return $this->renderedFieldNames;
+	}
+
+	public function getRequest()
+	{
+		return $this->request;
+	}
+
+	public function setResult($fieldName, $value)
+	{
+		$this->results[$fieldName] = $value;
+	}
+
+	public function result($path)
+	{
+		return Arrays::getValueByPath($this->results, $path);
+	}
+
 	/**
      * @param string $methodName
      * @return boolean
@@ -222,6 +255,7 @@ class FormContext implements ProtectedContextAwareInterface
 			case 'getAction':
 			case 'getIdentifier':
 			case 'field':
+			case 'result':
 				return true;
 
 			default:

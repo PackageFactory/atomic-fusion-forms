@@ -42,7 +42,7 @@ class FieldContext implements ProtectedContextAwareInterface
 		$this->name = $name;
 		$this->label = $label;
 		$this->propertyPath = $propertyPath;
-		$this->argumentPropertyPath = implode('.', [$this->name] + $this->propertyPath);
+		$this->argumentPropertyPath = implode('.', array_merge([$this->name], $this->propertyPath));
 		$this->identifier = $formContext->getIdentifier() . '__' . str_replace('.', '_', $this->argumentPropertyPath);
 	}
 

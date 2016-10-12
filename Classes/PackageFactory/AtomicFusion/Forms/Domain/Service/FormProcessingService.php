@@ -20,6 +20,7 @@ use TYPO3\Flow\Property\PropertyMapper;
 use TYPO3\Flow\Validation\Validator\ConjunctionValidator;
 use TYPO3\Flow\Validation\ValidatorResolver;
 use TYPO3\TypoScript\Core\Runtime;
+use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationService;
 
 /**
  * @Flow\Scope("singleton")
@@ -38,31 +39,44 @@ class FormProcessingService
      */
     protected $validatorResolver;
 
+	/**
+	 * @Flow\Inject
+	 * @var PropertyMappingConfigurationService
+	 */
+	protected $propertyMappingConfigurationService;
+
 	public function process(FormContext $formContext)
 	{
-		$result =  new Result();
+		$validationResult =  new Result();
 		$fieldConfiguration = $formContext->getFieldConfiguration();
+		$globalPropertyMappingConfiguration = $this->propertyMappingConfigurationService
+			->applyTrustedPropertiesConfiguration(
+				$formContext->getRequest()->getInternalArgument('__trustedProperties'),
+				new PropertyMappingConfiguration()
+			);
 
 		foreach ($fieldConfiguration as $fieldName => $configuration) {
 			if (isset($configuration['page']) && !$formContext->getFormState()->isCurrentPage($configuration['page'])) {
 				continue;
 			}
-			$propertyMappingConfiguration = new PropertyMappingConfiguration();
+			$propertyMappingConfiguration = $globalPropertyMappingConfiguration->forProperty($fieldName);
 			$conjunctionValidator = new ConjunctionValidator();
 			$value = $formContext->getFieldValueForPath($fieldName);
 
 			if ($type = Arrays::getValueByPath($configuration, 'type')) {
 				$value = $this->propertyMapper->convert($value, $type, $propertyMappingConfiguration);
-	            $result->forProperty($fieldName)->merge($this->propertyMapper->getMessages());
+	            $validationResult->forProperty($fieldName)->merge($this->propertyMapper->getMessages());
 			}
+
 
 			foreach ($configuration['validators'] as $validator) {
 				$conjunctionValidator->addValidator($validator);
 			}
 
-			$result->forProperty($fieldName)->merge($conjunctionValidator->validate($value));
+			$validationResult->forProperty($fieldName)->merge($conjunctionValidator->validate($value));
+			$formContext->setResult($fieldName, $value);
 		}
 
-		return $result;
+		return $validationResult;
 	}
 }
