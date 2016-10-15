@@ -14,13 +14,19 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Processors;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
-use TYPO3\Flow\Property\PropertyMapper;
+use PackageFactory\AtomicFusion\Forms\Domain\Factory\PropertyMapperFactory;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 
 /**
  * @Flow\Scope("singleton")
  */
 class DefaultProcessor implements ProcessorInterface
 {
+    /**
+     * @Flow\Inject
+     * @var PropertyMapperFactory
+     */
+    protected $propertyMapperFactory;
 
     /**
      * @inheritdoc
@@ -34,7 +40,7 @@ class DefaultProcessor implements ProcessorInterface
     )
     {
         if ($type = $fieldDefinition->getType()) {
-            $propertyMapper = new PropertyMapper();
+            $propertyMapper = $this->propertyMapperFactory->createPropertyMapper();
             $value = $propertyMapper->convert($input, $type, $propertyMappingConfiguration);
             $result->merge($propertyMapper->getMessages());
             return $value;
