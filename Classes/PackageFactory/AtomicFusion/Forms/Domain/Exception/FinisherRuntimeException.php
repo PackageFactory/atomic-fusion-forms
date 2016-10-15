@@ -14,6 +14,6 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Exception;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Exception;
 
-class DefinitionException extends Exception
+class FinisherRuntimeException extends Exception
 {
 }
