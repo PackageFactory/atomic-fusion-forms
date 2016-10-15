@@ -14,36 +14,21 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Definition;
 use TYPO3\Flow\Annotations as Flow;
 
 /**
- * Defines methods for validator definitions
+ * Defines methods for processor definitions
  */
-interface ValidatorDefinitionInterface
+interface FinisherDefinitionInterface
 {
     /**
-     * Get the implementation class name for this validator
+     * Get the implementation class name for this finisher
      *
      * @return string
      */
     public function getImplementationClassName();
 
     /**
-     * Get the options for this validator
+     * Get the options for this finisher
      *
      * @return array
      */
     public function getOptions();
-
-    /**
-     * Get the user-defined custom error message for this validator
-     *
-     * @return string
-     */
-    public function getCustomErrorMessage();
-
-
-    /**
-     * Checker whether this validator was configured with a custom error message
-     *
-     * @return boolean
-     */
-    public function hasCustomErrorMessage();
 }

@@ -24,23 +24,30 @@ class FieldDefinition implements FieldDefinitionInterface
     protected $fusionConfiguration;
 
     /**
+     * @var FormDefinitionInterface
+     */
+    protected $formDefinition;
+
+    /**
      * @var ProcessorDefinitionInterface
      */
-    protected $resolvedProcessorDefinition = null;
+    protected $processorDefinition = null;
 
     /**
      * @var array<ValidatorDefinitionInterface>
      */
-    protected $resolvedValidatorDefinitions = null;
+    protected $validatorDefinitions = [];
 
     /**
      * Constructor
      *
      * @param array $fusionConfiguration
+     * @param FormDefinitionInterface $formDefinition
      */
-    public function __construct(array $fusionConfiguration)
+    public function __construct(array $fusionConfiguration, FormDefinitionInterface $formDefinition)
     {
         $this->fusionConfiguration = $fusionConfiguration;
+        $this->formDefinition = $formDefinition;
     }
 
     /**
@@ -48,7 +55,7 @@ class FieldDefinition implements FieldDefinitionInterface
      */
     public function getLabel()
     {
-        return Arrays::getValueByPath($this->fusionConfiguration, 'label')
+        return Arrays::getValueByPath($this->fusionConfiguration, 'label');
     }
 
     /**
@@ -56,7 +63,7 @@ class FieldDefinition implements FieldDefinitionInterface
      */
     public function getName()
     {
-        return Arrays::getValueByPath($this->fusionConfiguration, 'name')
+        return Arrays::getValueByPath($this->fusionConfiguration, 'name');
     }
 
     /**
@@ -64,7 +71,7 @@ class FieldDefinition implements FieldDefinitionInterface
      */
     public function getType()
     {
-        return Arrays::getValueByPath($this->fusionConfiguration, 'type')
+        return Arrays::getValueByPath($this->fusionConfiguration, 'type');
     }
 
     /**
@@ -72,7 +79,18 @@ class FieldDefinition implements FieldDefinitionInterface
      */
     public function getPage()
     {
-        return Arrays::getValueByPath($this->fusionConfiguration, 'page')
+        return Arrays::getValueByPath($this->fusionConfiguration, 'page');
+    }
+
+    /**
+     * Set the processor definition
+     *
+     * @param ProcessorDefinitionInterface $processorDefinition
+     * @return void
+     */
+    public function setProcessorDefinition(ProcessorDefinitionInterface $processorDefinition)
+    {
+        $this->processorDefinition = $processorDefinition;
     }
 
     /**
@@ -80,11 +98,18 @@ class FieldDefinition implements FieldDefinitionInterface
      */
     public function getProcessorDefinition()
     {
-        if ($this->resolvedProcessorDefinition === null) {
-            // TODO: Resolve processor definition
-        }
+        return $this->processorDefinition;
+    }
 
-        return $this->resolvedProcessorDefinition;
+    /**
+     * Add a new validator definition
+     *
+     * @param ValidatorDefinitionInterface $validatorDefinition
+     * @return void
+     */
+    public function addValidatorDefinition(ValidatorDefinitionInterface $validatorDefinition)
+    {
+        $this->validatorDefinitions[$validatorDefinition->getName()] = $validatorDefinition;
     }
 
     /**
@@ -92,10 +117,29 @@ class FieldDefinition implements FieldDefinitionInterface
      */
     public function getValidatorDefinitions()
     {
-        if ($this->resolvedValidatorDefinitions === null) {
-            // TODO: Resolve processor definition
+        return $this->validatorDefinitions;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getValidatorDefinition($name)
+    {
+        if (array_key_exists($name, $this->validatorDefinitions)) {
+            return $this->validatorDefinitions[$name];
         }
 
-        return $this->resolvedValidatorDefinitions;
+        throw new DefinitionException(
+            sprintf('Could not find validator definition for `%s` in field `%s`', $name, $this->getName()),
+            1476539849
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFormDefinition()
+    {
+        return $this->formDefinition;
     }
 }

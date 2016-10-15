@@ -54,10 +54,27 @@ interface FieldDefinitionInterface
      */
     public function getProcessorDefinition();
 
+
     /**
      * Get the validator definitions for this field
      *
      * @return array<ValidatorDefinitionInterface>
      */
     public function getValidatorDefinitions();
+
+    /**
+     * Get a single validator definition addressed by its name
+     *
+     * @param string $name
+     * @return ValidatorDefinitionInterface
+     * @throws DefinitionException when no validator can be found under the given name
+     */
+    public function getValidatorDefinition($name);
+
+    /**
+     * Get the owning form definition
+     *
+     * @return FormDefinitionInterface
+     */
+    public function getFormDefinition();
 }
