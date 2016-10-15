@@ -2,14 +2,14 @@
     "description": "Forms powered by atomic fusion",
     "type": "neos-package",
     "name": "packagefactory/atomicfusion-forms",
-	"license": "GPL-3.0+",
-	"authors": [
-		{
-			"name": "Wilhelm Behncke",
-			"email": "wilhelm.behncke@googlemail.com",
-			"role": "Developer"
-		}
-	],
+  	"license": "GPL-3.0+",
+  	"authors": [
+  		{
+  			"name": "Wilhelm Behncke",
+  			"email": "wilhelm.behncke@googlemail.com",
+  			"role": "Developer"
+  		}
+  	],
     "require": {
         "typo3/flow": "*",
         "typo3/typoscript": "*"
@@ -23,5 +23,13 @@
         "neos": {
             "package-key": "PackageFactory.AtomicFusion.Forms"
         }
+    },
+    "scripts": {
+        "test": [
+          "rm -f Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms",
+          "cd Build/Travis && composer install",
+          "ln -s $(pwd) Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms",
+          "Build/Travis/bin/phpunit -c Build/Travis/Build/BuildEssentials/PhpUnit/UnitTests.xml Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms/Tests"
+        ]
     }
 }
