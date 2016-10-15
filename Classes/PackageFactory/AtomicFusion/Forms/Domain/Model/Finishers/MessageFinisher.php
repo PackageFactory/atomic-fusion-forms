@@ -47,6 +47,6 @@ class MessageFinisher implements FinisherInterface
             );
         }
 
-        return $this->message;
+        $finisherRuntime->getResponse()->appendContent($this->message);
     }
 }
