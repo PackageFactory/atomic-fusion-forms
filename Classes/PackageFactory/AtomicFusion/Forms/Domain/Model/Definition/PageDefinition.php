@@ -93,7 +93,7 @@ class PageDefinition implements PageDefinitionInterface
     {
         $fieldDefinitions = $this->getFieldDefinitions();
 
-        if (array_key_exists($name, $fieldDefinitions)) {
+        if ($fieldDefinitions && array_key_exists($name, $fieldDefinitions)) {
             return $fieldDefinitions[$name];
         }
 

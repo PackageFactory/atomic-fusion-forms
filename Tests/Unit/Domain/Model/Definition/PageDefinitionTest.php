@@ -5,7 +5,6 @@ use TYPO3\Flow\Tests\UnitTestCase;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinition;
-use PackageFactory\AtomicFusion\Forms\Domain\Exception\DefinitionException;
 
 class PageDefinitionTest extends UnitTestCase
 {
@@ -133,7 +132,8 @@ class PageDefinitionTest extends UnitTestCase
     }
 
     /**
-     * @expectedException DefinitionException
+     * @test
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\DefinitionException
      * @expectedExceptionCode 1476537396
      */
     public function complainsIfTheRequestedFieldDefinitionIsForeignToThePage()
@@ -156,7 +156,8 @@ class PageDefinitionTest extends UnitTestCase
     }
 
     /**
-     * @expectedException DefinitionException
+     * @test
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\DefinitionException
      * @expectedExceptionCode 1476537396
      */
     public function complainsIfTheRequestedFieldDefinitionIsDoesNotExist()

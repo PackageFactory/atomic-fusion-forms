@@ -6,7 +6,6 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInte
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinition;
-use PackageFactory\AtomicFusion\Forms\Domain\Exception\DefinitionException;
 
 class FieldDefinitionTest extends UnitTestCase
 {
@@ -139,7 +138,8 @@ class FieldDefinitionTest extends UnitTestCase
     }
 
     /**
-     * @expectedException DefinitionException
+     * @test
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\DefinitionException
      * @expectedExceptionCode 1476539849
      */
     public function complainsIfTheRequestedValidatorDefinitionDoesNotExist()

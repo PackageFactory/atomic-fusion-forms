@@ -19,6 +19,13 @@ use TYPO3\Flow\Annotations as Flow;
 interface FinisherDefinitionInterface
 {
     /**
+     * Get the name for this finisher
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Get the implementation class name for this finisher
      *
      * @return string

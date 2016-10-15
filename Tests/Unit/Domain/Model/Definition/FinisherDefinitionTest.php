@@ -10,9 +10,19 @@ class FinisherDefinitionTest extends UnitTestCase
     /**
      * @test
      */
+    public function deliversName()
+    {
+        $finisherDefinition = new FinisherDefinition('SomeName', 'SomeClassName', []);
+
+        $this->assertEquals('SomeName', $finisherDefinition->getName());
+    }
+
+    /**
+     * @test
+     */
     public function deliversImplementationClassName()
     {
-        $finisherDefinition = new FinisherDefinition('SomeClassName', []);
+        $finisherDefinition = new FinisherDefinition('SomeName', 'SomeClassName', []);
 
         $this->assertEquals('SomeClassName', $finisherDefinition->getImplementationClassName());
     }
@@ -22,7 +32,7 @@ class FinisherDefinitionTest extends UnitTestCase
      */
     public function deliversOptions()
     {
-        $finisherDefinition = new FinisherDefinition('SomeClassName', [
+        $finisherDefinition = new FinisherDefinition('SomeName', 'SomeClassName', [
             'option1',
             'option2',
             'option3'
