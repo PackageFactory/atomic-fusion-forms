@@ -4,3 +4,11 @@ php:
   - '5.6'
   - '7.0'
 script: composer test
+cache:
+  directories:
+    - Build/Travis/bin
+    - Build/Travis/Build
+    - Build/Travis/Configuration
+    - Build/Travis/Data
+    - Build/Travis/Packages
+    - Build/Travis/Web
