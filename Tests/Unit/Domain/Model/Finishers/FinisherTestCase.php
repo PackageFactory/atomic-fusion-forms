@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Processors;
+namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finishers;
 
 use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Mvc\FlashMessageContainer;
@@ -8,7 +8,7 @@ use TYPO3\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\FinisherRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\FinisherInterface;
 
-abstract FinisherTestCase extends UnitTestCase
+abstract class FinisherTestCase extends UnitTestCase
 {
     protected $finisherRuntime = null;
 
@@ -41,7 +41,7 @@ abstract FinisherTestCase extends UnitTestCase
      * @param FinisherInterface $finisher
      * @return void
      */
-    protected function execute(FinisherInterface $finisher)
+    protected function executeFinisher(FinisherInterface $finisher)
     {
         $finisher->execute($this->finisherRuntime);
     }

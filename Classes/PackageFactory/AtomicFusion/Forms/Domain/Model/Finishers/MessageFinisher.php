@@ -40,7 +40,7 @@ class MessageFinisher implements FinisherInterface
      */
     public function execute(FinisherRuntime $finisherRuntime)
     {
-        if (!$this->message || !is_string($this->message) || !method_exists($this->message, '__toString')) {
+        if (!$this->message || (!is_string($this->message) && !method_exists($this->message, '__toString'))) {
             throw new FinisherRuntimeException(
                 'Error in MessageFinisher: $message must be a string',
                 1476546610
