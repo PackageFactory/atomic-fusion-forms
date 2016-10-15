@@ -12,6 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Definition;
  */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Utility\Arrays;
 
 /**
  * Runtime form field definition

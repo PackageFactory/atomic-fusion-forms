@@ -4,7 +4,8 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Definition;
 use TYPO3\Flow\Tests\UnitTestCase;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinition;
 
-class ProcessorDefinitionTest extends UnitTestCase {
+class ProcessorDefinitionTest extends UnitTestCase
+{
 
     /**
      * @test

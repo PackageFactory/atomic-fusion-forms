@@ -4,14 +4,15 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Definition;
 use TYPO3\Flow\Tests\UnitTestCase;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinition;
 
-class ValidatorDefinitionTest extends UnitTestCase {
+class ValidatorDefinitionTest extends UnitTestCase
+{
 
     /**
      * @test
      */
     public function deliversImplementationClassName()
     {
-        $validatorDefinition = new ValidatorDefinition('SomeClassName', []);
+        $validatorDefinition = new ValidatorDefinition('SomeName', 'SomeClassName', []);
 
         $this->assertEquals('SomeClassName', $validatorDefinition->getImplementationClassName());
     }
@@ -19,9 +20,19 @@ class ValidatorDefinitionTest extends UnitTestCase {
     /**
      * @test
      */
+    public function deliversName()
+    {
+        $validatorDefinition = new ValidatorDefinition('SomeName', 'SomeClassName', []);
+
+        $this->assertEquals('SomeName', $validatorDefinition->getName());
+    }
+
+    /**
+     * @test
+     */
     public function deliversOptions()
     {
-        $validatorDefinition = new ValidatorDefinition('SomeClassName', [
+        $validatorDefinition = new ValidatorDefinition('SomeName', 'SomeClassName', [
             'option1',
             'option2',
             'option3'
@@ -39,7 +50,7 @@ class ValidatorDefinitionTest extends UnitTestCase {
      */
     public function hasNoCustomErrorMessageInitially()
     {
-        $validatorDefinition = new ValidatorDefinition('SomeClassName', []);
+        $validatorDefinition = new ValidatorDefinition('SomeName', 'SomeClassName', []);
 
         $this->assertFalse($validatorDefinition->hasCustomErrorMessage());
     }
@@ -49,7 +60,7 @@ class ValidatorDefinitionTest extends UnitTestCase {
      */
     public function deliversCustomErrorMessage()
     {
-        $validatorDefinition = new ValidatorDefinition('SomeClassName', []);
+        $validatorDefinition = new ValidatorDefinition('SomeName', 'SomeClassName', []);
         $validatorDefinition->setCustomErrorMessage('SomeErrorMessage');
 
         $this->assertEquals('SomeErrorMessage', $validatorDefinition->getCustomErrorMessage());

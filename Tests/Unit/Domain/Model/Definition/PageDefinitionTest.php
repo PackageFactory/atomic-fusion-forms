@@ -7,7 +7,8 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInt
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\DefinitionException;
 
-class PageDefinitionTest extends UnitTestCase {
+class PageDefinitionTest extends UnitTestCase
+{
 
     /**
      * @test

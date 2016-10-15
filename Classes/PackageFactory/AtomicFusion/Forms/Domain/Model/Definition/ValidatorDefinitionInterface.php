@@ -19,6 +19,13 @@ use TYPO3\Flow\Annotations as Flow;
 interface ValidatorDefinitionInterface
 {
     /**
+     * Get the name of this validator
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Get the implementation class name for this validator
      *
      * @return string

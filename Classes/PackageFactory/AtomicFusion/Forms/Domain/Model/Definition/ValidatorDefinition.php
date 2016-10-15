@@ -21,6 +21,11 @@ class ValidatorDefinition implements ValidatorDefinitionInterface
     /**
      * @var string
      */
+    protected $name;
+
+    /**
+     * @var string
+     */
     protected $implementationClassName;
 
     /**
@@ -40,10 +45,19 @@ class ValidatorDefinition implements ValidatorDefinitionInterface
      * @param string $implementationClassName
      * @param array $options
      */
-    public function __construct($implementationClassName, array $options)
+    public function __construct($name, $implementationClassName, array $options)
     {
+        $this->name = $name;
         $this->implementationClassName = $implementationClassName;
         $this->options = $options;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
