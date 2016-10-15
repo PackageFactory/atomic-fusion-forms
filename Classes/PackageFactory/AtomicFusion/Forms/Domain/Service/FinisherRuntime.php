@@ -12,17 +12,12 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Mvc\FlashMessageContainer:
-use TYPO3\Flow\Error\Result:
-use TYPO3\Flow\Http\Response:
+use TYPO3\Flow\Mvc\FlashMessageContainer;
+use TYPO3\Flow\Error\Result;
+use TYPO3\Flow\Http\Response;
 
 class FinisherRuntime
 {
-    /**
-     * @var FormRuntime
-     */
-    protected $formRuntime;
-
     /**
      * @Flow\Inject
      * @var Result
@@ -46,20 +41,9 @@ class FinisherRuntime
      * @param FormRuntime $formRuntime
      * @param Response $response
      */
-    public function __construct(FormRuntime $formRuntime, Response $response)
+    public function __construct(Response $response)
     {
-        $this->formRuntime = $formRuntime;
         $this->response = $response;
-    }
-
-    /**
-     * Get the form runtime
-     *
-     * @return FormRuntime
-     */
-    public function getFormRuntime()
-    {
-        return $this->formRuntime;
     }
 
     /**
