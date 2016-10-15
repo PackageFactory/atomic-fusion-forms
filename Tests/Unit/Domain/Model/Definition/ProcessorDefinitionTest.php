@@ -9,7 +9,8 @@ class ProcessorDefinitionTest extends UnitTestCase {
     /**
      * @test
      */
-    public function deliversImplementationClassName() {
+    public function deliversImplementationClassName()
+    {
         $processorDefinition = new ProcessorDefinition('SomeClassName', []);
 
         $this->assertEquals('SomeClassName', $processorDefinition->getImplementationClassName());

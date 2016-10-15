@@ -9,7 +9,8 @@ class FinisherDefinitionTest extends UnitTestCase {
     /**
      * @test
      */
-    public function deliversImplementationClassName() {
+    public function deliversImplementationClassName()
+    {
         $finisherDefinition = new FinisherDefinition('SomeClassName', []);
 
         $this->assertEquals('SomeClassName', $finisherDefinition->getImplementationClassName());

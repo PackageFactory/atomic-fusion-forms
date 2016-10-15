@@ -9,7 +9,8 @@ class ValidatorDefinitionTest extends UnitTestCase {
     /**
      * @test
      */
-    public function deliversImplementationClassName() {
+    public function deliversImplementationClassName()
+    {
         $validatorDefinition = new ValidatorDefinition('SomeClassName', []);
 
         $this->assertEquals('SomeClassName', $validatorDefinition->getImplementationClassName());

@@ -12,6 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Definition;
  */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Utility\Arrays;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\DefinitionException;
 
 /**
@@ -70,12 +71,16 @@ class PageDefinition implements PageDefinitionInterface
         if ($this->resolvedFieldDefinitions === null) {
             $name = $this->getName();
 
-            $this->resolvedFieldDefinitions = array_filter(
+            $fieldDefinitions = array_filter(
                 $this->formDefinition->getFieldDefinitions(),
                 function ($fieldDefinition) use ($name) {
                     return $fieldDefinition->getPage() === $name;
                 }
             );
+
+            foreach ($fieldDefinitions as $fieldDefinition) {
+                $this->resolvedFieldDefinitions[$fieldDefinition->getName()] = $fieldDefinition;
+            }
         }
 
         return $this->resolvedFieldDefinitions;
