@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Definition;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -13,6 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Definition;
 
 use TYPO3\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\FinisherRuntime;
 
 /**
  * Defines methods for finishers
