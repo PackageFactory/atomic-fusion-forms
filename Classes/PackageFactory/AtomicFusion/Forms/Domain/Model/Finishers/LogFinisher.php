@@ -29,7 +29,7 @@ class LogFinisher implements FinisherInterface
     /**
      * @var string
      */
-    protected $severity = LOG_INFO;
+    protected $severity = 'INFO';
 
     /**
 	 * @Flow\Inject
@@ -71,6 +71,13 @@ class LogFinisher implements FinisherInterface
             );
         }
 
-        $this->logger->log($this->message, $severity);
+        if (!$this->message || (!is_string($this->message) && !method_exists($this->message, '__toString'))) {
+            throw new FinisherRuntimeException(
+                'Error in LogFinisher: $message must be a string',
+                1476563413
+            );
+        }
+
+        $this->logger->log($this->message, constant($severity));
     }
 }

@@ -8,6 +8,8 @@ use TYPO3\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\FinisherRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\FinisherInterface;
 
+class __toStringClass { public function __toString() { return 'SomeString'; } }
+
 abstract class FinisherTestCase extends UnitTestCase
 {
     protected $finisherRuntime = null;

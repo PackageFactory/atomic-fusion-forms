@@ -3,8 +3,6 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finishers;
 
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\MessageFinisher;
 
-class __toStringClass { public function __toString() { return 'SomeString'; } }
-
 class MessageFinisherTest extends FinisherTestCase
 {
     /**
