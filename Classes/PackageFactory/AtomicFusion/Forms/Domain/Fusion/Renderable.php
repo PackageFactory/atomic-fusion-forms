@@ -14,7 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Fusion;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
 
-class StringValue implements FusionAwareInterface
+class Renderable implements FusionAwareInterface
 {
     use FusionAwareTrait;
 
@@ -42,7 +42,7 @@ class StringValue implements FusionAwareInterface
      *
      * @return string
      */
-    public function __toString()
+    public function render()
     {
         return $this->fusionRuntime->render($this->path);
     }
