@@ -17,9 +17,13 @@ use TYPO3\Flow\Error\Error;
 use TYPO3\Flow\Validation\ValidatorResolver;
 use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
 use TYPO3\Flow\Validation\Validator\ValidatorInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Fusion\FusionAwareInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Fusion\FusionAwareTrait;
 
-class Validator implements ValidatorInterface
+class LateResolvingValidatorDecorator implements ValidatorInterface, FusionAwareInterface
 {
+	use FusionAwareTrait;
+
 	/**
      * @Flow\Inject
      * @var ValidatorResolver
@@ -40,11 +44,6 @@ class Validator implements ValidatorInterface
 	 * @var string
 	 */
 	protected $fusionPathToCustomMessage;
-
-	/**
-	 * @var FusionRuntime
-	 */
-	protected $fusionRuntime;
 
 	/**
 	 * @var array
@@ -100,17 +99,6 @@ class Validator implements ValidatorInterface
 	public function setFusionPathToCustomMessage($fusionPathToCustomMessage)
 	{
 		$this->fusionPathToCustomMessage = $fusionPathToCustomMessage;
-	}
-
-	/**
-	 * Set the fusion runtime for later rendering of the options array
-	 *
-	 * @param FusionRuntime $fusionRuntime
-	 * @return void
-	 */
-	public function setFusionRuntime(FusionRuntime $fusionRuntime)
-	{
-		$this->fusionRuntime = $fusionRuntime;
 	}
 
     /**
