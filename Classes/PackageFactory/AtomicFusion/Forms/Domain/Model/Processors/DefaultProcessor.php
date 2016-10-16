@@ -51,6 +51,7 @@ class DefaultProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
+     * @codeCoverageIgnore
      */
      public function rollback(
          PropertyMappingConfiguration $propertyMappingConfiguration,
