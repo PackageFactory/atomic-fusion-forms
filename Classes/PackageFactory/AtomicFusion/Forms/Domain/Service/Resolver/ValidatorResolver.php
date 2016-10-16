@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
