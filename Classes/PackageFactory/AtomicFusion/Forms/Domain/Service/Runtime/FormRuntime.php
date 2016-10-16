@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -16,6 +16,7 @@ use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Http\Response;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
+use TYPO3\Flow\Utility\Arrays;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Factory\FormStateFactory;
@@ -71,6 +72,12 @@ class FormRuntime
 
 	/**
 	 * @Flow\Inject
+	 * @var Tasks\RollbackTaskInterface
+	 */
+	protected $rollbackTask;
+
+	/**
+	 * @Flow\Inject
 	 * @var Tasks\FinishTaskInterface
 	 */
 	protected $finishTask;
@@ -111,7 +118,7 @@ class FormRuntime
         $this->request = new ActionRequest($request);
         $this->request->setArgumentNamespace('--' . $this->formDefinition->getName());
 
-        if (isset($pluginArguments[$this->identifier])) {
+        if (isset($pluginArguments[$this->formDefinition->getName()])) {
             $this->request->setArguments($pluginArguments[$this->formDefinition->getName()]);
         }
     }
@@ -190,7 +197,7 @@ class FormRuntime
         foreach ($fieldDefinitions as $fieldDefinition) {
             $value = null;
 
-			if (array_key_exists($fieldDefinition->getName(), $this->value)) {
+			if (array_key_exists($fieldDefinition->getName(), $this->values)) {
 				$value = $this->values[$fieldDefinition->getName()];
 			}
 
@@ -205,22 +212,19 @@ class FormRuntime
     {
 		$fieldDefinitions = $this->getFieldDefinitionsForCurrentPage();
 
-        $this->values = [];
         foreach ($fieldDefinitions as $fieldDefinition) {
 			$input = null;
-
 			if (array_key_exists($fieldDefinition->getName(), $this->arguments)) {
 				$input = $this->arguments[$fieldDefinition->getName()];
 			}
 
 			$value = null;
-
-			if (array_key_exists($fieldDefinition->getName(), $this->value)) {
+			if (array_key_exists($fieldDefinition->getName(), $this->values)) {
 				$value = $this->values[$fieldDefinition->getName()];
 			}
 
 			$this->values[$fieldDefinition->getName()] = $this->rollbackTask
-				->run($this->propertyMappingConfiguration, $fieldDefinition, $input, $this->validationResult);
+				->run($this->propertyMappingConfiguration, $fieldDefinition, $input, $value, $this->validationResult);
         }
     }
 
@@ -231,7 +235,7 @@ class FormRuntime
     {
         $finisherDefinitions = $this->formDefinition->getFinisherDefinitions();
 
-        return $this->finisherTask->run($finisherDefinitions, $parentResponse);
+        return $this->finishTask->run($finisherDefinitions, $parentResponse);
     }
 
     /**
@@ -245,8 +249,8 @@ class FormRuntime
             return $this->formDefinition
                 ->getPageDefinition($this->formState->getCurrentPage())
                 ->getFieldDefinitions();
-        } else {
-            return $this->formDefinition->getFieldDefinitions();
         }
+
+		return $this->formDefinition->getFieldDefinitions();
     }
 }
