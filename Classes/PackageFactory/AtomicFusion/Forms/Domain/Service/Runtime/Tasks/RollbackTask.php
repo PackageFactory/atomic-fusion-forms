@@ -16,9 +16,6 @@ use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ProcessorResolverInterface;
-use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationService;
-use PackageFactory\AtomicFusion\Forms\Factory\PropertyMapperFactory;
-
 /**
  * Rollback side effects if something went wrong during processing or validation
  *
@@ -46,7 +43,7 @@ class RollbackTask implements RollbackTaskInterface
         $processor = $this->processorResolver->resolve($fieldDefinition->getProcessorDefinition());
 
         $processor->rollback(
-            $this->propertyMappingConfiguration->forProperty($fieldDefinition->getName()),
+            $propertyMappingConfiguration->forProperty($fieldDefinition->getName()),
             $validationResult->forProperty($fieldDefinition->getName()),
             $fieldDefinition,
             $fieldDefinition->getProcessorDefinition()->getOptions(),
