@@ -14,7 +14,7 @@
 		</testsuite>
 	</testsuites>
 	<filter>
-		<whitelist addUncoveredFilesFromWhitelist="false">
+		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory>Packages/Application/PackageFactory.AtomicFusion.Forms/Classes</directory>
 		</whitelist>
 	</filter>
