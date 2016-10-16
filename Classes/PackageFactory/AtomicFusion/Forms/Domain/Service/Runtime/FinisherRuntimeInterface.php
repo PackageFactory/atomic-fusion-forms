@@ -22,18 +22,18 @@ use TYPO3\Flow\Http\Response;
 interface FinisherRuntimeInterface
 {
     /**
-     * Get the result
-     *
-     * @return Result
-     */
-    public function getResult();
-
-    /**
      * Get the response
      *
      * @return Response
      */
     public function getResponse();
+    
+    /**
+     * Get the result
+     *
+     * @return Result
+     */
+    public function getResult();
 
     /**
      * Get the flash message container

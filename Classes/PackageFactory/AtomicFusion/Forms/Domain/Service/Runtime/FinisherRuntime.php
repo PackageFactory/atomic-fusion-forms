@@ -19,15 +19,15 @@ use TYPO3\Flow\Http\Response;
 class FinisherRuntime implements FinisherRuntimeInterface
 {
     /**
+     * @var Response
+     */
+    protected $response;
+
+    /**
      * @Flow\Inject
      * @var Result
      */
     protected $result;
-
-    /**
-     * @var Response
-     */
-    protected $response;
 
     /**
      * @Flow\Inject
@@ -49,17 +49,17 @@ class FinisherRuntime implements FinisherRuntimeInterface
     /**
      * @inheritdoc
      */
-    public function getResult()
-    {
-        return $this->result;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getResponse()
     {
         return $this->response;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getResult()
+    {
+        return $this->result;
     }
 
     /**
