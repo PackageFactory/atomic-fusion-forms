@@ -29,7 +29,7 @@
           "rm -f Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms",
           "cd Build/Travis && composer install",
           "ln -s $(pwd) Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms",
-          "Build/Travis/bin/phpunit --coverage-clover=coverage.xml -c Build/Travis/phpunit.xml"
+          "Build/Travis/bin/phpunit --coverage-clover=coverage.xml --verbose -c Build/Travis/phpunit.xml"
         ],
         "test:coverage": [
           "rm -f Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms",

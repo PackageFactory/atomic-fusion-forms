@@ -43,11 +43,11 @@ class ProcessTask implements ProcessTaskInterface
         $processor = $this->processorResolver->resolve($fieldDefinition->getProcessorDefinition());
 
         return $processor->apply(
-            $this->propertyMappingConfiguration->forProperty($fieldDefinition->getName()),
+            $propertyMappingConfiguration->forProperty($fieldDefinition->getName()),
             $validationResult->forProperty($fieldDefinition->getName()),
             $fieldDefinition,
             $fieldDefinition->getProcessorDefinition()->getOptions(),
-            $argument
+            $input
         );
     }
 }
