@@ -97,4 +97,31 @@ class FinisherResolverTest extends ResolverTestCase
 
         $this->assertEquals('SomeFinisher', $finisher->getClassNameForTestPurposes());
     }
+
+    /**
+     * @test
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\ResolverException
+     * @expectedExceptionCode 1476624534
+     */
+    public function complainsIfConfiguredOptionDoesNotExist()
+    {
+        $finisherDefinition = $this->createMock(FinisherDefinitionInterface::class);
+        $finisherDefinition->method('getImplementationClassName')->willReturn('SomeFinisher');
+        $finisherDefinition->method('getOptions')->willReturn([
+            'option1' => 'Value1',
+            'option2' => 'Value2'
+        ]);
+
+        $finisher = $this->getMockBuilder(FinisherInterface::class)
+            ->setMethods([
+                'setOption1',
+                'execute'
+            ])
+            ->getMock();
+
+        $finisherResolver = new FinisherResolver();
+        $this->injectObjectManager($finisherResolver, ['SomeFinisher' => $finisher]);
+
+        $finisherResolver->resolve($finisherDefinition);
+    }
 }
