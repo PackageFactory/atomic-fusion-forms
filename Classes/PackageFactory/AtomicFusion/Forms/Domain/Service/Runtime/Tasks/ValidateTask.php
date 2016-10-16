@@ -46,8 +46,11 @@ class ValidateTask implements ValidateTaskInterface
             $singleValidationResult = $validator->validate($value);
 
             if ($singleValidationResult->hasErrors() && $validatorDefinition->hasCustomErrorMessage()) {
-                $singleValidationResult = $this->messageFactory->createError();
-                $singleValidationResult->setMessage($validatorDefinition->getCustomErrorMessage());
+                $customErrorMessage = $this->messageFactory
+                    ->createError($validatorDefinition->getCustomErrorMessage());
+
+                $validationResult->forProperty($fieldDefinition->getName())->addError($customErrorMessage);
+                continue;
             }
 
             $validationResult->forProperty($fieldDefinition->getName())->merge($singleValidationResult);

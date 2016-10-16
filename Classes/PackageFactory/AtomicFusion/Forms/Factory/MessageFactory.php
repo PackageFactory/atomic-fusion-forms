@@ -36,7 +36,7 @@ class MessageFactory
      *
      * @return Error
      */
-    public function createError()
+    public function createError($message = '')
     {
         return new Error();
     }

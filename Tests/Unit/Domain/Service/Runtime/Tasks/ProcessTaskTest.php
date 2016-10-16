@@ -15,7 +15,7 @@ class ProcessTaskTest extends UnitTestCase
     /**
      * @test
      */
-    public function resolvesProcessorFromProcessorDefinition()
+    public function resolvesProcessorFromFieldDefinition()
     {
         $result = $this->createMock(Result::class);
         $result->method('forProperty')->willReturn($result);
