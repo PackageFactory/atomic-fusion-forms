@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -63,7 +63,7 @@ class FinisherResolver implements FinisherResolverInterface
                 throw new ResolverException(
                     sprintf(
                         'Error in FinisherResolver: Option `%s` is unknown to finisher `%s`',
-                        $optionName
+                        $optionName,
                         $implementationClassName
                     ),
                     1476624534
