@@ -5,7 +5,7 @@ use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Property\PropertyMapper;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
-use PackageFactory\AtomicFusion\Forms\Domain\Factory\PropertyMapperFactory;
+use PackageFactory\AtomicFusion\Forms\Factory\PropertyMapperFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Processors\DefaultProcessor;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 

@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -12,20 +12,21 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException;
+use TYPO3\Flow\Error\Result;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
+use TYPO3\Flow\Http\Response;
 
 /**
- * Defines methods for finishers
+ * Method definitions for the finish task
  */
-interface FinisherInterface
+interface FinishTaskInterface
 {
     /**
-     * Execute this finisher
+     * Run all defined finishers
      *
-     * @param FinisherRuntimeInterface $finisherRuntime
+     * @param array<FinisherDefinitionInterface> $finisherDefinitions
+     * @param Response $parentResponse
      * @return void
-     * @throws FinisherRuntimeException when the execution fails
      */
-    public function execute(FinisherRuntimeInterface $finisherRuntime);
+    public function run(array $finisherDefinitions, Response $parentResponse);
 }

@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -16,7 +16,7 @@ use TYPO3\Flow\Mvc\FlashMessageContainer;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Http\Response;
 
-class FinisherRuntime
+class FinisherRuntime implements FinisherRuntimeInterface
 {
     /**
      * @Flow\Inject
@@ -47,9 +47,7 @@ class FinisherRuntime
     }
 
     /**
-     * Get the result
-     *
-     * @return Result
+     * @inheritdoc
      */
     public function getResult()
     {
@@ -57,9 +55,7 @@ class FinisherRuntime
     }
 
     /**
-     * Get the response
-     *
-     * @return Response
+     * @inheritdoc
      */
     public function getResponse()
     {
@@ -67,9 +63,7 @@ class FinisherRuntime
     }
 
     /**
-     * Get the flash message container
-     *
-     * @return FlashMessageContainer
+     * @inheritdoc
      */
     public function getFlashMessageContainer()
     {

@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers;
 
 use TYPO3\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\FinisherRuntime;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
 
 /**
  * Finisher that adds a message to the response
@@ -38,7 +38,7 @@ class MessageFinisher implements FinisherInterface
     /**
      * @inheritdoc
      */
-    public function execute(FinisherRuntime $finisherRuntime)
+    public function execute(FinisherRuntimeInterface $finisherRuntime)
     {
         if (!$this->message || (!is_string($this->message) && !method_exists($this->message, '__toString'))) {
             throw new FinisherRuntimeException(

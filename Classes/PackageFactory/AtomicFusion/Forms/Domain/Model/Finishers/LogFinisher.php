@@ -14,7 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Log\SystemLoggerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\FinisherRuntime;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
 
 /**
  * Finisher that leaves a log message in the system log with configurable severity
@@ -60,7 +60,7 @@ class LogFinisher implements FinisherInterface
     /**
      * @inheritdoc
      */
-    public function execute(FinisherRuntime $finisherRuntime)
+    public function execute(FinisherRuntimeInterface $finisherRuntime)
     {
         $severity = 'LOG_' . strtoupper($this->severity);
 

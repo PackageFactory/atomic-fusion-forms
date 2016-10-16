@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -13,7 +13,10 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
 
 use TYPO3\Flow\Annotations as Flow;
 
-class FormState
+/**
+ * The form state
+ */
+class FormState implements FormStateInterface
 {
 	/**
 	 * @var boolean
@@ -30,36 +33,49 @@ class FormState
 	 */
 	protected $currentPage = null;
 
+    /**
+     * @inheritdoc
+     */
 	public function setArguments(array $arguments)
 	{
 		$this->arguments = $arguments;
 	}
 
+    /**
+     * @inheritdoc
+     */
 	public function getArguments()
 	{
 		return $this->arguments;
 	}
 
+    /**
+     * @inheritdoc
+     */
 	public function setCurrentPage($pageIdentifier)
 	{
 		$this->currentPage = $pageIdentifier;
 	}
 
+    /**
+     * @inheritdoc
+     */
 	public function getCurrentPage()
 	{
 		return $this->currentPage;
 	}
 
+    /**
+     * @inheritdoc
+     */
 	public function isCurrentPage($pageIdentifier)
 	{
 		return $this->currentPage === $pageIdentifier;
 	}
 
-	/**
-	 * Determine whether the form is initially called
-	 *
-	 * @return boolean
-	 */
+    /**
+     * @inheritdoc
+     */
 	public function isInitialCall()
 	{
 		return $this->__isInitialCall;

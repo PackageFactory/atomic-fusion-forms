@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Factory;
+namespace PackageFactory\AtomicFusion\Forms\Factory;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -12,20 +12,20 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Factory;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Property\PropertyMapper;
+use TYPO3\Flow\Validation\Validators\ConjunctionValidator;
 
 /**
  * @Flow\Scope("singleton")
  */
-class PropertyMapperFactory
+class ValidatorFactory
 {
     /**
-     * Create a new property mapper
+     * Create a new result
      *
-     * @return PropertyMapper
+     * @return Result
      */
-    public function createPropertyMapper()
+    public function createConjunctionValidator()
     {
-        return new PropertyMapper();
+        return new ConjunctionValidator();
     }
 }

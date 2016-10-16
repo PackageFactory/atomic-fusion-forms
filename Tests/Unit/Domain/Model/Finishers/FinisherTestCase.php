@@ -5,7 +5,7 @@ use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Mvc\FlashMessageContainer;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Http\Response;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\FinisherRuntime;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\FinisherInterface;
 
 class __toStringClass { public function __toString() { return 'SomeString'; } }
@@ -23,7 +23,7 @@ abstract class FinisherTestCase extends UnitTestCase
         $result = new Result();
         $response = new Response();
 
-        $this->finisherRuntime = $this->createMock(FinisherRuntime::class);
+        $this->finisherRuntime = $this->createMock(FinisherRuntimeInterface::class);
         $this->finisherRuntime->method('getFlashMessageContainer')->willReturn($flashMessageContainer);
         $this->finisherRuntime->method('getResult')->willReturn($result);
         $this->finisherRuntime->method('getResponse')->willReturn($response);

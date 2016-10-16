@@ -14,7 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Processors;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
-use PackageFactory\AtomicFusion\Forms\Domain\Factory\PropertyMapperFactory;
+use PackageFactory\AtomicFusion\Forms\Domain\PropertyMapperFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 
 /**
