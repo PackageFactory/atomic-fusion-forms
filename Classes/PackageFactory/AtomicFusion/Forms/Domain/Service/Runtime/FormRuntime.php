@@ -25,7 +25,7 @@ use PackageFactory\AtomicFusion\Forms\Factory\PropertyMappingConfigurationFactor
 /**
  * The form runtime
  */
-class FormRuntime
+class FormRuntime implements FormRuntimeInterface
 {
 	/**
 	 * @var ActionRequest
@@ -167,6 +167,14 @@ class FormRuntime
         return $this->formState;
     }
 
+	/**
+     * @inheritdoc
+     */
+	public function shouldProcess()
+	{
+		return !$this->formState->isInitialCall();
+	}
+
     /**
      * @inheritdoc
      */
@@ -187,6 +195,14 @@ class FormRuntime
         }
     }
 
+	/**
+     * @inheritdoc
+     */
+	public function shouldValidate()
+	{
+		return !$this->formState->isInitialCall() && count($this->values) > 0;
+	}
+
     /**
      * @inheritdoc
      */
@@ -204,6 +220,14 @@ class FormRuntime
 			$this->validateTask->run($fieldDefinition, $value, $this->validationResult);
         }
     }
+
+	/**
+     * @inheritdoc
+     */
+	public function shouldRollback()
+	{
+		return $this->validationResult->hasErrors();
+	}
 
     /**
      * @inheritdoc
@@ -227,6 +251,24 @@ class FormRuntime
 				->run($this->propertyMappingConfiguration, $fieldDefinition, $input, $value, $this->validationResult);
         }
     }
+
+	/**
+     * @inheritdoc
+     */
+	public function shouldFinish()
+	{
+		$pageDefinitions = $this->formDefinition->getPageDefinitions();
+		$isOnLastPage = false;
+
+		if (is_array($pageDefinitions)) {
+			$lastPageDefinition = array_pop($pageDefinitions);
+			$isOnLastPage = $this->formState->getCurrentPage() === $lastPageDefinition->getName();
+		}
+
+		return !$this->formState->isInitialCall() && !$this->validationResult->hasErrors() && (
+			!$this->formDefinition->hasPages() || $isOnLastPage
+		);
+	}
 
     /**
      * @inheritdoc

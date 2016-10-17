@@ -425,4 +425,317 @@ class FormRuntimeTest extends UnitTestCase
         $this->assertEquals('TheTrustedPropertymappingConfiguration',
             $propertyMappingConfiguration->getValue($formRuntime));
     }
+
+    /**
+     * @test
+     */
+    public function checksIfFormOrPageShouldBeProcessed()
+    {
+        $formDefinition = $this->createMock(FormDefinitionInterface::class);
+        $request = $this->createMock(ActionRequest::class);
+
+        $formState1 = $this->createMock(FormStateInterface::class);
+        $formState1->method('isInitialCall')->willReturn(true);
+        $formState2 = $this->createMock(FormStateInterface::class);
+        $formState2->method('isInitialCall')->willReturn(false);
+
+        $formRuntime = new FormRuntime($formDefinition, $request);
+
+        $this->inject($formRuntime, 'formState', $formState1);
+
+        $this->assertFalse($formRuntime->shouldProcess());
+
+        $this->inject($formRuntime, 'formState', $formState2);
+
+        $this->assertTrue($formRuntime->shouldProcess());
+    }
+
+    /**
+     * @test
+     */
+    public function checksIfFormOrPageShouldBeValidated()
+    {
+        $formDefinition = $this->createMock(FormDefinitionInterface::class);
+        $request = $this->createMock(ActionRequest::class);
+
+        $formState1 = $this->createMock(FormStateInterface::class);
+        $formState1->method('isInitialCall')->willReturn(true);
+        $formState2 = $this->createMock(FormStateInterface::class);
+        $formState2->method('isInitialCall')->willReturn(false);
+
+        $formRuntime = new FormRuntime($formDefinition, $request);
+
+        $this->inject($formRuntime, 'formState', $formState1);
+
+        $this->assertFalse($formRuntime->shouldValidate());
+
+        $this->inject($formRuntime, 'formState', $formState2);
+        $this->inject($formRuntime, 'values', null);
+
+        $this->assertFalse($formRuntime->shouldValidate());
+
+        $this->inject($formRuntime, 'values', []);
+
+        $this->assertFalse($formRuntime->shouldValidate());
+
+        $this->inject($formRuntime, 'values', ['SomeValue']);
+
+        $this->assertTrue($formRuntime->shouldValidate());
+    }
+
+    /**
+     * @test
+     */
+    public function checksIfProcessorsShouldBeRolledBack()
+    {
+        $formDefinition = $this->createMock(FormDefinitionInterface::class);
+        $request = $this->createMock(ActionRequest::class);
+
+        $validationResult1 = $this->createMock(Result::class);
+        $validationResult1->method('hasErrors')->willReturn(false);
+        $validationResult2 = $this->createMock(Result::class);
+        $validationResult2->method('hasErrors')->willReturn(true);
+
+        $formRuntime = new FormRuntime($formDefinition, $request);
+
+        $this->inject($formRuntime, 'validationResult', $validationResult1);
+
+        $this->assertFalse($formRuntime->shouldRollback());
+
+        $this->inject($formRuntime, 'validationResult', $validationResult2);
+
+        $this->assertTrue($formRuntime->shouldRollback());
+    }
+
+    /**
+     * @test
+     */
+    public function checksIfMultiPageFormShouldBeFinished()
+    {
+        $formDefinition1 = $this->createMock(FormDefinitionInterface::class);
+        $formDefinition2 = $this->createMock(FormDefinitionInterface::class);
+        $request = $this->createMock(ActionRequest::class);
+
+        $pageDefinition1 = $this->createMock(PageDefinitionInterface::class);
+        $pageDefinition1->method('getName')->willReturn('PageDefinition1');
+        $pageDefinition2 = $this->createMock(PageDefinitionInterface::class);
+        $pageDefinition2->method('getName')->willReturn('PageDefinition2');
+        $pageDefinition3 = $this->createMock(PageDefinitionInterface::class);
+        $pageDefinition3->method('getName')->willReturn('PageDefinition3');
+
+        $formDefinition1->method('hasPages')->willReturn(false);
+        $formDefinition2->method('hasPages')->willReturn(true);
+        $formDefinition2->method('getPageDefinitions')->willReturn([
+            $pageDefinition1,
+            $pageDefinition2,
+            $pageDefinition3
+        ]);
+
+        $formStateI = $this->createMock(FormStateInterface::class);
+        $formStateI->method('isInitialCall')->willReturn(true);
+        $formStateS = $this->createMock(FormStateInterface::class);
+        $formStateS->method('isInitialCall')->willReturn(false);
+        $formState1I = $this->createMock(FormStateInterface::class);
+        $formState1I->method('isInitialCall')->willReturn(true);
+        $formState1I->method('getCurrentPage')->willReturn('PageDefinition1');
+        $formState1S = $this->createMock(FormStateInterface::class);
+        $formState1S->method('isInitialCall')->willReturn(false);
+        $formState1S->method('getCurrentPage')->willReturn('PageDefinition1');
+        $formState2I = $this->createMock(FormStateInterface::class);
+        $formState2I->method('isInitialCall')->willReturn(true);
+        $formState2I->method('getCurrentPage')->willReturn('PageDefinition2');
+        $formState2S = $this->createMock(FormStateInterface::class);
+        $formState2S->method('isInitialCall')->willReturn(false);
+        $formState2S->method('getCurrentPage')->willReturn('PageDefinition2');
+        $formState3I = $this->createMock(FormStateInterface::class);
+        $formState3I->method('isInitialCall')->willReturn(true);
+        $formState3I->method('getCurrentPage')->willReturn('PageDefinition3');
+        $formState3S = $this->createMock(FormStateInterface::class);
+        $formState3S->method('isInitialCall')->willReturn(false);
+        $formState3S->method('getCurrentPage')->willReturn('PageDefinition3');
+
+        $validationResult1 = $this->createMock(Result::class);
+        $validationResult1->method('hasErrors')->willReturn(false);
+        $validationResult2 = $this->createMock(Result::class);
+        $validationResult2->method('hasErrors')->willReturn(true);
+
+        $formRuntime1 = new FormRuntime($formDefinition1, $request);
+        $formRuntime2 = new FormRuntime($formDefinition2, $request);
+
+        //
+        // Has no pages, is initial call, validation result has no errors
+        //
+        $this->inject($formRuntime1, 'validationResult', $validationResult1);
+        $this->inject($formRuntime1, 'formState', $formStateI);
+
+        $this->assertFalse(
+            $formRuntime1->shouldFinish(),
+            'Has no pages, is initial call, validation result has no errors'
+        );
+
+        //
+        // Has no pages, is initial call, validation result has errors
+        //
+        $this->inject($formRuntime1, 'validationResult', $validationResult2);
+        $this->inject($formRuntime1, 'formState', $formStateI);
+
+        $this->assertFalse(
+            $formRuntime1->shouldFinish(),
+            'Has no pages, is initial call, validation result has errors'
+        );
+
+        //
+        // Has pages, is on first page, is initial call, validation result has no errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult1);
+        $this->inject($formRuntime2, 'formState', $formState1I);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on first page, is initial call, validation result has no errors'
+        );
+
+        //
+        // Has pages, is on middle page, is initial call, validation result has no errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult1);
+        $this->inject($formRuntime2, 'formState', $formState2I);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on middle page, is initial call, validation result has no errors'
+        );
+
+        //
+        // Has pages, is on last page, is initial call, validation result has no errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult1);
+        $this->inject($formRuntime2, 'formState', $formState3I);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on last page, is initial call, validation result has no errors'
+        );
+
+        //
+        // Has pages, is on first page, is initial call, validation result has errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult2);
+        $this->inject($formRuntime2, 'formState', $formState1I);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on first page, is initial call, validation result has errors'
+        );
+
+        //
+        // Has pages, is on middle page, is initial call, validation result has errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult2);
+        $this->inject($formRuntime2, 'formState', $formState2I);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on middle page, is initial call, validation result has errors'
+        );
+
+        //
+        // Has pages, is on last page, is initial call, validation result has errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult2);
+        $this->inject($formRuntime2, 'formState', $formState3I);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on last page, is initial call, validation result has errors'
+        );
+
+        //
+        // Has no pages, is subsequent call, validation result has no errors
+        //
+        $this->inject($formRuntime1, 'validationResult', $validationResult1);
+        $this->inject($formRuntime1, 'formState', $formStateS);
+
+        $this->assertTrue(
+            $formRuntime1->shouldFinish(),
+            'Has no pages, is subsequent call, validation result has no errors'
+        );
+
+        //
+        // Has no pages, is subsequent call, validation result has errors
+        //
+        $this->inject($formRuntime1, 'validationResult', $validationResult2);
+        $this->inject($formRuntime1, 'formState', $formStateS);
+
+        $this->assertFalse(
+            $formRuntime1->shouldFinish(),
+            'Has no pages, is subsequent call, validation result has errors'
+        );
+
+        //
+        // Has pages, is on first page, is subsequent call, validation result has no errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult1);
+        $this->inject($formRuntime2, 'formState', $formState1S);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on first page, is subsequent call, validation result has no errors'
+        );
+
+        //
+        // Has pages, is on middle page, is subsequent call, validation result has no errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult1);
+        $this->inject($formRuntime2, 'formState', $formState2S);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on middle page, is subsequent call, validation result has no errors'
+        );
+
+        //
+        // Has pages, is on last page, is subsequent call, validation result has no errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult1);
+        $this->inject($formRuntime2, 'formState', $formState3S);
+
+        $this->assertTrue(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on last page, is subsequent call, validation result has no errors'
+        );
+
+        //
+        // Has pages, is on first page, is subsequent call, validation result has errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult2);
+        $this->inject($formRuntime2, 'formState', $formState1S);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on first page, is subsequent call, validation result has errors'
+        );
+
+        //
+        // Has pages, is on middle page, is subsequent call, validation result has errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult2);
+        $this->inject($formRuntime2, 'formState', $formState2S);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on middle page, is subsequent call, validation result has errors'
+        );
+
+        //
+        // Has pages, is on last page, is subsequent call, validation result has errors
+        //
+        $this->inject($formRuntime2, 'validationResult', $validationResult2);
+        $this->inject($formRuntime2, 'formState', $formState3S);
+
+        $this->assertFalse(
+            $formRuntime2->shouldFinish(),
+            'Has pages, is on last page, is subsequent call, validation result has errors'
+        );
+    }
 }

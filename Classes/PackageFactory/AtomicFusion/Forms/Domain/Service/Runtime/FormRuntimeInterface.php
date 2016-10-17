@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -13,9 +13,10 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\ActionRequest;
+use TYPO3\Flow\Http\Response;
 use TYPO3\Flow\Error\Result;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\FinisherRuntime;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntime;
 
 /**
  * Method definitions for FormRuntime
@@ -44,11 +45,25 @@ interface FormRuntimeInterface
     public function getFormState();
 
     /**
+     * Check, whether the form (or page) should be processed
+     *
+     * @return boolean
+     */
+    public function shouldProcess();
+
+    /**
      * Process current page
      *
      * @return void
      */
     public function process();
+
+    /**
+     * Checks, whether the form (or page) should be validated
+     *
+     * @return boolean
+     */
+    public function shouldValidate();
 
     /**
      * Validate current page
@@ -58,17 +73,31 @@ interface FormRuntimeInterface
     public function validate();
 
     /**
+     * Checks, whether the processors should be rolled back
+     *
+     * @return boolean
+     */
+    public function shouldRollback();
+
+    /**
      * Rollback, if something went wrong
      *
      * @return void
      */
     public function rollback();
 
+    /**
+     * Checks, whether the form should be finished
+     *
+     * @return boolean
+     */
+    public function shouldFinish();
 
     /**
      * Finish the form
      *
+     * @param Resopnse $parentResponse
      * @return FinisherRuntime
      */
-    public function finish();
+    public function finish(Response $parentResponse);
 }
