@@ -15,7 +15,7 @@ use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Reflection\ReflectionService;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Processors\ProcessorInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Processor\ProcessorInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\ResolverException;
 
 /**

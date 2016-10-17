@@ -14,10 +14,10 @@ use PackageFactory\AtomicFusion\Forms\Domain\Factory\FormStateFactory;
 use PackageFactory\AtomicFusion\Forms\Factory\PropertyMappingConfigurationFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormStateInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\ProcessTaskInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\ValidateTaskInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\RollbackTaskInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\FinishTaskInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\ProcessTaskInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\ValidateTaskInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\RollbackTaskInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\FinishTaskInterface;
 
 interface __getterStub__1476736746 {
 	public function getTest1();

@@ -1,14 +1,14 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finishers;
+namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finisher;
 
 use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Mvc\FlashMessageContainer;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\FinisherInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 
-class __toStringClass { public function __toString() { return 'SomeString'; } }
+class __toStringClass__1476737147 { public function __toString() { return 'SomeString'; } }
 
 abstract class FinisherTestCase extends UnitTestCase
 {

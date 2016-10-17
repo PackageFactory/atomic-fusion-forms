@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -13,21 +13,28 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Error\Result;
+use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 
 /**
- * Method definitions for the validate task
+ * Method definitions for process task
  */
-interface ValidateTaskInterface
+interface ProcessTaskInterface
 {
     /**
-     * Validate the given values by their field definitions and write possibly occuring messages
+     * Process the given arguments by their field definitions and write possibly occuring messages
      * to the given validation result
      *
+     * @param PropertyMappingConfiguration $propertyMappingConfiguration
      * @param FieldDefinitionInterface $fieldDefinition
-     * @param mixed $value
+     * @param mixed $input
      * @param Result $validationResult
-     * @return void
+     * @return array The processed arguments
      */
-    public function run(FieldDefinitionInterface $fieldDefinition, $value, Result $validationResult);
+    public function run(
+        PropertyMappingConfiguration $propertyMappingConfiguration,
+        FieldDefinitionInterface $fieldDefinition,
+        $input,
+        Result $validationResult
+    );
 }

@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package

@@ -1,7 +1,7 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finishers;
+namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finisher;
 
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\MessageFinisher;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\MessageFinisher;
 
 class MessageFinisherTest extends FinisherTestCase
 {
@@ -25,7 +25,7 @@ class MessageFinisherTest extends FinisherTestCase
      */
     public function acceptsObjectsWithToStringMethodAsMessage()
     {
-        $toStringClassInstance = new __toStringClass;
+        $toStringClassInstance = new __toStringClass__1476737147;
 
         $finisher = new MessageFinisher();
         $finisher->setMessage($toStringClassInstance);

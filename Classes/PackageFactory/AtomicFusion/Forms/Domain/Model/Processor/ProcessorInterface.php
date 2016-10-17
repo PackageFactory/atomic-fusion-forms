@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Processors;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Processor;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package

@@ -5,7 +5,7 @@ use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Reflection\ReflectionService;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ProcessorResolver;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Processors\ProcessorInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Processor\ProcessorInterface;
 
 class ProcessorResolverTest extends ResolverTestCase
 {

@@ -1,8 +1,8 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finishers;
+namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finisher;
 
 use TYPO3\Flow\Log\SystemLoggerInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\LogFinisher;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\LogFinisher;
 
 class LogFinisherTest extends FinisherTestCase
 {
@@ -58,7 +58,7 @@ class LogFinisherTest extends FinisherTestCase
      */
     public function acceptsObjectsWithToStringMethodAsMessage()
     {
-        $toStringClassInstance = new __toStringClass;
+        $toStringClassInstance = new __toStringClass__1476737147;
 
         $logger = $this->createMock(SystemLoggerInterface::class);
 

@@ -5,7 +5,7 @@ use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Reflection\ReflectionService;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolver;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\FinisherInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 
 class FinisherResolverTest extends ResolverTestCase
 {

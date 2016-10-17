@@ -1,16 +1,16 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Tasks;
+namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Task;
 
 use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Processors\ProcessorInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Processor\ProcessorInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ProcessorResolverInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\RollbackTask;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\ProcessTask;
 
-class RollbackTaskTest extends UnitTestCase
+class ProcessTaskTest extends UnitTestCase
 {
     /**
      * @test
@@ -37,13 +37,12 @@ class RollbackTaskTest extends UnitTestCase
             ->with($this->equalTo($processorDefinition))
             ->willReturn($processor);
 
-        $rollbackTask = new RollbackTask();
-        $this->inject($rollbackTask, 'processorResolver', $processorResolver);
+        $processTask = new ProcessTask();
+        $this->inject($processTask, 'processorResolver', $processorResolver);
 
-        $rollbackTask->run(
+        $processTask->run(
             $propertyMappingConfiguration,
             $fieldDefinition,
-            '',
             '',
             $result
         );
@@ -52,7 +51,7 @@ class RollbackTaskTest extends UnitTestCase
     /**
      * @test
      */
-    public function rollsResolvedProcessorBack()
+    public function runsResolvedProcessor()
     {
         $fieldResult = $this->createMock(Result::class);
         $result = $this->createMock(Result::class);
@@ -75,27 +74,25 @@ class RollbackTaskTest extends UnitTestCase
         $processorResolver = $this->createMock(ProcessorResolverInterface::class);
         $processorResolver->method('resolve')->with($processorDefinition)->willReturn($processor);
 
-        $rollbackTask = new RollbackTask();
-        $this->inject($rollbackTask, 'processorResolver', $processorResolver);
+        $processTask = new ProcessTask();
+        $this->inject($processTask, 'processorResolver', $processorResolver);
 
         //
         // Main expectation
         //
-        $processor->expects($this->once())->method('rollback')
+        $processor->expects($this->once())->method('apply')
             ->with(
                 $this->identicalTo($fieldPropertyMappingConfiguration),
                 $this->identicalTo($fieldResult),
                 $this->identicalTo($fieldDefinition),
                 $this->equalTo(['Option1', 'Option2']),
-                $this->equalTo('TheUserInput'),
-                $this->equalTo('TheProcessedValue')
+                $this->equalTo('TheUserInput')
             );
 
-        $rollbackTask->run(
+        $processTask->run(
             $propertyMappingConfiguration,
             $fieldDefinition,
             'TheUserInput',
-            'TheProcessedValue',
             $result
         );
     }

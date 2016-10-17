@@ -61,25 +61,25 @@ class FormRuntime implements FormRuntimeInterface
 
 	/**
 	 * @Flow\Inject
-	 * @var Tasks\ProcessTaskInterface
+	 * @var Task\ProcessTaskInterface
 	 */
 	protected $processTask;
 
 	/**
 	 * @Flow\Inject
-	 * @var Tasks\ValidateTaskInterface
+	 * @var Task\ValidateTaskInterface
 	 */
 	protected $validateTask;
 
 	/**
 	 * @Flow\Inject
-	 * @var Tasks\RollbackTaskInterface
+	 * @var Task\RollbackTaskInterface
 	 */
 	protected $rollbackTask;
 
 	/**
 	 * @Flow\Inject
-	 * @var Tasks\FinishTaskInterface
+	 * @var Task\FinishTaskInterface
 	 */
 	protected $finishTask;
 

@@ -1,14 +1,14 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Tasks;
+namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Task;
 
 use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\FinisherInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Factory\FinisherRuntimeFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolverInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\FinishTask;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\FinishTask;
 
 class FinishTaskTest extends UnitTestCase
 {

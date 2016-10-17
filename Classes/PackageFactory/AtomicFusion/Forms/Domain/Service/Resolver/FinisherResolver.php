@@ -16,7 +16,7 @@ use TYPO3\Flow\Reflection\ReflectionService;
 use TYPO3\Flow\Reflection\ObjectAccess;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\FinisherInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\ResolverException;
 
 /**

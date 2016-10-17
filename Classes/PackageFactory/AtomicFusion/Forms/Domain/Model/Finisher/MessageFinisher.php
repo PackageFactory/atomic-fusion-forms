@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package

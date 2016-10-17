@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Tasks;
+namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Task;
 
 use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Error\Result;
@@ -9,7 +9,7 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInt
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ValidatorResolverInterface;
 use PackageFactory\AtomicFusion\Forms\Factory\MessageFactory;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\ValidateTask;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\ValidateTask;
 
 class ValidateTaskTest extends UnitTestCase
 {

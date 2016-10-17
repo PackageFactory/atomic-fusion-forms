@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -16,12 +16,13 @@ use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ProcessorResolverInterface;
+
 /**
- * Rollback side effects if something went wrong during processing or validation
+ * Process request arguments
  *
  * @Flow\Scope("singleton")
  */
-class RollbackTask implements RollbackTaskInterface
+class ProcessTask implements ProcessTaskInterface
 {
     /**
      * @Flow\Inject
@@ -36,19 +37,17 @@ class RollbackTask implements RollbackTaskInterface
         PropertyMappingConfiguration $propertyMappingConfiguration,
         FieldDefinitionInterface $fieldDefinition,
         $input,
-        $value,
         Result $validationResult
     )
     {
         $processor = $this->processorResolver->resolve($fieldDefinition->getProcessorDefinition());
 
-        $processor->rollback(
+        return $processor->apply(
             $propertyMappingConfiguration->forProperty($fieldDefinition->getName()),
             $validationResult->forProperty($fieldDefinition->getName()),
             $fieldDefinition,
             $fieldDefinition->getProcessorDefinition()->getOptions(),
-            $input,
-            $value
+            $input
         );
     }
 }
