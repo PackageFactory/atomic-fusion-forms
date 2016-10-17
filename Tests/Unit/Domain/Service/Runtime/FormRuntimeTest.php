@@ -19,6 +19,11 @@ use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\ValidateTaskI
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\RollbackTaskInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Tasks\FinishTaskInterface;
 
+interface __getterStub__1476736746 {
+	public function getTest1();
+	public function getTest2();
+}
+
 class FormRuntimeTest extends UnitTestCase
 {
     /**
@@ -737,5 +742,68 @@ class FormRuntimeTest extends UnitTestCase
             $formRuntime2->shouldFinish(),
             'Has pages, is on last page, is subsequent call, validation result has errors'
         );
+    }
+
+    /**
+     * @test
+     */
+    public function deliversArgumentsByPath()
+    {
+        $formDefinition = $this->createMock(FormDefinitionInterface::class);
+        $request = $this->createMock(ActionRequest::class);
+
+        $formRuntime = new FormRuntime($formDefinition, $request);
+        $this->inject($formRuntime, 'arguments', [
+            'toplevel' => 'Test1',
+            'pretty' => [
+                'deeply' => [
+                    'nested' => 'Test2'
+                ]
+            ]
+        ]);
+
+        $this->assertEquals('Test1', $formRuntime->getArgument('toplevel'));
+        $this->assertEquals(['deeply' => [
+            'nested' => 'Test2'
+        ]], $formRuntime->getArgument('pretty'));
+        $this->assertEquals(['nested' => 'Test2'], $formRuntime->getArgument('pretty.deeply'));
+        $this->assertEquals('Test2', $formRuntime->getArgument('pretty.deeply.nested'));
+    }
+
+    /**
+     * @test
+     */
+    public function deliversValuesByPath()
+    {
+        $formDefinition = $this->createMock(FormDefinitionInterface::class);
+        $request = $this->createMock(ActionRequest::class);
+
+        $formRuntime = new FormRuntime($formDefinition, $request);
+
+        $stub1 = $this->createMock(__getterStub__1476736746::class);
+        $stub2 = $this->createMock(__getterStub__1476736746::class);
+
+        $stub1->method('getTest1')->willReturn($stub2);
+        $stub2->method('getTest2')->willReturn('Test3');
+
+        $this->inject($formRuntime, 'values', [
+            'toplevel' => 'Test1',
+            'pretty' => [
+                'deeply' => [
+                    'nested' => 'Test2'
+                ]
+            ],
+            'nested' => $stub1
+        ]);
+
+        $this->assertEquals('Test1', $formRuntime->getValue('toplevel'));
+        $this->assertEquals(['deeply' => [
+            'nested' => 'Test2'
+        ]], $formRuntime->getValue('pretty'));
+        $this->assertEquals(['nested' => 'Test2'], $formRuntime->getValue('pretty.deeply'));
+        $this->assertEquals('Test2', $formRuntime->getValue('pretty.deeply.nested'));
+        $this->assertEquals($stub1, $formRuntime->getValue('nested'));
+        $this->assertEquals($stub2, $formRuntime->getValue('nested.test1'));
+        $this->assertEquals('Test3', $formRuntime->getValue('nested.test1.test2'));
     }
 }

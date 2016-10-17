@@ -17,6 +17,7 @@ use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Http\Response;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use TYPO3\Flow\Utility\Arrays;
+use TYPO3\Flow\Reflection\ObjectAccess;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Factory\FormStateFactory;
@@ -150,6 +151,28 @@ class FormRuntime implements FormRuntimeInterface
     {
         return $this->formDefinition;
     }
+
+    /**
+     * Get an argument by path
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getArgument($path)
+	{
+		return ObjectAccess::getPropertyPath($this->arguments, $path);
+	}
+
+    /**
+     * Get a value by path
+     *
+     * @param string $path
+     * @return mixedn
+     */
+    public function getValue($path)
+	{
+		return ObjectAccess::getPropertyPath($this->values, $path);
+	}
 
     /**
      * @inheritdoc
