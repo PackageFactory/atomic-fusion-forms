@@ -39,7 +39,7 @@ class MessageFinisherTest extends FinisherTestCase
 
     /**
      * @test
-     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException
      * @expectedExceptionCode 1476546610
      */
     public function complainsIfNonStringInputIsProvidedAsMessage()
@@ -52,7 +52,7 @@ class MessageFinisherTest extends FinisherTestCase
 
     /**
      * @test
-     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException
      * @expectedExceptionCode 1476546610
      */
     public function complainsIfMessageIsNotSet()

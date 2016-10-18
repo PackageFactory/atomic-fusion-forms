@@ -12,8 +12,8 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
 
 /**
  * Defines methods for finishers
@@ -23,9 +23,9 @@ interface FinisherInterface
     /**
      * Execute this finisher
      *
-     * @param FinisherRuntimeInterface $finisherRuntime
+     * @param FinisherStateInterface $finisherState
      * @return void
-     * @throws FinisherRuntimeException when the execution fails
+     * @throws FinisherStateException when the execution fails
      */
-    public function execute(FinisherRuntimeInterface $finisherRuntime);
+    public function execute(FinisherStateInterface $finisherState);
 }

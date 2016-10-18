@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -16,7 +16,7 @@ use TYPO3\Flow\Mvc\FlashMessageContainer;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Http\Response;
 
-class FinisherRuntime implements FinisherRuntimeInterface
+class FinisherState implements FinisherStateInterface
 {
     /**
      * @var Response
@@ -53,7 +53,7 @@ class FinisherRuntime implements FinisherRuntimeInterface
     {
         return $this->response;
     }
-    
+
     /**
      * @inheritdoc
      */

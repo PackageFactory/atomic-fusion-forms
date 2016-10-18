@@ -13,8 +13,8 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Log\SystemLoggerInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
 
 /**
  * Finisher that leaves a log message in the system log with configurable severity
@@ -60,19 +60,19 @@ class LogFinisher implements FinisherInterface
     /**
      * @inheritdoc
      */
-    public function execute(FinisherRuntimeInterface $finisherRuntime)
+    public function execute(FinisherStateInterface $finisherState)
     {
         $severity = 'LOG_' . strtoupper($this->severity);
 
         if (!defined($severity)) {
-            throw new FinisherRuntimeException(
+            throw new FinisherStateException(
                 sprintf('Error in LogFinisher: Severity %s is unknown', $severity),
                 1476546610
             );
         }
 
         if (!$this->message || (!is_string($this->message) && !method_exists($this->message, '__toString'))) {
-            throw new FinisherRuntimeException(
+            throw new FinisherStateException(
                 'Error in LogFinisher: $message must be a string',
                 1476563413
             );

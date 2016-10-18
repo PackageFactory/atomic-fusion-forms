@@ -45,22 +45,6 @@ interface FormRuntimeInterface
     public function getFormState();
 
     /**
-     * Get an argument by path
-     *
-     * @param string $path
-     * @return mixed
-     */
-    public function getArgument($path);
-
-    /**
-     * Get a value by path
-     *
-     * @param string $path
-     * @return mixedn
-     */
-    public function getValue($path);
-
-    /**
      * Check, whether the form (or page) should be processed
      *
      * @return boolean

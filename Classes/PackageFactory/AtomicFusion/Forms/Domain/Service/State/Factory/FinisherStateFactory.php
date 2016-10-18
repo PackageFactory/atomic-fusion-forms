@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Factory;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -12,24 +12,26 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Factory;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\FinisherRuntime;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherState;
 use TYPO3\Flow\Http\Response;
 
 /**
- * Create finisher runtimes
+ * Create finisher states
+ *
+ * @Flow\Scope("singleton")
  */
-class FinisherRuntimeFactory
+class FinisherStateFactory
 {
     /**
-     * Create a new finisher runtime
+     * Create a new finisher state
      *
      * @param Response $parentResponse
-     * @return FinisherRuntime
+     * @return FinisherState
      */
-    public function createFinisherRuntime(Response $parentResponse)
+    public function createFinisherState(Response $parentResponse)
     {
         $response = new Response($parentResponse);
 
-        return new FinisherRuntime($response);
+        return new FinisherState($response);
     }
 }

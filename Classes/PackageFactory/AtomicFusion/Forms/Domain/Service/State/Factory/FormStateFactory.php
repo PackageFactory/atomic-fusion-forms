@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Factory;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -19,6 +19,8 @@ use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
 
 /**
  * Create form state
+ *
+ * @Flow\Scope("singleton")
  */
 class FormStateFactory
 {

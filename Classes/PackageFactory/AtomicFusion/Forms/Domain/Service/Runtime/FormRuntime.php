@@ -16,11 +16,9 @@ use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Http\Response;
 use TYPO3\Flow\Property\PropertyMappingConfiguration;
-use TYPO3\Flow\Utility\Arrays;
-use TYPO3\Flow\Reflection\ObjectAccess;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Factory\FormStateFactory;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FormStateFactory;
 use PackageFactory\AtomicFusion\Forms\Factory\PropertyMappingConfigurationFactory;
 
 /**
@@ -42,22 +40,6 @@ class FormRuntime implements FormRuntimeInterface
      * @var FormDefinitionInterface
      */
     protected $formDefinition;
-
-    /**
-	 * @var array
-	 */
-	protected $arguments;
-
-    /**
-	 * @var array
-	 */
-	protected $values;
-
-    /**
-     * @Flow\Inject
-	 * @var Result
-	 */
-	protected $validationResult;
 
 	/**
 	 * @Flow\Inject
@@ -132,11 +114,7 @@ class FormRuntime implements FormRuntimeInterface
 	protected function initializeObject()
 	{
 		$this->formState = $this->formStateFactory->createFromActionRequest($this->request);
-
-		$this->arguments = Arrays::arrayMergeRecursiveOverrule(
-			$this->formState->getArguments(),
-			$this->request->getArguments()
-		);
+		$this->formState->mergeArguments($this->request->getArguments());
 
         $this->propertyMappingConfiguration = $this->propertyMappingConfigurationFactory
 			->createTrustedPropertyMappingConfiguration(
@@ -151,28 +129,6 @@ class FormRuntime implements FormRuntimeInterface
     {
         return $this->formDefinition;
     }
-
-    /**
-     * Get an argument by path
-     *
-     * @param string $path
-     * @return mixed
-     */
-    public function getArgument($path)
-	{
-		return ObjectAccess::getPropertyPath($this->arguments, $path);
-	}
-
-    /**
-     * Get a value by path
-     *
-     * @param string $path
-     * @return mixedn
-     */
-    public function getValue($path)
-	{
-		return ObjectAccess::getPropertyPath($this->values, $path);
-	}
 
     /**
      * @inheritdoc
@@ -207,14 +163,16 @@ class FormRuntime implements FormRuntimeInterface
 
         $this->values = [];
         foreach ($fieldDefinitions as $fieldDefinition) {
-			$input = null;
+            $argument = $this->formState->getArgument($fieldDefinition->getName());
 
-			if (array_key_exists($fieldDefinition->getName(), $this->arguments)) {
-				$input = $this->arguments[$fieldDefinition->getName()];
-			}
+			$value = $this->processTask->run(
+				$this->propertyMappingConfiguration,
+				$fieldDefinition,
+				$argument,
+				$this->formState->getValidationResult()
+			);
 
-			$this->values[$fieldDefinition->getName()] = $this->processTask
-				->run($this->propertyMappingConfiguration, $fieldDefinition, $input, $this->validationResult);
+			$this->formState->addArgument($fieldDefinition->getName(), $value);
         }
     }
 
@@ -223,7 +181,7 @@ class FormRuntime implements FormRuntimeInterface
      */
 	public function shouldValidate()
 	{
-		return !$this->formState->isInitialCall() && count($this->values) > 0;
+		return !$this->formState->isInitialCall() && count($this->formState->getValues()) > 0;
 	}
 
     /**
@@ -234,13 +192,8 @@ class FormRuntime implements FormRuntimeInterface
         $fieldDefinitions = $this->getFieldDefinitionsForCurrentPage();
 
         foreach ($fieldDefinitions as $fieldDefinition) {
-            $value = null;
-
-			if (array_key_exists($fieldDefinition->getName(), $this->values)) {
-				$value = $this->values[$fieldDefinition->getName()];
-			}
-
-			$this->validateTask->run($fieldDefinition, $value, $this->validationResult);
+            $value = $this->formState->getValue($fieldDefinition->getName());
+			$this->validateTask->run($fieldDefinition, $value, $this->formState->getValidationResult());
         }
     }
 
@@ -249,7 +202,7 @@ class FormRuntime implements FormRuntimeInterface
      */
 	public function shouldRollback()
 	{
-		return $this->validationResult->hasErrors();
+		return $this->formState->getValidationResult()->hasErrors();
 	}
 
     /**
@@ -260,18 +213,19 @@ class FormRuntime implements FormRuntimeInterface
 		$fieldDefinitions = $this->getFieldDefinitionsForCurrentPage();
 
         foreach ($fieldDefinitions as $fieldDefinition) {
-			$input = null;
-			if (array_key_exists($fieldDefinition->getName(), $this->arguments)) {
-				$input = $this->arguments[$fieldDefinition->getName()];
-			}
+			$argument = $this->formState->getArgument($fieldDefinition->getName());
+			$value = $this->formState->getValue($fieldDefinition->getName());
 
-			$value = null;
-			if (array_key_exists($fieldDefinition->getName(), $this->values)) {
-				$value = $this->values[$fieldDefinition->getName()];
-			}
+			$restoredValue = $this->rollbackTask
+				->run(
+					$this->propertyMappingConfiguration,
+					$fieldDefinition,
+					$argument,
+					$value,
+					$this->formState->getValidationResult()
+				);
 
-			$this->values[$fieldDefinition->getName()] = $this->rollbackTask
-				->run($this->propertyMappingConfiguration, $fieldDefinition, $input, $value, $this->validationResult);
+			$this->formState->addValue($fieldDefinition->getName(), $restoredValue);
         }
     }
 
@@ -288,7 +242,7 @@ class FormRuntime implements FormRuntimeInterface
 			$isOnLastPage = $this->formState->getCurrentPage() === $lastPageDefinition->getName();
 		}
 
-		return !$this->formState->isInitialCall() && !$this->validationResult->hasErrors() && (
+		return !$this->formState->isInitialCall() && !$this->formState->getValidationResult()->hasErrors() && (
 			!$this->formDefinition->hasPages() || $isOnLastPage
 		);
 	}

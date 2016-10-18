@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -19,7 +19,7 @@ use TYPO3\Flow\Http\Response;
 /**
  * Method definitions for finisher runtime
  */
-interface FinisherRuntimeInterface
+interface FinisherStateInterface
 {
     /**
      * Get the response
@@ -27,7 +27,7 @@ interface FinisherRuntimeInterface
      * @return Response
      */
     public function getResponse();
-    
+
     /**
      * Get the result
      *

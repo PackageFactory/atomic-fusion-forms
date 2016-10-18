@@ -81,7 +81,7 @@ class LogFinisherTest extends FinisherTestCase
 
     /**
      * @test
-     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException
      * @expectedExceptionCode 1476546610
      */
     public function complainsIfSeverityIsInvalid()
@@ -94,7 +94,7 @@ class LogFinisherTest extends FinisherTestCase
 
     /**
      * @test
-     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException
      * @expectedExceptionCode 1476563413
      */
     public function complainsIfNonStringInputIsProvidedAsMessage()
@@ -108,7 +108,7 @@ class LogFinisherTest extends FinisherTestCase
 
     /**
      * @test
-     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException
+     * @expectedException \PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException
      * @expectedExceptionCode 1476563413
      */
     public function complainsIfMessageIsNotSet()

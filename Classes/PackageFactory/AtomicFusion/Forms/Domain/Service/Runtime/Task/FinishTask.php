@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Http\Response;
-use PackageFactory\AtomicFusion\Forms\Domain\Factory\FinisherRuntimeFactory;
+use PackageFactory\AtomicFusion\Forms\Domain\Factory\FinisherStateFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolverInterface;
 
 /**
@@ -31,22 +31,22 @@ class FinishTask implements FinishTaskInterface
 
     /**
      * @Flow\Inject
-     * @var FinisherRuntimeFactory
+     * @var FinisherStateFactory
      */
-    protected $finisherRuntimeFactory;
+    protected $finisherStateFactory;
 
     /**
      * @inheritdoc
      */
     public function run(array $finisherDefinitions, Response $parentResponse)
     {
-        $finisherRuntime = $this->finisherRuntimeFactory->createFinisherRuntime($parentResponse);
+        $finisherState = $this->finisherStateFactory->createFinisherState($parentResponse);
 
         foreach ($finisherDefinitions as $finisherDefinition) {
             $finisher = $this->finisherResolver->resolve($finisherDefinition);
-            $finisher->execute($finisherRuntime);
+            $finisher->execute($finisherState);
         }
 
-        return $finisherRuntime;
+        return $finisherState;
     }
 }

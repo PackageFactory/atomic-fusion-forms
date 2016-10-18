@@ -12,8 +12,8 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherRuntimeException;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
 
 /**
  * Finisher that adds a message to the response
@@ -38,15 +38,15 @@ class MessageFinisher implements FinisherInterface
     /**
      * @inheritdoc
      */
-    public function execute(FinisherRuntimeInterface $finisherRuntime)
+    public function execute(FinisherStateInterface $finisherState)
     {
         if (!$this->message || (!is_string($this->message) && !method_exists($this->message, '__toString'))) {
-            throw new FinisherRuntimeException(
+            throw new FinisherStateException(
                 'Error in MessageFinisher: $message must be a string',
                 1476546610
             );
         }
 
-        $finisherRuntime->getResponse()->appendContent($this->message);
+        $finisherState->getResponse()->appendContent($this->message);
     }
 }

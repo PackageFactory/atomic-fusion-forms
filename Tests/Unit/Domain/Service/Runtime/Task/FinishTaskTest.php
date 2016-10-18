@@ -5,9 +5,9 @@ use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Factory\FinisherRuntimeFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolverInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FinisherStateFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\FinishTask;
 
 class FinishTaskTest extends UnitTestCase
@@ -15,21 +15,21 @@ class FinishTaskTest extends UnitTestCase
     /**
      * @test
      */
-    public function createsFinisherRuntimeFromGivenParentRequest()
+    public function createsFinisherStateFromGivenParentRequest()
     {
         $response = $this->createMock(Response::class);
-        $finisherRuntime = $this->createMock(FinisherRuntimeInterface::class);
+        $finisherState = $this->createMock(FinisherStateInterface::class);
 
-        $finisherRuntimeFactory = $this->createMock(FinisherRuntimeFactory::class);
-        $finisherRuntimeFactory->expects($this->once())
-            ->method('createFinisherRuntime')
+        $finisherStateFactory = $this->createMock(FinisherStateFactory::class);
+        $finisherStateFactory->expects($this->once())
+            ->method('createFinisherState')
             ->with($response)
-            ->willReturn($finisherRuntime);
+            ->willReturn($finisherState);
 
         $finishTask = new FinishTask();
-        $this->inject($finishTask, 'finisherRuntimeFactory', $finisherRuntimeFactory);
+        $this->inject($finishTask, 'finisherStateFactory', $finisherStateFactory);
 
-        $this->assertSame($finisherRuntime, $finishTask->run([], $response));
+        $this->assertSame($finisherState, $finishTask->run([], $response));
     }
 
     /**
@@ -38,10 +38,10 @@ class FinishTaskTest extends UnitTestCase
     public function resolvesFinishersAccordingToGivenFinisherDefinitions()
     {
         $response = $this->createMock(Response::class);
-        $finisherRuntime = $this->createMock(FinisherRuntimeInterface::class);
+        $finisherState = $this->createMock(FinisherStateInterface::class);
 
-        $finisherRuntimeFactory = $this->createMock(FinisherRuntimeFactory::class);
-        $finisherRuntimeFactory->method('createFinisherRuntime')->willReturn($finisherRuntime);
+        $finisherStateFactory = $this->createMock(FinisherStateFactory::class);
+        $finisherStateFactory->method('createFinisherState')->willReturn($finisherState);
 
         $finisherDefinition1 = $this->createMock(FinisherDefinitionInterface::class);
         $finisherDefinition2 = $this->createMock(FinisherDefinitionInterface::class);
@@ -62,7 +62,7 @@ class FinishTaskTest extends UnitTestCase
             ->willReturn($finisher);
 
         $finishTask = new FinishTask();
-        $this->inject($finishTask, 'finisherRuntimeFactory', $finisherRuntimeFactory);
+        $this->inject($finishTask, 'finisherStateFactory', $finisherStateFactory);
         $this->inject($finishTask, 'finisherResolver', $finisherResolver);
 
         $finishTask->run([$finisherDefinition1, $finisherDefinition2], $response);
@@ -71,13 +71,13 @@ class FinishTaskTest extends UnitTestCase
     /**
      * @test
      */
-    public function executesFinishersWithCreaatedFinisherRuntime()
+    public function executesFinishersWithCreatedFinisherState()
     {
         $response = $this->createMock(Response::class);
-        $finisherRuntime = $this->createMock(FinisherRuntimeInterface::class);
+        $finisherState = $this->createMock(FinisherStateInterface::class);
 
-        $finisherRuntimeFactory = $this->createMock(FinisherRuntimeFactory::class);
-        $finisherRuntimeFactory->method('createFinisherRuntime')->willReturn($finisherRuntime);
+        $finisherStateFactory = $this->createMock(FinisherStateFactory::class);
+        $finisherStateFactory->method('createFinisherState')->willReturn($finisherState);
 
         $finisherDefinition = $this->createMock(FinisherDefinitionInterface::class);
 
@@ -94,13 +94,13 @@ class FinishTaskTest extends UnitTestCase
         //
         $finisher1->expects($this->once())
             ->method('execute')
-            ->with($this->identicalTo($finisherRuntime));
+            ->with($this->identicalTo($finisherState));
         $finisher2->expects($this->once())
             ->method('execute')
-            ->with($this->identicalTo($finisherRuntime));
+            ->with($this->identicalTo($finisherState));
 
         $finishTask = new FinishTask();
-        $this->inject($finishTask, 'finisherRuntimeFactory', $finisherRuntimeFactory);
+        $this->inject($finishTask, 'finisherStateFactory', $finisherStateFactory);
         $this->inject($finishTask, 'finisherResolver', $finisherResolver);
 
         $finishTask->run([$finisherDefinition, $finisherDefinition], $response);

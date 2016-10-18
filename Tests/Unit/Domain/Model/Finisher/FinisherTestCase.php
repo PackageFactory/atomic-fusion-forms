@@ -5,36 +5,36 @@ use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Mvc\FlashMessageContainer;
 use TYPO3\Flow\Error\Result;
 use TYPO3\Flow\Http\Response;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntimeInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 
 class __toStringClass__1476737147 { public function __toString() { return 'SomeString'; } }
 
 abstract class FinisherTestCase extends UnitTestCase
 {
-    protected $finisherRuntime = null;
+    protected $finisherState = null;
 
     /**
      * @before
      */
-    public function mockFinisherRuntime()
+    public function mockFinisherState()
     {
         $flashMessageContainer = new FlashMessageContainer();
         $result = new Result();
         $response = new Response();
 
-        $this->finisherRuntime = $this->createMock(FinisherRuntimeInterface::class);
-        $this->finisherRuntime->method('getFlashMessageContainer')->willReturn($flashMessageContainer);
-        $this->finisherRuntime->method('getResult')->willReturn($result);
-        $this->finisherRuntime->method('getResponse')->willReturn($response);
+        $this->finisherState = $this->createMock(FinisherStateInterface::class);
+        $this->finisherState->method('getFlashMessageContainer')->willReturn($flashMessageContainer);
+        $this->finisherState->method('getResult')->willReturn($result);
+        $this->finisherState->method('getResponse')->willReturn($response);
     }
 
     /**
      * @after
      */
-    public function destroyFinisherRuntime()
+    public function destroyFinisherState()
     {
-        $this->finisherRuntime = null;
+        $this->finisherState = null;
     }
 
     /**
@@ -45,7 +45,7 @@ abstract class FinisherTestCase extends UnitTestCase
      */
     protected function executeFinisher(FinisherInterface $finisher)
     {
-        $finisher->execute($this->finisherRuntime);
+        $finisher->execute($this->finisherState);
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class FinisherTestCase extends UnitTestCase
      */
     protected function assertResponseEquals($content)
     {
-        $this->assertEquals($content, $this->finisherRuntime->getResponse()->getContent());
+        $this->assertEquals($content, $this->finisherState->getResponse()->getContent());
     }
 
     /**
@@ -66,7 +66,7 @@ abstract class FinisherTestCase extends UnitTestCase
      */
     protected function assertResponseIsEmpty()
     {
-        $this->assertEquals('', $this->finisherRuntime->getResponse()->getContent());
+        $this->assertEquals('', $this->finisherState->getResponse()->getContent());
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class FinisherTestCase extends UnitTestCase
      */
     protected function assertFlashMessagesAreEmpty()
     {
-        $this->assertEquals([], $this->finisherRuntime->getFlashMessageContainer()->getMessages());
+        $this->assertEquals([], $this->finisherState->getFlashMessageContainer()->getMessages());
     }
 
     /**
@@ -87,6 +87,6 @@ abstract class FinisherTestCase extends UnitTestCase
      */
     protected function assertResultIsEmpty()
     {
-        $this->assertFalse($this->finisherRuntime->getResult()->hasMessages());
+        $this->assertFalse($this->finisherState->getResult()->hasMessages());
     }
 }

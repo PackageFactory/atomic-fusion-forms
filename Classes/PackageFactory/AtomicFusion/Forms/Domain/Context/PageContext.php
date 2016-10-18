@@ -16,9 +16,9 @@ use TYPO3\Eel\ProtectedContextAwareInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 
 /**
- * Form context for use in fusion
+ * Page context for use in fusion
  */
-class FormContext implements ProtectedContextAwareInterface
+class PageContext implements ProtectedContextAwareInterface
 {
 	/**
 	 * @var FormRuntimeInterface
@@ -26,33 +26,40 @@ class FormContext implements ProtectedContextAwareInterface
 	protected $formRuntime;
 
 	/**
+	 * @var string
+	 */
+	protected $pageName;
+
+	/**
 	 * Constructor
 	 *
 	 * @param FormRuntimeInterface $formRuntime
+	 * @param string $pageName
 	 */
-	public function __construct(FormRuntimeInterface $formRuntime)
+	public function __construct(FormRuntimeInterface $formRuntime, $pageName)
 	{
 		$this->formRuntime = $formRuntime;
+		$this->pageName = $pageName;
 	}
 
 	/**
-	 * Get the form label
+	 * Get the page label
 	 *
 	 * @return string
 	 */
 	public function getLabel()
 	{
-		return $this->formRuntime->getFormDefinition()->getLabel();
+		return $this->formRuntime->getFormDefinition()->getPageDefinition($this->pageName)->getLabel();
 	}
 
 	/**
-	 * Get the form name
+	 * Get the page name
 	 *
 	 * @return string
 	 */
 	public function getName()
 	{
-		return $this->formRuntime->getFormDefinition()->getName();
+		return $this->formRuntime->getFormDefinition()->getPageDefinition($this->pageName)->getName();
 	}
 
 	/**
@@ -68,16 +75,15 @@ class FormContext implements ProtectedContextAwareInterface
 		return new FieldContext($this->formRuntime, $pathParts[0], $path);
 	}
 
-	/**
-	 * Create a page context for the given page name
-	 *
-	 * @param string $pageName
-	 * @return PageContext
-	 */
-	public function page($pageName)
-	{
-		return new PageContext($this->formRuntime, $pageName);
-	}
+    /**
+     * Check if this represents the current page
+     *
+     * @return boolean
+     */
+    public function isCurrentPage()
+    {
+        return $this->formRuntime->getFormState()->isCurrentPage($this->pageName);
+    }
 
 	/**
      * @param string $methodName

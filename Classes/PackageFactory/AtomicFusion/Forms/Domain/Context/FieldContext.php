@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
+namespace PackageFactory\AtomicFusion\Forms\Domain\Context;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -12,76 +12,102 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service;
  */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Error\Result;
 use TYPO3\Eel\ProtectedContextAwareInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 
+/**
+ * Field context for use in fusion
+ */
 class FieldContext implements ProtectedContextAwareInterface
 {
 	/**
-	 * @var FormContext
+	 * @var FormRuntimeInterface
 	 */
-	protected $formContext;
+	protected $formRuntime;
 
 	/**
 	 * @var string
 	 */
-	protected $name;
-
-	/**
-	 * @var array
-	 */
-	protected $propertyPath = [];
+	protected $fieldName;
 
 	/**
 	 * @var string
 	 */
-	protected $argumentPropertyPath;
+	protected $propertyPath;
 
-	public function __construct(FormContext $formContext, $name, $label, array $propertyPath = [])
+	/**
+	 * Constructor
+	 *
+	 * @param FormRuntimeInterface $formRuntime
+	 * @param string $fieldName
+	 */
+	public function __construct(FormRuntimeInterface $formRuntime, $fieldName, $propertyPath)
 	{
-		$this->formContext = $formContext;
-		$this->name = $name;
-		$this->label = $label;
+		$this->formRuntime = $formRuntime;
+		$this->fieldName = $fieldName;
 		$this->propertyPath = $propertyPath;
-		$this->argumentPropertyPath = implode('.', array_merge([$this->name], $this->propertyPath));
-		$this->identifier = $formContext->getIdentifier() . '__' . str_replace('.', '_', $this->argumentPropertyPath);
 	}
 
-	public function getIdentifier()
-	{
-		return $this->identifier;
-	}
-
-	public function getName()
-	{
-		$result = $this->formContext->getArgumentNamespace();
-		$result.= sprintf('[%s]', $this->name);
-
-		if (count($this->propertyPath) > 0) {
-			$result.= sprintf('[%s]', implode('][', $this->propertyPath));
-		}
-
-		return $result;
-	}
-
+	/**
+	 * Get the field label
+	 *
+	 * @return string
+	 */
 	public function getLabel()
 	{
-		return $this->label;
+		return $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getLabel();
 	}
 
-	public function getValue()
+	/**
+	 * Get the field name
+	 *
+	 * @return string
+	 */
+	public function getName()
 	{
-		return $this->formContext->getFieldValueForPath($this->argumentPropertyPath);
+		return $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getName();
 	}
 
-	public function getHasErrors()
-	{
-		return $this->formContext->errorsExistForPath($this->argumentPropertyPath);
-	}
+    /**
+     * Get the argument
+     *
+     * @return mixed
+     */
+    public function getArgument()
+    {
+        return $this->formRuntime->getArgument($this->propertyPath);
+    }
 
-	public function getValidationResult()
-	{
-		return $this->formContext->getValidationResultForPath($this->argumentPropertyPath);
-	}
+    /**
+     * Get the value
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->formRuntime->getArgument($this->propertyPath);
+    }
+
+    /**
+     * Get the validation result
+     *
+     * @return Result
+     */
+    public function getValidationResult()
+    {
+        return $this->formRuntime->getValidationResult()->forProperty($this->propertyPath);
+    }
+
+    /**
+     * Check, if there are validation errors present for this field
+     *
+     * @return boolean
+     */
+    public function hasErrors()
+    {
+        return $this->getValidationResult()->hasErros();
+    }
 
 	/**
      * @param string $methodName
