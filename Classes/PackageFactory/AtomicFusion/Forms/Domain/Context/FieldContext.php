@@ -41,8 +41,9 @@ class FieldContext implements ProtectedContextAwareInterface
 	 *
 	 * @param FormRuntimeInterface $formRuntime
 	 * @param string $fieldName
+	 * @param string $propertyPath
 	 */
-	public function __construct(FormRuntimeInterface $formRuntime, $fieldName, $propertyPath)
+	public function __construct(FormRuntimeInterface $formRuntime, $fieldName, $propertyPath = '')
 	{
 		$this->formRuntime = $formRuntime;
 		$this->fieldName = $fieldName;
@@ -66,7 +67,14 @@ class FieldContext implements ProtectedContextAwareInterface
 	 */
 	public function getName()
 	{
-		return $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getName();
+		$name = $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getName();
+
+		if ($this->propertyPath !== '') {
+			$propertyPathParts = explode('.', $this->propertyPath);
+			return $name . '[' . implode('][', $propertyPathParts) . ']';
+		}
+
+		return $name;
 	}
 
     /**
@@ -76,7 +84,12 @@ class FieldContext implements ProtectedContextAwareInterface
      */
     public function getArgument()
     {
-        return $this->formRuntime->getArgument($this->propertyPath);
+		$finalPropertyPath = $this->fieldName;
+		if ($this->propertyPath !== '') {
+			$finalPropertyPath .= '.' . $this->propertyPath;
+		}
+
+        return $this->formRuntime->getFormState()->getArgument($finalPropertyPath);
     }
 
     /**
@@ -86,7 +99,12 @@ class FieldContext implements ProtectedContextAwareInterface
      */
     public function getValue()
     {
-        return $this->formRuntime->getArgument($this->propertyPath);
+		$finalPropertyPath = $this->fieldName;
+		if ($this->propertyPath !== '') {
+			$finalPropertyPath .= '.' . $this->propertyPath;
+		}
+
+        return $this->formRuntime->getFormState()->getValue($finalPropertyPath);
     }
 
     /**
@@ -96,7 +114,12 @@ class FieldContext implements ProtectedContextAwareInterface
      */
     public function getValidationResult()
     {
-        return $this->formRuntime->getValidationResult()->forProperty($this->propertyPath);
+		$finalPropertyPath = $this->fieldName;
+		if ($this->propertyPath !== '') {
+			$finalPropertyPath .= '.' . $this->propertyPath;
+		}
+
+        return $this->formRuntime->getFormState()->getValidationResult()->forProperty($finalPropertyPath);
     }
 
     /**
@@ -106,7 +129,7 @@ class FieldContext implements ProtectedContextAwareInterface
      */
     public function hasErrors()
     {
-        return $this->getValidationResult()->hasErros();
+        return $this->getValidationResult()->hasErrors();
     }
 
 	/**

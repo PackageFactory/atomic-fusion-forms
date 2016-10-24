@@ -19,6 +19,7 @@ use TYPO3\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FormStateFactory;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
 use PackageFactory\AtomicFusion\Forms\Factory\PropertyMappingConfigurationFactory;
 
 /**
