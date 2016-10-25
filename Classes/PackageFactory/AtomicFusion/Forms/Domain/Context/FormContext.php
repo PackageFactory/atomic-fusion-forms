@@ -25,6 +25,18 @@ class FormContext implements ProtectedContextAwareInterface
 	 */
 	protected $formRuntime;
 
+    /**
+     * @Flow\Inject
+     * @var Factory\FieldContextFactory
+     */
+    protected $fieldContextFactory;
+
+    /**
+     * @Flow\Inject
+     * @var Factory\PageContextFactory
+     */
+    protected $pageContextFactory;
+
 	/**
 	 * Constructor
 	 *
@@ -64,8 +76,9 @@ class FormContext implements ProtectedContextAwareInterface
 	public function field($path)
 	{
 		$pathParts = explode('.', $path);
+        $name = array_shift($pathParts);
 
-		return new FieldContext($this->formRuntime, $pathParts[0], $path);
+		return $this->fieldContextFactory->createFieldContext($this->formRuntime, $name, implode('.', $pathParts));
 	}
 
 	/**
@@ -76,7 +89,7 @@ class FormContext implements ProtectedContextAwareInterface
 	 */
 	public function page($pageName)
 	{
-		return new PageContext($this->formRuntime, $pageName);
+		return $this->pageContextFactory->createPageContext($this->formRuntime, $pageName);
 	}
 
 	/**

@@ -147,4 +147,20 @@ class FieldContextTest extends UnitTestCase
         $this->assertEquals(true, $fieldContext1->hasErrors());
         $this->assertEquals(false, $fieldContext2->hasErrors());
     }
+
+    /**
+     * @test
+     */
+    public function allowsCallOfRelevantMethods()
+    {
+        $formRuntime = $this->createMock(FormRuntimeInterface::class);
+        $fieldContext = new FieldContext($formRuntime, '', '');
+
+        $this->assertTrue($fieldContext->allowsCallOfMethod('getLabel'));
+        $this->assertTrue($fieldContext->allowsCallOfMethod('getName'));
+        $this->assertTrue($fieldContext->allowsCallOfMethod('getArgument'));
+        $this->assertTrue($fieldContext->allowsCallOfMethod('getValue'));
+        $this->assertTrue($fieldContext->allowsCallOfMethod('getValidationResult'));
+        $this->assertTrue($fieldContext->allowsCallOfMethod('hasErrors'));
+    }
 }
