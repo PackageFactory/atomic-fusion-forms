@@ -26,7 +26,7 @@ class FieldImplementation extends AbstractTypoScriptObject implements FieldDefin
     /**
      * Returns itself for later evaluation
      *
-     * @return FieldImplementation
+     * @return FieldDefinitionFactoryInterface
      */
     public function evaluate()
     {
