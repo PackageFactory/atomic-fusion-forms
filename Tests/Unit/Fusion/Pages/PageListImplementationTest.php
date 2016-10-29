@@ -6,9 +6,6 @@ use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\PageDefinitionMapFactoryInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\PageDefinitionFactoryInterface;
 use PackageFactory\AtomicFusion\Forms\Fusion\Pages\PageListImplementation;
 
 class PageListImplementationTest extends UnitTestCase
@@ -16,25 +13,11 @@ class PageListImplementationTest extends UnitTestCase
     /**
      * @test
      */
-    public function evaluatesToAFormDefinitionMapFactory()
-    {
-        $fusionRuntime = $this->createMock(FusionRuntime::class);
-        $pageListImplementation = new PageListImplementation($fusionRuntime, '', '');
-
-        $this->assertTrue($pageListImplementation->evaluate() instanceof PageDefinitionMapFactoryInterface);
-    }
-
-    /**
-     * @test
-     */
     public function createsListsOfPageDefinitions()
     {
         $fusionRuntime = $this->createMock(FusionRuntime::class);
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $pageListImplementation = new PageListImplementation($fusionRuntime, '', '');
 
-        $pageDefinitionFactory1 = $this->createMock(PageDefinitionFactoryInterface::class);
-        $pageDefinitionFactory2 = $this->createMock(PageDefinitionFactoryInterface::class);
         $pageDefinition1 = $this->createMock(PageDefinitionInterface::class);
         $pageDefinition2 = $this->createMock(PageDefinitionInterface::class);
 
@@ -51,19 +34,9 @@ class PageListImplementationTest extends UnitTestCase
             ->method('render')
             ->withConsecutive(['/page1'], ['/page2'])
             ->will($this->onConsecutiveCalls(
-                $pageDefinitionFactory1,
-                $pageDefinitionFactory2
+                $pageDefinition1,
+                $pageDefinition2
             ));
-
-        $pageDefinitionFactory1->expects($this->once())
-            ->method('createPageDefinition')
-            ->with($formDefinition)
-            ->willReturn($pageDefinition1);
-
-        $pageDefinitionFactory2->expects($this->once())
-            ->method('createPageDefinition')
-            ->with($formDefinition)
-            ->willReturn($pageDefinition2);
 
         $pageDefinition1->expects($this->once())
             ->method('getName')
@@ -73,7 +46,7 @@ class PageListImplementationTest extends UnitTestCase
             ->method('getName')
             ->willReturn('pageName2');
 
-        $pageDefinitionMap = $pageListImplementation->createPageDefinitionMap($formDefinition);
+        $pageDefinitionMap = $pageListImplementation->evaluate();
 
         $this->assertSame($pageDefinition1, $pageDefinitionMap['pageName1']);
         $this->assertSame($pageDefinition2, $pageDefinitionMap['pageName2']);
@@ -85,11 +58,8 @@ class PageListImplementationTest extends UnitTestCase
     public function doesNotRequireExplicitFusionObjectAssignmentsForPages()
     {
         $fusionRuntime = $this->createMock(FusionRuntime::class);
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $pageListImplementation = new PageListImplementation($fusionRuntime, '', '');
 
-        $pageDefinitionFactory1 = $this->createMock(PageDefinitionFactoryInterface::class);
-        $pageDefinitionFactory2 = $this->createMock(PageDefinitionFactoryInterface::class);
         $pageDefinition1 = $this->createMock(PageDefinitionInterface::class);
         $pageDefinition2 = $this->createMock(PageDefinitionInterface::class);
 
@@ -105,19 +75,9 @@ class PageListImplementationTest extends UnitTestCase
                 ['/page2<PackageFactory.AtomicFusion.Forms:Page>']
             )
             ->will($this->onConsecutiveCalls(
-                $pageDefinitionFactory1,
-                $pageDefinitionFactory2
+                $pageDefinition1,
+                $pageDefinition2
             ));
-
-        $pageDefinitionFactory1->expects($this->once())
-            ->method('createPageDefinition')
-            ->with($formDefinition)
-            ->willReturn($pageDefinition1);
-
-        $pageDefinitionFactory2->expects($this->once())
-            ->method('createPageDefinition')
-            ->with($formDefinition)
-            ->willReturn($pageDefinition2);
 
         $pageDefinition1->expects($this->once())
             ->method('getName')
@@ -127,7 +87,7 @@ class PageListImplementationTest extends UnitTestCase
             ->method('getName')
             ->willReturn('pageName2');
 
-        $pageDefinitionMap = $pageListImplementation->createPageDefinitionMap($formDefinition);
+        $pageDefinitionMap = $pageListImplementation->evaluate();
 
         $this->assertSame($pageDefinition1, $pageDefinitionMap['pageName1']);
         $this->assertSame($pageDefinition2, $pageDefinitionMap['pageName2']);

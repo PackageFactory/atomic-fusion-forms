@@ -13,37 +13,25 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Pages;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractArrayTypoScriptObject;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\PageDefinitionFactoryInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\PageDefinitionMapFactoryInterface;
 
 /**
  * Fusion object to create lists of page definitions
  */
-class PageListImplementation extends AbstractArrayTypoScriptObject implements PageDefinitionMapFactoryInterface
+class PageListImplementation extends AbstractArrayTypoScriptObject
 {
     /**
      * Returns itself for later evaluation
      *
-     * @return PageDefinitionMapFactoryInterface
+     * @return array<PageDefinitionInterface>
      */
     public function evaluate()
-    {
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function createPageDefinitionMap(FormDefinitionInterface $formDefinition)
     {
         $result = [];
 
         foreach ($this->properties as $key => $configuration) {
-            $pageDefinitionFactory = $this->renderPageDefinitionFactory($key, $configuration);
-            $pageDefinition = $pageDefinitionFactory->createPageDefinition($formDefinition);
+            $pageDefinition = $this->renderPageDefinition($key, $configuration);
 
             $result[$pageDefinition->getName()] = $pageDefinition;
         }
@@ -52,13 +40,13 @@ class PageListImplementation extends AbstractArrayTypoScriptObject implements Pa
     }
 
     /**
-     * Render a single form page definition factory
+     * Render a single form page definition
      *
      * @param string $key
      * @param array $configuration
-     * @return PageDefinitionFactoryInterface
+     * @return PageDefinitionInterface
      */
-    protected function renderPageDefinitionFactory($key, $configuration)
+    protected function renderPageDefinition($key, $configuration)
     {
         if (isset($configuration['__objectType'])) {
             return $this->tsRuntime->render(

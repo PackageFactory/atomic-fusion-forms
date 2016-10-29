@@ -13,39 +13,27 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Fields;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionFactoryInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionMapFactoryInterface;
 
 /**
  * Fusion object to create field definitions from collections
  */
-class FieldCollectionImplementation extends AbstractTypoScriptObject implements FieldDefinitionMapFactoryInterface
+class FieldCollectionImplementation extends AbstractTypoScriptObject
 {
     /**
      * Returns itself for later evaluation
      *
-     * @return FieldDefinitionMapFactoryInterface
+     * @return array<FieldDefinitionInterface>
      */
     public function evaluate()
-    {
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function createFieldDefinitionMap(FormDefinitionInterface $formDefinition)
     {
         $result = [];
         $collection = $this->tsValue('collection');
         $itemName = $this->tsValue('itemName');
 
         foreach ($collection as $item) {
-            $fieldDefinitionFactory = $this->renderFieldDefinitionFactory($itemName, $item);
-            $fieldDefinition = $fieldDefinitionFactory->createFieldDefinition($formDefinition);
+            $fieldDefinition = $this->renderFieldDefinition($itemName, $item);
 
             $result[$fieldDefinition->getName()] = $fieldDefinition;
         }
@@ -54,22 +42,22 @@ class FieldCollectionImplementation extends AbstractTypoScriptObject implements 
     }
 
     /**
-     * Render a single form field definition factory
+     * Render a single form field definition
      *
      * @param string $itemName
      * @param mixed $item
-     * @return FieldDefinitionFactoryInterface
+     * @return FieldDefinitionInterface
      */
-    protected function renderFieldDefinitionFactory($itemName, $item)
+    protected function renderFieldDefinition($itemName, $item)
     {
         $this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
             $itemName => $item
         ]);
 
-        $fieldDefinitionFactory = $this->tsRuntime->evaluate(sprintf('%s/fieldRenderer', $this->path), $this);
+        $fieldDefinition = $this->tsRuntime->evaluate(sprintf('%s/fieldRenderer', $this->path), $this);
 
         $this->tsRuntime->popContext();
 
-        return $fieldDefinitionFactory;
+        return $fieldDefinition;
     }
 }

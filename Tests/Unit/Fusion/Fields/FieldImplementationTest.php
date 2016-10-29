@@ -6,8 +6,6 @@ use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionFactoryInterface;
 use PackageFactory\AtomicFusion\Forms\Fusion\Fields\FieldImplementation;
 
 class FieldImplementationTest extends UnitTestCase
@@ -15,22 +13,10 @@ class FieldImplementationTest extends UnitTestCase
     /**
      * @test
      */
-    public function evaluatesToAFormDefinitionFactory()
-    {
-        $fusionRuntime = $this->createMock(FusionRuntime::class);
-        $fieldImplementation = new FieldImplementation($fusionRuntime, '', '');
-
-        $this->assertTrue($fieldImplementation->evaluate() instanceof FieldDefinitionFactoryInterface);
-    }
-
-    /**
-     * @test
-     */
     public function createsFieldDefinitions()
     {
         $fusionRuntime = $this->createMock(FusionRuntime::class);
         $fieldImplementation = new FieldImplementation($fusionRuntime, '', '');
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $processorDefinition = $this->createMock(ProcessorDefinitionInterface::class);
         $validatorDefinition = $this->createMock(ValidatorDefinitionInterface::class);
         $validatorDefinition->method('getName')->willReturn('Validator');
@@ -54,7 +40,7 @@ class FieldImplementationTest extends UnitTestCase
                 [$validatorDefinition]
             ));
 
-        $fieldDefinition = $fieldImplementation->createFieldDefinition($formDefinition);
+        $fieldDefinition = $fieldImplementation->evaluate();
 
         $this->assertTrue($fieldDefinition instanceof FieldDefinitionInterface);
         $this->assertEquals('SomeLabel', $fieldDefinition->getLabel());

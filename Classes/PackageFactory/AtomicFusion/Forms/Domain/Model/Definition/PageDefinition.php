@@ -41,10 +41,9 @@ class PageDefinition implements PageDefinitionInterface
      * @param array $fusionConfiguration
      * @param FormDefinitionInterface $formDefinition
      */
-    public function __construct(array $fusionConfiguration, FormDefinitionInterface $formDefinition)
+    public function __construct(array $fusionConfiguration)
     {
         $this->fusionConfiguration = $fusionConfiguration;
-        $this->formDefinition = $formDefinition;
     }
 
     /**
@@ -101,6 +100,14 @@ class PageDefinition implements PageDefinitionInterface
             sprintf('Could not find field definition for `%s` in page `%s`', $name, $this->getName()),
             1476537396
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setFormDefinition(FormDefinitionInterface $formDefinition)
+    {
+        $this->formDefinition = $formDefinition;
     }
 
     /**

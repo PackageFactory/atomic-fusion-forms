@@ -51,6 +51,24 @@ class FormContextTest extends UnitTestCase
     /**
      * @test
      */
+    public function deliversAction()
+    {
+        $formRuntime = $this->createMock(FormRuntimeInterface::class);
+        $formDefinition = $this->createMock(FormDefinitionInterface::class);
+
+        $formRuntime->expects($this->once())->method('getFormDefinition')->willReturn($formDefinition);
+        $formDefinition->expects($this->once())
+            ->method('getAction')
+            ->willReturn('TheAction');
+
+        $formContext = new FormContext($formRuntime);
+
+        $this->assertEquals('TheAction', $formContext->getAction());
+    }
+
+    /**
+     * @test
+     */
     public function createsFieldContextForProperty()
     {
         $fieldContextFactory = $this->createMock(FieldContextFactory::class);

@@ -37,6 +37,18 @@ class FormDefinitionTest extends UnitTestCase
     /**
      * @test
      */
+    public function deliversAction()
+    {
+        $formDefinition = new FormDefinition([
+            'action' => 'SomeAction'
+        ]);
+
+        $this->assertEquals('SomeAction', $formDefinition->getAction());
+    }
+
+    /**
+     * @test
+     */
     public function deliversAllFieldDefinitions()
     {
         $formDefinition = new FormDefinition([

@@ -13,30 +13,20 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Fields;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionFactoryInterface;
 
 /**
  * Fusion object to create field definitions
  */
-class FieldImplementation extends AbstractTypoScriptObject implements FieldDefinitionFactoryInterface
+class FieldImplementation extends AbstractTypoScriptObject
 {
     /**
      * Returns itself for later evaluation
      *
-     * @return FieldDefinitionFactoryInterface
+     * @return FieldDefinitionInterface
      */
     public function evaluate()
-    {
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function createFieldDefinition(FormDefinitionInterface $formDefinition)
     {
         $fusionConfiguration = [
             'label' => $this->tsValue('label'),
@@ -48,7 +38,7 @@ class FieldImplementation extends AbstractTypoScriptObject implements FieldDefin
         $processorDefinition = $this->tsValue('processor');
         $validatorDefinitions = $this->tsValue('validators');
 
-        $fieldDefinition = new FieldDefinition($fusionConfiguration, $formDefinition);
+        $fieldDefinition = new FieldDefinition($fusionConfiguration);
         $fieldDefinition->setProcessorDefinition($processorDefinition);
 
         foreach ($validatorDefinitions as $validatorDefinition) {

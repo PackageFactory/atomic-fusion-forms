@@ -6,9 +6,6 @@ use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionMapFactoryInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionFactoryInterface;
 use PackageFactory\AtomicFusion\Forms\Fusion\Fields\FieldCollectionImplementation;
 
 class FieldCollectionImplementationTest extends UnitTestCase
@@ -16,25 +13,11 @@ class FieldCollectionImplementationTest extends UnitTestCase
     /**
      * @test
      */
-    public function evaluatesToAFormDefinitionMapFactory()
-    {
-        $fusionRuntime = $this->createMock(FusionRuntime::class);
-        $fieldListImplementation = new FieldCollectionImplementation($fusionRuntime, '', '');
-
-        $this->assertTrue($fieldListImplementation->evaluate() instanceof FieldDefinitionMapFactoryInterface);
-    }
-
-    /**
-     * @test
-     */
     public function createsListsOfFieldDefinitions()
     {
         $fusionRuntime = $this->createMock(FusionRuntime::class);
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $fieldListImplementation = new FieldCollectionImplementation($fusionRuntime, '', '');
 
-        $fieldDefinitionFactory1 = $this->createMock(FieldDefinitionFactoryInterface::class);
-        $fieldDefinitionFactory2 = $this->createMock(FieldDefinitionFactoryInterface::class);
         $fieldDefinition1 = $this->createMock(FieldDefinitionInterface::class);
         $fieldDefinition2 = $this->createMock(FieldDefinitionInterface::class);
 
@@ -51,8 +34,8 @@ class FieldCollectionImplementationTest extends UnitTestCase
             ->will($this->onConsecutiveCalls(
                 ['Item1', 'Item2'],
                 'TheItemName',
-                $fieldDefinitionFactory1,
-                $fieldDefinitionFactory2
+                $fieldDefinition1,
+                $fieldDefinition2
             ));
 
         $fusionRuntime->expects($this->exactly(2))
@@ -64,16 +47,6 @@ class FieldCollectionImplementationTest extends UnitTestCase
 
         $fusionRuntime->expects($this->exactly(2))->method('popContext');
 
-        $fieldDefinitionFactory1->expects($this->once())
-            ->method('createFieldDefinition')
-            ->with($formDefinition)
-            ->willReturn($fieldDefinition1);
-
-        $fieldDefinitionFactory2->expects($this->once())
-            ->method('createFieldDefinition')
-            ->with($formDefinition)
-            ->willReturn($fieldDefinition2);
-
         $fieldDefinition1->expects($this->once())
             ->method('getName')
             ->willReturn('fieldName1');
@@ -82,7 +55,7 @@ class FieldCollectionImplementationTest extends UnitTestCase
             ->method('getName')
             ->willReturn('fieldName2');
 
-        $fieldDefinitionMap = $fieldListImplementation->createFieldDefinitionMap($formDefinition);
+        $fieldDefinitionMap = $fieldListImplementation->evaluate();
 
         $this->assertSame($fieldDefinition1, $fieldDefinitionMap['fieldName1']);
         $this->assertSame($fieldDefinition2, $fieldDefinitionMap['fieldName2']);

@@ -46,10 +46,9 @@ class FieldDefinition implements FieldDefinitionInterface
      * @param array $fusionConfiguration
      * @param FormDefinitionInterface $formDefinition
      */
-    public function __construct(array $fusionConfiguration, FormDefinitionInterface $formDefinition)
+    public function __construct(array $fusionConfiguration)
     {
         $this->fusionConfiguration = $fusionConfiguration;
-        $this->formDefinition = $formDefinition;
     }
 
     /**
@@ -135,6 +134,14 @@ class FieldDefinition implements FieldDefinitionInterface
             sprintf('Could not find validator definition for `%s` in field `%s`', $name, $this->getName()),
             1476539849
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setFormDefinition(FormDefinitionInterface $formDefinition)
+    {
+        $this->formDefinition = $formDefinition;
     }
 
     /**

@@ -15,10 +15,7 @@ class FieldDefinitionTest extends UnitTestCase
      */
     public function deliversLabel()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-        $fieldDefinition = new FieldDefinition([
-            'label' => 'SomeLabel'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition(['label' => 'SomeLabel']);
 
         $this->assertEquals('SomeLabel', $fieldDefinition->getLabel());
     }
@@ -28,10 +25,7 @@ class FieldDefinitionTest extends UnitTestCase
      */
     public function deliversName()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-        $fieldDefinition = new FieldDefinition([
-            'name' => 'SomeName'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition(['name' => 'SomeName']);
 
         $this->assertEquals('SomeName', $fieldDefinition->getName());
     }
@@ -41,10 +35,7 @@ class FieldDefinitionTest extends UnitTestCase
      */
     public function deliversType()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-        $fieldDefinition = new FieldDefinition([
-            'type' => 'SomeType'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition(['type' => 'SomeType']);
 
         $this->assertEquals('SomeType', $fieldDefinition->getType());
     }
@@ -54,10 +45,7 @@ class FieldDefinitionTest extends UnitTestCase
      */
     public function deliversPage()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-        $fieldDefinition = new FieldDefinition([
-            'page' => 'SomePage'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition(['page' => 'SomePage']);
 
         $this->assertEquals('SomePage', $fieldDefinition->getPage());
     }
@@ -67,11 +55,8 @@ class FieldDefinitionTest extends UnitTestCase
      */
     public function deliversProcessorDefinition()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $processorDefinition = $this->createMock(ProcessorDefinitionInterface::class);
-        $fieldDefinition = new FieldDefinition([
-            'page' => 'SomePage'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition([]);
 
         $fieldDefinition->setProcessorDefinition($processorDefinition);
 
@@ -83,8 +68,6 @@ class FieldDefinitionTest extends UnitTestCase
      */
     public function deliversAllValidatorDefinitions()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-
         $validatorDefinition1 = $this->createMock(ValidatorDefinitionInterface::class);
         $validatorDefinition1->method('getName')->willReturn('ValidatorDefinition1');
         $validatorDefinition2 = $this->createMock(ValidatorDefinitionInterface::class);
@@ -92,9 +75,7 @@ class FieldDefinitionTest extends UnitTestCase
         $validatorDefinition3 = $this->createMock(ValidatorDefinitionInterface::class);
         $validatorDefinition3->method('getName')->willReturn('ValidatorDefinition3');
 
-        $fieldDefinition = new FieldDefinition([
-            'page' => 'SomePage'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition([]);
 
         $fieldDefinition->addValidatorDefinition($validatorDefinition1);
         $fieldDefinition->addValidatorDefinition($validatorDefinition2);
@@ -112,8 +93,6 @@ class FieldDefinitionTest extends UnitTestCase
      */
     public function deliversSingleValidatorDefinition()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-
         $validatorDefinition1 = $this->createMock(ValidatorDefinitionInterface::class);
         $validatorDefinition1->method('getName')->willReturn('ValidatorDefinition1');
         $validatorDefinition2 = $this->createMock(ValidatorDefinitionInterface::class);
@@ -121,9 +100,7 @@ class FieldDefinitionTest extends UnitTestCase
         $validatorDefinition3 = $this->createMock(ValidatorDefinitionInterface::class);
         $validatorDefinition3->method('getName')->willReturn('ValidatorDefinition3');
 
-        $fieldDefinition = new FieldDefinition([
-            'page' => 'SomePage'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition([]);
 
         $fieldDefinition->addValidatorDefinition($validatorDefinition1);
         $fieldDefinition->addValidatorDefinition($validatorDefinition2);
@@ -144,11 +121,7 @@ class FieldDefinitionTest extends UnitTestCase
      */
     public function complainsIfTheRequestedValidatorDefinitionDoesNotExist()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-
-        $fieldDefinition = new FieldDefinition([
-            'page' => 'SomePage'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition([]);
 
         $fieldDefinition->getValidatorDefinition('NonExistentValidatorDefinition');
     }
@@ -159,9 +132,9 @@ class FieldDefinitionTest extends UnitTestCase
     public function deliversFormDefinition()
     {
         $formDefinition = $this->createMock(FormDefinitionInterface::class);
-        $fieldDefinition = new FieldDefinition([
-            'page' => 'SomePage'
-        ], $formDefinition);
+        $fieldDefinition = new FieldDefinition([]);
+
+        $fieldDefinition->setFormDefinition($formDefinition);
 
         $this->assertEquals($formDefinition, $fieldDefinition->getFormDefinition());
     }

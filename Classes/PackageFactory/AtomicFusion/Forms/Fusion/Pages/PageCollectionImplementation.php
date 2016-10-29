@@ -13,39 +13,27 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Pages;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\PageDefinitionFactoryInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\PageDefinitionMapFactoryInterface;
 
 /**
  * Fusion object to create page definitions from collections
  */
-class PageCollectionImplementation extends AbstractTypoScriptObject implements PageDefinitionMapFactoryInterface
+class PageCollectionImplementation extends AbstractTypoScriptObject
 {
     /**
      * Returns itself for later evaluation
      *
-     * @return PageDefinitionMapFactoryInterface
+     * @return array<PageDefinitionInterface>
      */
     public function evaluate()
-    {
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function createPageDefinitionMap(FormDefinitionInterface $formDefinition)
     {
         $result = [];
         $collection = $this->tsValue('collection');
         $itemName = $this->tsValue('itemName');
 
         foreach ($collection as $item) {
-            $pageDefinitionFactory = $this->renderPageDefinitionFactory($itemName, $item);
-            $pageDefinition = $pageDefinitionFactory->createPageDefinition($formDefinition);
+            $pageDefinition = $this->renderPageDefinition($itemName, $item);
 
             $result[$pageDefinition->getName()] = $pageDefinition;
         }
@@ -54,13 +42,13 @@ class PageCollectionImplementation extends AbstractTypoScriptObject implements P
     }
 
     /**
-     * Render a single form page definition factory
+     * Render a single form page definition
      *
      * @param string $itemName
      * @param mixed $item
-     * @return PageDefinitionFactoryInterface
+     * @return PageDefinitionInterface
      */
-    protected function renderPageDefinitionFactory($itemName, $item)
+    protected function renderPageDefinition($itemName, $item)
     {
         $this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
             $itemName => $item

@@ -14,10 +14,7 @@ class PageDefinitionTest extends UnitTestCase
      */
     public function deliversLabel()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-        $pageDefinition = new PageDefinition([
-            'label' => 'SomeLabel'
-        ], $formDefinition);
+        $pageDefinition = new PageDefinition(['label' => 'SomeLabel']);
 
         $this->assertEquals('SomeLabel', $pageDefinition->getLabel());
     }
@@ -27,10 +24,7 @@ class PageDefinitionTest extends UnitTestCase
      */
     public function deliversName()
     {
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
-        $pageDefinition = new PageDefinition([
-            'name' => 'SomeName'
-        ], $formDefinition);
+        $pageDefinition = new PageDefinition(['name' => 'SomeName']);
 
         $this->assertEquals('SomeName', $pageDefinition->getName());
     }
@@ -41,7 +35,9 @@ class PageDefinitionTest extends UnitTestCase
     public function deliversFormDefinition()
     {
         $formDefinition = $this->createMock(FormDefinitionInterface::class);
-        $pageDefinition = new PageDefinition([], $formDefinition);
+        $pageDefinition = new PageDefinition([]);
+
+        $pageDefinition->setFormDefinition($formDefinition);
 
         $this->assertEquals($formDefinition, $pageDefinition->getFormDefinition());
     }
@@ -79,7 +75,9 @@ class PageDefinitionTest extends UnitTestCase
 
         $pageDefinition = new PageDefinition([
             'name' => 'ThePageDefinition'
-        ], $formDefinition);
+        ]);
+
+        $pageDefinition->setFormDefinition($formDefinition);
 
         $this->assertEquals([
             'DomesticFieldDefinition1' => $domesticFieldDefinition1,
@@ -121,7 +119,9 @@ class PageDefinitionTest extends UnitTestCase
 
         $pageDefinition = new PageDefinition([
             'name' => 'ThePageDefinition'
-        ], $formDefinition);
+        ]);
+
+        $pageDefinition->setFormDefinition($formDefinition);
 
         $this->assertEquals('DomesticFieldDefinition1',
             $pageDefinition->getFieldDefinition('DomesticFieldDefinition1')->getName());
@@ -150,7 +150,9 @@ class PageDefinitionTest extends UnitTestCase
 
         $pageDefinition = new PageDefinition([
             'name' => 'ThePageDefinition'
-        ], $formDefinition);
+        ]);
+
+        $pageDefinition->setFormDefinition($formDefinition);
 
         $pageDefinition->getFieldDefinition('ForeignFieldDefinition');
     }
@@ -168,7 +170,9 @@ class PageDefinitionTest extends UnitTestCase
 
         $pageDefinition = new PageDefinition([
             'name' => 'ThePageDefinition'
-        ], $formDefinition);
+        ]);
+
+        $pageDefinition->setFormDefinition($formDefinition);
 
         $pageDefinition->getFieldDefinition('ForeignFieldDefinition');
     }

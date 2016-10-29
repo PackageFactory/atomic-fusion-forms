@@ -13,37 +13,25 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Fields;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractArrayTypoScriptObject;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionFactoryInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionMapFactoryInterface;
 
 /**
  * Fusion object to create lists field definitions
  */
-class FieldListImplementation extends AbstractArrayTypoScriptObject implements FieldDefinitionMapFactoryInterface
+class FieldListImplementation extends AbstractArrayTypoScriptObject
 {
     /**
      * Returns itself for later evaluation
      *
-     * @return FieldDefinitionMapFactoryInterface
+     * @return array<FieldDefinitionInterface>
      */
     public function evaluate()
-    {
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function createFieldDefinitionMap(FormDefinitionInterface $formDefinition)
     {
         $result = [];
 
         foreach ($this->properties as $key => $configuration) {
-            $fieldDefinitionFactory = $this->renderFieldDefinitionFactory($key, $configuration);
-            $fieldDefinition = $fieldDefinitionFactory->createFieldDefinition($formDefinition);
+            $fieldDefinition = $this->renderFieldDefinition($key, $configuration);
 
             $result[$fieldDefinition->getName()] = $fieldDefinition;
         }
@@ -52,13 +40,13 @@ class FieldListImplementation extends AbstractArrayTypoScriptObject implements F
     }
 
     /**
-     * Render a single form field definition factory
+     * Render a single form field definition
      *
      * @param string $key
      * @param array $configuration
-     * @return FieldDefinitionFactoryInterface
+     * @return FieldDefinitionInterface
      */
-    protected function renderFieldDefinitionFactory($key, $configuration)
+    protected function renderFieldDefinition($key, $configuration)
     {
         if (isset($configuration['__objectType'])) {
             return $this->tsRuntime->render(

@@ -13,15 +13,13 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Pages;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\PageDefinitionFactoryInterface;
 
 /**
  * Fusion object to create field definitions
  */
-class PageImplementation extends AbstractTypoScriptObject implements PageDefinitionFactoryInterface
+class PageImplementation extends AbstractTypoScriptObject
 {
     /**
      * Returns itself for later evaluation
@@ -30,19 +28,11 @@ class PageImplementation extends AbstractTypoScriptObject implements PageDefinit
      */
     public function evaluate()
     {
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function createPageDefinition(FormDefinitionInterface $formDefinition)
-    {
         $fusionConfiguration = [
             'label' => $this->tsValue('label'),
             'name' => $this->tsValue('name')
         ];
 
-        return new PageDefinition($fusionConfiguration, $formDefinition);
+        return new PageDefinition($fusionConfiguration);
     }
 }

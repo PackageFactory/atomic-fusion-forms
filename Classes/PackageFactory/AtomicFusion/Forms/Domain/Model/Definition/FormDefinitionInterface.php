@@ -34,6 +34,13 @@ interface FormDefinitionInterface
     public function getName();
 
     /**
+     * Get the form action
+     *
+     * @return string
+     */
+    public function getAction();
+
+    /**
      * Get the field definitions of this form
      *
      * @return array<FieldDefinitionInterface>
@@ -80,6 +87,15 @@ interface FormDefinitionInterface
      * @throws DefinitionException when no page can be found under the given name
      */
     public function getPageDefinition($name);
+
+    /**
+     * Get the next page relative to the given page
+     *
+     * @param string $currentPage
+     * @return string
+     * @throws DefinitionException when no page can be found under the given name
+     */
+    public function getNextPage($currentPage);
 
     /**
      * Check if this form has pages

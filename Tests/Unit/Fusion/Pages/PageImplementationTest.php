@@ -6,8 +6,6 @@ use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\PageDefinitionFactoryInterface;
 use PackageFactory\AtomicFusion\Forms\Fusion\Pages\PageImplementation;
 
 class PageImplementationTest extends UnitTestCase
@@ -15,22 +13,10 @@ class PageImplementationTest extends UnitTestCase
     /**
      * @test
      */
-    public function evaluatesToAFormDefinitionFactory()
-    {
-        $fusionRuntime = $this->createMock(FusionRuntime::class);
-        $pageImplementation = new PageImplementation($fusionRuntime, '', '');
-
-        $this->assertTrue($pageImplementation->evaluate() instanceof PageDefinitionFactoryInterface);
-    }
-
-    /**
-     * @test
-     */
     public function createsPageDefinitions()
     {
         $fusionRuntime = $this->createMock(FusionRuntime::class);
         $pageImplementation = new PageImplementation($fusionRuntime, '', '');
-        $formDefinition = $this->createMock(FormDefinitionInterface::class);
 
         $fusionRuntime->expects($this->exactly(2))
             ->method('evaluate')
@@ -43,7 +29,7 @@ class PageImplementationTest extends UnitTestCase
                 'SomeName'
             ));
 
-        $pageDefinition = $pageImplementation->createPageDefinition($formDefinition);
+        $pageDefinition = $pageImplementation->evaluate();
 
         $this->assertTrue($pageDefinition instanceof PageDefinitionInterface);
         $this->assertEquals('SomeLabel', $pageDefinition->getLabel());

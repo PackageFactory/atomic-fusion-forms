@@ -68,6 +68,16 @@ class FormContext implements ProtectedContextAwareInterface
 	}
 
 	/**
+	 * Get the form action
+	 *
+	 * @return string
+	 */
+	public function getAction()
+	{
+		return $this->formRuntime->getFormDefinition()->getAction();
+	}
+
+	/**
 	 * Create a field context for the given path
 	 *
 	 * @param string $path

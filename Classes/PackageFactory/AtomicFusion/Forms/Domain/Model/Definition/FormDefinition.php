@@ -67,6 +67,14 @@ class FormDefinition implements FormDefinitionInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getAction()
+    {
+        return Arrays::getValueByPath($this->fusionConfiguration, 'action');
+    }
+
+    /**
      * Add a new field definition
      *
      * @param FieldDefinitionInterface $fieldDefinition
@@ -180,6 +188,26 @@ class FormDefinition implements FormDefinitionInterface
             sprintf('Could not find page definition for `%s` in form `%s`', $name, $this->getName()),
             1476536979
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getNextPage($currentPage)
+    {
+        if (!array_key_exists($name, $this->pageDefinitions)) {
+            throw new DefinitionException(
+                sprintf('Could not find page definition for `%s` in form `%s`', $name, $this->getName()),
+                1477775697
+            );
+        }
+
+        $pageNames = array_keys($this->pageDefinitions);
+        $currentPosition = array_search($currentPage, $pageNames);
+
+        if (array_key_exists($currentPosition + 1, $pageNames)) {
+            return $pageNames[$currentPosition + 1];
+        }
     }
 
     /**
