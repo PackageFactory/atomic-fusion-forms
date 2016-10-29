@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Fields;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\TypoScript\TypoScriptObjects\AbstractArrayTypoScriptObject;
+use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
@@ -20,9 +20,9 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefin
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FieldDefinitionMapFactoryInterface;
 
 /**
- * Fusion object to create lists field definitions
+ * Fusion object to create field definitions from collections
  */
-class FieldListImplementation extends AbstractArrayTypoScriptObject implements FieldDefinitionMapFactoryInterface
+class FieldCollectionImplementation extends AbstractTypoScriptObject implements FieldDefinitionMapFactoryInterface
 {
     /**
      * Returns itself for later evaluation
@@ -40,9 +40,11 @@ class FieldListImplementation extends AbstractArrayTypoScriptObject implements F
     public function createFieldDefinitionMap(FormDefinitionInterface $formDefinition)
     {
         $result = [];
+        $collection = $this->tsValue('collection');
+        $itemName = $this->tsValue('itemName');
 
-        foreach ($this->properties as $key => $configuration) {
-            $fieldDefinitionFactory = $this->renderFieldDefinitionFactory($key, $configuration);
+        foreach ($collection as $item) {
+            $fieldDefinitionFactory = $this->renderFieldDefinitionFactory($itemName, $item);
             $fieldDefinition = $fieldDefinitionFactory->createFieldDefinition($formDefinition);
 
             $result[$fieldDefinition->getName()] = $fieldDefinition;
@@ -54,20 +56,20 @@ class FieldListImplementation extends AbstractArrayTypoScriptObject implements F
     /**
      * Render a single form field definition factory
      *
-     * @param string $key
-     * @param array $configuration
+     * @param string $itemName
+     * @param mixed $item
      * @return FieldDefinitionFactoryInterface
      */
-    protected function renderFieldDefinitionFactory($key, $configuration)
+    protected function renderFieldDefinitionFactory($itemName, $item)
     {
-        if (isset($configuration['__objectType'])) {
-            return $this->tsRuntime->render(
-                sprintf('%s/%s', $this->path, $key)
-            );
-        }
+        $this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
+            $itemName => $item
+        ]);
 
-        return $this->tsRuntime->render(
-            sprintf('%s/%s<PackageFactory.AtomicFusion.Forms:Field>', $this->path, $key)
-        );
+        $fieldDefinitionFactory = $this->tsRuntime->evaluate(sprintf('%s/fieldRenderer', $this->path), $this);
+
+        $this->tsRuntime->popContext();
+
+        return $fieldDefinitionFactory;
     }
 }
