@@ -78,7 +78,7 @@ class ProcessorImplementationTest extends UnitTestCase
      * @expectedException PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException
      * @expectedExceptionCode 1477741130
      */
-    public function complainsIfImplementationClassNameDoesNotExist()
+    public function complainsIfImplementationClassDoesNotExist()
     {
         $fusionRuntime = $this->createMock(FusionRuntime::class);
         $processorImplementation = new ProcessorImplementation(
@@ -99,7 +99,7 @@ class ProcessorImplementationTest extends UnitTestCase
      * @expectedException PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException
      * @expectedExceptionCode 1477741143
      */
-    public function complainsIfImplementationClassNameIsOfWrongType()
+    public function complainsIfImplementationClassIsOfWrongType()
     {
         $fusionRuntime = $this->createMock(FusionRuntime::class);
         $processorImplementation = new ProcessorImplementation(
