@@ -3,6 +3,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime;
 
 use TYPO3\Flow\Tests\UnitTestCase;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
+use TYPO3\Flow\Error\Result;
 
 interface __getterStub__1476736746 {
 	public function getTest1();
@@ -30,6 +31,50 @@ class FormStateTest extends UnitTestCase
             'Argument3'
         ], $formState->getArguments());
     }
+
+	/**
+     * @test
+     */
+	public function shouldAddSingleArgumentToArguments()
+	{
+		$formState = new FormState();
+
+		$formState->addArgument('TheKey', 'TheArgument');
+
+		$this->assertEquals(['TheKey' => 'TheArgument'], $formState->getArguments());
+	}
+
+    /**
+     * @test
+     */
+    public function deliversValues()
+    {
+        $formState = new FormState();
+
+        $formState->setValues([
+            'Value1',
+            'Value2',
+            'Value3'
+        ]);
+
+        $this->assertEquals([
+            'Value1',
+            'Value2',
+            'Value3'
+        ], $formState->getValues());
+    }
+
+	/**
+     * @test
+     */
+	public function shouldAddSingleValueToValues()
+	{
+		$formState = new FormState();
+
+		$formState->addValue('TheKey', 'TheValue');
+
+		$this->assertEquals(['TheKey' => 'TheValue'], $formState->getValues());
+	}
 
     /**
      * @test
@@ -126,6 +171,19 @@ class FormStateTest extends UnitTestCase
         $this->assertEquals($stub2, $formState->getValue('nested.test1'));
         $this->assertEquals('Test3', $formState->getValue('nested.test1.test2'));
     }
+
+	/**
+	 * @test
+	 */
+	public function deliversValidationResult()
+	{
+		$formState = new FormState();
+		$validationResult = $this->createMock(Result::class);
+
+		$this->inject($formState, 'validationResult', $validationResult);
+
+		$this->assertSame($validationResult, $formState->getValidationResult());
+	}
 
 	/**
      * @test

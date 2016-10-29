@@ -60,7 +60,7 @@ class FormState implements FormStateInterface
      */
     public function addArgument($name, $value)
     {
-
+		$this->arguments[$name] = $value;
     }
 
 	/**
@@ -103,7 +103,7 @@ class FormState implements FormStateInterface
      */
     public function addValue($name, $value)
     {
-
+		$this->values[$name] = $value;
     }
 
     /**
@@ -111,7 +111,7 @@ class FormState implements FormStateInterface
      */
     public function getValues()
     {
-
+		return $this->values;
     }
 
     /**
