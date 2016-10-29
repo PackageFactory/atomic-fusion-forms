@@ -1,5 +1,5 @@
 <?php
-namespace PackageFactory\AtomicFusion\Forms\Fusion\Validators;
+namespace PackageFactory\AtomicFusion\Forms\Fusion\Finishers;
 
 /**
  * This file is part of the PackageFactory.AtomicFusion.Forms package
@@ -13,38 +13,39 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Validators;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractArrayTypoScriptObject;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 
 /**
- * Fusion object to create lists of validator definitions
+ * Fusion object to create lists of finisher definitions
  */
-class ValidatorListImplementation extends AbstractArrayTypoScriptObject
+class FinisherListImplementation extends AbstractArrayTypoScriptObject
 {
     /**
-     * Returns a list of validator definitions
+     * Returns a list of finisher definitions
      *
-     * @return array<ValidatorDefinitionInterface>
+     * @return array<FinisherDefinitionInterface>
      */
     public function evaluate()
     {
         $result = [];
 
         foreach (array_keys($this->properties) as $key) {
-            $validatorDefinition = $this->renderValidatorDefinition($key);
+            $finisherDefinition = $this->renderFinisherDefinition($key);
 
-            $result[$validatorDefinition->getName()] = $validatorDefinition;
+            $result[$finisherDefinition->getName()] = $finisherDefinition;
         }
 
         return $result;
     }
 
     /**
-     * Render a single validator definition
+     * Render a single finisher definition
      *
      * @param string $key
-     * @return ValidatorDefinitionInterface
+     * @param array $configuration
+     * @return FinisherDefinitionInterface
      */
-    protected function renderValidatorDefinition($key)
+    protected function renderFinisherDefinition($key)
     {
         return $this->tsRuntime->render(
             sprintf('%s/%s', $this->path, $key)
