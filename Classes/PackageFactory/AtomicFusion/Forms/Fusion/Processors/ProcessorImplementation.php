@@ -56,7 +56,7 @@ class ProcessorImplementation extends AbstractTypoScriptObject
             );
         }
 
-        if (!is_a($implementationClassName, ProcessorInterface::class)) {
+        if (!is_a($implementationClassName, ProcessorInterface::class, true)) {
             throw new EvaluationException(
                 sprintf(
                     'Processor class `%s` does not implement `%s`',
