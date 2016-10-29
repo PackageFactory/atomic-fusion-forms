@@ -44,9 +44,13 @@ class PropertyMappingConfigurationFactory
      */
     public function createTrustedPropertyMappingConfiguration($trustedPropertyToken)
     {
-        return $this->propertyMappingConfigurationService->applyTrustedPropertiesConfiguration(
-            $trustedPropertyToken,
-            $this->createPropertyMappingConfiguration()
-        );
+        if ($trustedPropertyToken !== null && is_string($trustedPropertyToken)) {
+            return $this->propertyMappingConfigurationService->applyTrustedPropertiesConfiguration(
+                $trustedPropertyToken,
+                $this->createPropertyMappingConfiguration()
+            );
+        }
+
+        return $this->createPropertyMappingConfiguration();
     }
 }

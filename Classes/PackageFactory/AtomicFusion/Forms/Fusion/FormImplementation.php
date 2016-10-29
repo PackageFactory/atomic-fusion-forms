@@ -14,14 +14,22 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntime;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefintion;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefintionInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinition;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
+use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
 use PackageFactory\AtomicFusion\Forms\Service\FormAugmentationService;
 use PackageFactory\AtomicFusion\Forms\Service\HiddenInputTagMappingService;
 use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationService;
 
 class FormImplementation extends AbstractTypoScriptObject
 {
+	/**
+	 * @Flow\Inject
+	 * @var CryptographyService
+	 */
+	protected $cryptographyService;
+
 	/**
 	 * @Flow\Inject
 	 * @var FormAugmentationService
@@ -43,7 +51,7 @@ class FormImplementation extends AbstractTypoScriptObject
 	/**
 	 * Create a form definition from the current fusion configuration
 	 *
-	 * @return FormDefintionInterface
+	 * @return FormDefinitionInterface
 	 */
 	public function getFormDefinition()
 	{
@@ -51,7 +59,7 @@ class FormImplementation extends AbstractTypoScriptObject
 		$finishers = $this->tsValue('finishers');
 		$pages = $this->tsValue('pages');
 
-		$formDefinition = new FormDefintion([
+		$formDefinition = new FormDefinition([
 			'label' => $this->tsValue('label'),
 			'name' => $this->tsValue('name'),
 			'action' => $this->tsValue('action')
@@ -63,12 +71,12 @@ class FormImplementation extends AbstractTypoScriptObject
 		}
 
 		foreach ($finishers as $finisher) {
-			$formDefinition->addFieldDefinition($finisher);
+			$formDefinition->addFinisherDefinition($finisher);
 		}
 
 		foreach ($pages as $page) {
 			$page->setFormDefinition($formDefinition);
-			$formDefinition->addFieldDefinition($page);
+			$formDefinition->addPageDefinition($page);
 		}
 
 		return $formDefinition;
@@ -96,33 +104,32 @@ class FormImplementation extends AbstractTypoScriptObject
 
 		if ($formRuntime->shouldProcess()) {
 			$formRuntime->process();
-		}
 
-		if ($formRuntime->shouldValidate()) {
-			$formRuntime->validate();
-		}
+			if ($formRuntime->shouldValidate()) {
+				$formRuntime->validate();
 
-		if ($formRuntime->shouldRollback()) {
-			$formRuntime->rollback();
-		}
+				if ($formRuntime->shouldRollback()) {
+					$formRuntime->rollback();
+				} else if ($formRuntime->shouldFinish()) {
+					$controllerContext = $this->tsRuntime->getControllerContext();
+					$finisherState = $formRuntime->finish($controllerContext->getResponse());
+					$response = $finisherState->getResponse();
 
-		if ($formRuntime->shouldFinish()) {
-			$finisherState = $formRuntime->finish();
-			$response = $finisherState->getResponse();
+					if ($statusCode = $response->getStatusCode()) {
+						$controllerContext->getResponse()->setStatus($statusCode);
+					}
 
-			if ($statusCode = $response->getStatusCode()) {
-				$this->getControllerContext()->getResponse()->setStatus($statusCode);
-			}
+					if ($flashMessages = $finisherState->getFlashMessageContainer()->getMessagesAndFlush()) {
+						foreach ($flashMessages as $flashMessage) {
+							$controllerContext->getFlashMessageContainer()->addMessage($flashMessage);
+						}
+					}
 
-			if ($flashMessages = $finisherState->getFlashMessageContainer()->getMessagesAndFlush()) {
-				foreach ($flashMessages as $flashMessage) {
-					$this->getControllerContext()->getFlashMessageContainer()->addMessage($flashMessage);
+					if ($content = $response->getContent()) {
+						$this->tsRuntime->popContext();
+						return $content;
+					}
 				}
-			}
-
-			if ($content = $response->getContent()) {
-				$this->tsRuntime->popContext();
-				return $content;
 			}
 		}
 
@@ -131,8 +138,11 @@ class FormImplementation extends AbstractTypoScriptObject
 		//
 		if ($formRuntime->getFormDefinition()->hasPages()) {
 			$currentPage = $formRuntime->getFormState()->getCurrentPage();
-			$nextPage = $formRuntime->getNextPage($currentPage);
-			$pages = $this->tsValue('pages');
+			$nextPage = $currentPage;
+
+			if (!$formRuntime->getFormState()->getValidationResult()->hasErrors()) {
+				$nextPage = $formRuntime->getFormDefinition()->getNextPage($currentPage);
+			}
 
 			$formRuntime->getFormState()->setCurrentPage($nextPage);
 
@@ -167,7 +177,7 @@ class FormImplementation extends AbstractTypoScriptObject
 						->generateTrustedPropertiesToken(
 							$formContext->getRequestedFieldNames()
 						)
-				], $formContext->getArgumentNamespace())
+				], $formRuntime->getRequest()->getArgumentNamespace())
 			)
 		);
 	}

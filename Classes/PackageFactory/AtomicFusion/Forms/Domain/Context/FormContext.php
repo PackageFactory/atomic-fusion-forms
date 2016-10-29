@@ -38,6 +38,11 @@ class FormContext implements ProtectedContextAwareInterface
     protected $pageContextFactory;
 
 	/**
+	 * @var array
+	 */
+	protected $requestedFieldNames = [];
+
+	/**
 	 * Constructor
 	 *
 	 * @param FormRuntimeInterface $formRuntime
@@ -88,6 +93,8 @@ class FormContext implements ProtectedContextAwareInterface
 		$pathParts = explode('.', $path);
         $name = array_shift($pathParts);
 
+		$this->requestedFieldNames[] = $path;
+
 		return $this->fieldContextFactory->createFieldContext($this->formRuntime, $name, implode('.', $pathParts));
 	}
 
@@ -100,6 +107,16 @@ class FormContext implements ProtectedContextAwareInterface
 	public function page($pageName)
 	{
 		return $this->pageContextFactory->createPageContext($this->formRuntime, $pageName);
+	}
+
+	/**
+	 * Get an array of all field names that have been read from user side
+	 *
+	 * @return array<string>
+	 */
+	public function getRequestedFieldNames()
+	{
+		return $this->requestedFieldNames;
 	}
 
 	/**

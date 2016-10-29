@@ -1,0 +1,3 @@
+prototype(PackageFactory.AtomicFusion.Forms:Processors.DefaultProcessor) < prototype(PackageFactory.AtomicFusion.Forms:Processor) {
+    implementationClassName = 'PackageFactory\\AtomicFusion\\Forms\\Domain\\Model\\Processor\\DefaultProcessor'
+}

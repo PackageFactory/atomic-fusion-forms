@@ -108,7 +108,7 @@ class FormRuntimeTest extends UnitTestCase
             ->will($this->onConsecutiveCalls('Input1', 'Input2', null));
 
         $formState->expects($this->exactly(3))
-            ->method('addArgument')
+            ->method('addValue')
             ->withConsecutive(['Field1', 'Value1'], ['Field2', 'Value2'], ['Field3', null]);
 
         $formDefinition->method('hasPages')->willReturn(false);

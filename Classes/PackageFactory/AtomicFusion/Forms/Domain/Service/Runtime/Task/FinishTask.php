@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Http\Response;
-use PackageFactory\AtomicFusion\Forms\Domain\Factory\FinisherStateFactory;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FinisherStateFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolverInterface;
 
 /**

@@ -3,6 +3,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Context;
 
 use TYPO3\Flow\Tests\UnitTestCase;
 use TYPO3\Flow\Error\Result;
+use TYPO3\Flow\Mvc\ActionRequest;
 use PackageFactory\AtomicFusion\Forms\Domain\Context\FieldContext;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
@@ -38,23 +39,27 @@ class FieldContextTest extends UnitTestCase
     public function shouldDeliverName()
     {
         $formRuntime = $this->createMock(FormRuntimeInterface::class);
+        $request = $this->createMock(ActionRequest::class);
         $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $fieldDefinition = $this->createMock(FieldDefinitionInterface::class);
 
         $formRuntime->expects($this->exactly(3))->method('getFormDefinition')->willReturn($formDefinition);
+        $formRuntime->expects($this->exactly(3))->method('getRequest')->willReturn($request);
         $formDefinition->expects($this->exactly(3))
             ->method('getFieldDefinition')
             ->with('TheField')
             ->willReturn($fieldDefinition);
         $fieldDefinition->expects($this->exactly(3))->method('getName')->willReturn('TheName');
 
+        $request->expects($this->exactly(3))->method('getArgumentNamespace')->willReturn('SomeArgumentNamespace');
+
         $fieldContext1 = new FieldContext($formRuntime, 'TheField', '');
         $fieldContext2 = new FieldContext($formRuntime, 'TheField', 'property');
         $fieldContext3 = new FieldContext($formRuntime, 'TheField', 'another.property');
 
-        $this->assertEquals('TheName', $fieldContext1->getName());
-        $this->assertEquals('TheName[property]', $fieldContext2->getName());
-        $this->assertEquals('TheName[another][property]', $fieldContext3->getName());
+        $this->assertEquals('SomeArgumentNamespace[TheName]', $fieldContext1->getName());
+        $this->assertEquals('SomeArgumentNamespace[TheName][property]', $fieldContext2->getName());
+        $this->assertEquals('SomeArgumentNamespace[TheName][another][property]', $fieldContext3->getName());
     }
 
     /**
@@ -144,8 +149,8 @@ class FieldContextTest extends UnitTestCase
         $fieldContext1 = new FieldContext($formRuntime, 'TheField', '');
         $fieldContext2 = new FieldContext($formRuntime, 'TheField', 'the.property.path');
 
-        $this->assertEquals(true, $fieldContext1->hasErrors());
-        $this->assertEquals(false, $fieldContext2->hasErrors());
+        $this->assertEquals(true, $fieldContext1->getHasErrors());
+        $this->assertEquals(false, $fieldContext2->getHasErrors());
     }
 
     /**
@@ -161,6 +166,6 @@ class FieldContextTest extends UnitTestCase
         $this->assertTrue($fieldContext->allowsCallOfMethod('getArgument'));
         $this->assertTrue($fieldContext->allowsCallOfMethod('getValue'));
         $this->assertTrue($fieldContext->allowsCallOfMethod('getValidationResult'));
-        $this->assertTrue($fieldContext->allowsCallOfMethod('hasErrors'));
+        $this->assertTrue($fieldContext->allowsCallOfMethod('getHasErrors'));
     }
 }

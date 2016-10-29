@@ -68,13 +68,14 @@ class FieldContext implements ProtectedContextAwareInterface
 	public function getName()
 	{
 		$name = $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getName();
+		$name = sprintf('[%s]', $name);
 
 		if ($this->propertyPath !== '') {
 			$propertyPathParts = explode('.', $this->propertyPath);
-			return $name . '[' . implode('][', $propertyPathParts) . ']';
+			$name .= '[' . implode('][', $propertyPathParts) . ']';
 		}
 
-		return $name;
+		return $this->formRuntime->getRequest()->getArgumentNamespace() . $name;
 	}
 
     /**
@@ -127,7 +128,7 @@ class FieldContext implements ProtectedContextAwareInterface
      *
      * @return boolean
      */
-    public function hasErrors()
+    public function getHasErrors()
     {
         return $this->getValidationResult()->hasErrors();
     }

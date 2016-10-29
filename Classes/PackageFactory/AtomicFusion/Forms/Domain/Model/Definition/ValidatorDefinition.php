@@ -100,6 +100,6 @@ class ValidatorDefinition implements ValidatorDefinitionInterface
      */
     public function hasCustomErrorMessage()
     {
-        return $this->customErrorMessage !== '';
+        return !empty($this->customErrorMessage);
     }
 }

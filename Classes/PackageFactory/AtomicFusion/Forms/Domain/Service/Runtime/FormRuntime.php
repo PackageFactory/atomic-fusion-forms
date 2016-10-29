@@ -173,7 +173,7 @@ class FormRuntime implements FormRuntimeInterface
 				$this->formState->getValidationResult()
 			);
 
-			$this->formState->addArgument($fieldDefinition->getName(), $value);
+			$this->formState->addValue($fieldDefinition->getName(), $value);
         }
     }
 

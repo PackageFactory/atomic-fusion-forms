@@ -37,7 +37,6 @@ class FormState implements FormStateInterface
 	protected $values = [];
 
     /**
-     * @Flow\Inject
 	 * @var Result
 	 */
 	protected $validationResult;
@@ -46,6 +45,14 @@ class FormState implements FormStateInterface
 	 * @var string
 	 */
 	protected $currentPage = null;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->validationResult = new Result();
+	}
 
     /**
      * @inheritdoc

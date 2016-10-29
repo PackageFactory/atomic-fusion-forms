@@ -1,0 +1,4 @@
+prototype(PackageFactory.AtomicFusion.Forms:Finisher.Log) < prototype(PackageFactory.AtomicFusion.Forms:Finisher) {
+	implementationClassName = 'PackageFactory\\AtomicFusion\\Forms\\Domain\\Model\\Finisher\\LogFinisher'
+	options.severity = 'INFO'
+}

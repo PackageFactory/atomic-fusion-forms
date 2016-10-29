@@ -1,47 +1,66 @@
-include: ./Finishers.ts2
-
-prototype(PackageFactory.AtomicFusion.Forms:Spread) {
-	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\SpreadImplementation'
-}
+include: ./Finishers/**/*.ts2
+include: ./Validators/**/*.ts2
 
 prototype(PackageFactory.AtomicFusion.Forms:Form) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FormImplementation'
 	formContext = 'form'
+	pageContext = 'page'
 	action = ${request.parentRequest.uri}
-	pages = PackageFactory.AtomicFusion.Forms:Pages
-	fields = PackageFactory.AtomicFusion.Forms:Fields
-	finishers = TYPO3.TypoScript:RawArray
+	pages = PackageFactory.AtomicFusion.Forms:PageList
+	fields = PackageFactory.AtomicFusion.Forms:FieldList
+	finishers = PackageFactory.AtomicFusion.Forms:FinisherList
 }
 
-prototype(PackageFactory.AtomicFusion.Forms:Pages) {
-	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\PagesImplementation'
+prototype(PackageFactory.AtomicFusion.Forms:PageList) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Pages\\PageListImplementation'
 }
-prototype(PackageFactory.AtomicFusion.Forms:Pages.Spread) < prototype(PackageFactory.AtomicFusion.Forms:Spread)
 
-prototype(PackageFactory.AtomicFusion.Forms:Fields) {
-	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldsImplementation'
+prototype(PackageFactory.AtomicFusion.Forms:PageCollection) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Pages\\PageCollectionImplementation'
+    itemName = 'page'
+    pageRenderer = PackageFactory.AtomicFusion.Forms:Page
 }
-prototype(PackageFactory.AtomicFusion.Forms:Fields.Spread) < prototype(PackageFactory.AtomicFusion.Forms:Spread) {
-	itemRenderer = PackageFactory.AtomicFusion.Forms:Field
+
+prototype(PackageFactory.AtomicFusion.Forms:Page) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Pages\\PageImplementation'
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:FieldList) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Fields\\FieldListImplementation'
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:FieldCollection) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Fields\\FieldCollectionImplementation'
+    itemName = 'field'
+    fieldRenderer = PackageFactory.AtomicFusion.Forms:Field
 }
 
 prototype(PackageFactory.AtomicFusion.Forms:Field) {
-	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\FieldImplementation'
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Fields\\FieldImplementation'
 	type = 'mixed'
 	name = ''
 	page = ''
 	label = ''
-	validators = PackageFactory.AtomicFusion.Forms:Validators
+	processor = PackageFactory.AtomicFusion.Forms:Processors.DefaultProcessor
+	validators = PackageFactory.AtomicFusion.Forms:ValidatorList
 }
 
-prototype(PackageFactory.AtomicFusion.Forms:Validators) {
-	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\ValidatorsImplementation'
-}
-prototype(PackageFactory.AtomicFusion.Forms:Validators.Spread) < prototype(PackageFactory.AtomicFusion.Forms:Spread) {
-	itemRenderer = PackageFactory.AtomicFusion.Forms:Validator
+prototype(PackageFactory.AtomicFusion.Forms:ValidatorList) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Validators\\ValidatorListImplementation'
 }
 
-prototype(PackageFactory.AtomicFusion.Forms:Validator) {
-	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\ValidatorImplementation'
-	options = TYPO3.TypoScript:RawArray
+prototype(PackageFactory.AtomicFusion.Forms:ValidatorCollection) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Validators\\ValidatorCollectionImplementation'
+    itemName = 'validator'
+    validatorRenderer = PackageFactory.AtomicFusion.Forms:Validator
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:FinisherList) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Finishers\\FinisherListImplementation'
+}
+
+prototype(PackageFactory.AtomicFusion.Forms:FinisherCollection) {
+	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Finishers\\FinisherCollectionImplementation'
+    itemName = 'finisher'
+    finisherRenderer = PackageFactory.AtomicFusion.Forms:Finisher
 }

@@ -195,9 +195,14 @@ class FormDefinition implements FormDefinitionInterface
      */
     public function getNextPage($currentPage)
     {
-        if (!array_key_exists($name, $this->pageDefinitions)) {
+        if (!$currentPage && $this->hasPages()) {
+            $pageNames = array_keys($this->pageDefinitions);
+            return $pageNames[0];
+        }
+
+        if (!array_key_exists($currentPage, $this->pageDefinitions)) {
             throw new DefinitionException(
-                sprintf('Could not find page definition for `%s` in form `%s`', $name, $this->getName()),
+                sprintf('Could not find page definition for `%s` in form `%s`', $currentPage, $this->getName()),
                 1477775697
             );
         }

@@ -25,12 +25,6 @@ class FinisherState implements FinisherStateInterface
 
     /**
      * @Flow\Inject
-     * @var Result
-     */
-    protected $result;
-
-    /**
-     * @Flow\Inject
      * @var FlashMessageContainer
      */
     protected $flashMessageContainer;
@@ -44,6 +38,7 @@ class FinisherState implements FinisherStateInterface
     public function __construct(Response $response)
     {
         $this->response = $response;
+        $this->result = new Result();
     }
 
     /**
