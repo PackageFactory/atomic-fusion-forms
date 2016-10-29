@@ -12,9 +12,9 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory;
  */
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Mvc\RequestInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormState;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormStateInterface;
+use TYPO3\Flow\Mvc\ActionRequest;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
 
 /**
@@ -46,9 +46,9 @@ class FormStateFactory
      *
      * @return FormStateInterface
      */
-    public function createFromActionRequest(RequestInterface $request)
+    public function createFromActionRequest(ActionRequest $request)
     {
-        if ($serializedFormState = $this->getInternalArgument('__state')) {
+        if ($serializedFormState = $request->getInternalArgument('__state')) {
 			return $this->cryptographyService->decodeHiddenFormMetadata($serializedFormState);
 		}
 
