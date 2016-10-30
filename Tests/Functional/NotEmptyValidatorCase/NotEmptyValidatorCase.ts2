@@ -1,0 +1,37 @@
+form = PackageFactory.AtomicFusion.Forms:Form {
+    name = 'simpleForm'
+
+	fields {
+		someRequiredString {
+			type = 'string'
+			name = 'someRequiredString'
+			label = 'Some Name'
+            validators {
+                required = PackageFactory.AtomicFusion.Forms:Validators.NotEmpty {
+                    message = 'This field is required.'
+                }
+            }
+		}
+	}
+
+	finishers {
+		confirmation = PackageFactory.AtomicFusion.Forms:Finisher.Message {
+			options.message = ${'Result: ' + form.field('someRequiredString').value}
+		}
+	}
+
+	renderer = TYPO3.TypoScript:Tag {
+        tagName = 'form'
+        content = TYPO3.TypoScript:Tag {
+            @context.field = ${form.field('someRequiredString')}
+            tagName = 'input'
+            attributes {
+                type = 'text'
+                name = ${field.name}
+            }
+
+            @process.errorMessage = ${field.validationResult.firstError.message}
+            @process.errorMessage.@if.1 = ${field.hasErrors}
+        }
+	}
+}
