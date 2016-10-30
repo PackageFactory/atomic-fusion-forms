@@ -1,0 +1,27 @@
+form = PackageFactory.AtomicFusion.Forms:Form {
+	fields {
+		someString {
+			type = 'string'
+			name = 'someString'
+			label = 'Some Name'
+		}
+	}
+
+	finishers {
+		confirmation = PackageFactory.AtomicFusion.Forms:Finisher.Message {
+			options.message = ${'Result: ' + form.field('someString').value}
+		}
+	}
+
+	renderer = TYPO3.TypoScript:Tag {
+        tagName = 'form'
+        content = TYPO3.TypoScript:Tag {
+            @context.field = ${form.field('someString')}
+            tagName = 'input'
+            attributes {
+                type = 'text'
+                name = ${field.name}
+            }
+        }
+	}
+}
