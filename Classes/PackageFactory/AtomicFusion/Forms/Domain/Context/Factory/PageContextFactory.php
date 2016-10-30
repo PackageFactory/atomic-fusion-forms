@@ -27,7 +27,7 @@ class PageContextFactory
 	 *
 	 * @param FormRuntimeInterface $formRuntime
 	 * @param string $pageName
-	 * @return void
+	 * @return PageContext
 	 */
     public function createPageContext(FormRuntimeInterface $formRuntime, $pageName)
     {

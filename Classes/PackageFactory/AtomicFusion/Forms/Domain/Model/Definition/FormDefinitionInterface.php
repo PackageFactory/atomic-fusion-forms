@@ -41,6 +41,14 @@ interface FormDefinitionInterface
     public function getAction();
 
     /**
+     * Add a new field definition
+     *
+     * @param FieldDefinitionInterface $fieldDefinition
+     * @return void
+     */
+    public function addFieldDefinition(FieldDefinitionInterface $fieldDefinition);
+
+    /**
      * Get the field definitions of this form
      *
      * @return array<FieldDefinitionInterface>
@@ -57,6 +65,14 @@ interface FormDefinitionInterface
     public function getFieldDefinition($name);
 
     /**
+     * Add a new finisher definition
+     *
+     * @param FinisherDefinitionInterface $finisherDefinition
+     * @return void
+     */
+    public function addFinisherDefinition(FinisherDefinitionInterface $finisherDefinition);
+
+    /**
      * Get the finisher definitions of this form
      *
      * @return array<FinisherDefinitionInterface>
@@ -71,6 +87,14 @@ interface FormDefinitionInterface
      * @throws DefinitionException when no finisher can be found under the given name
      */
     public function getFinisherDefinition($name);
+
+    /**
+     * Add a new page definition
+     *
+     * @param PageDefinitionInterface $pageDefinition
+     * @return void
+     */
+    public function addPageDefinition(PageDefinitionInterface $pageDefinition);
 
     /**
      * Get the page definitions of this form

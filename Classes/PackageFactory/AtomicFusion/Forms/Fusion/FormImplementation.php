@@ -14,9 +14,13 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntime;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Factory\FormRuntimeFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\Factory\FormDefinitionFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\Factory\FormContextFactory;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
 use PackageFactory\AtomicFusion\Forms\Service\FormAugmentationService;
 use PackageFactory\AtomicFusion\Forms\Service\HiddenInputTagMappingService;
@@ -49,17 +53,49 @@ class FormImplementation extends AbstractTypoScriptObject
 	protected $propertyMappingConfigurationService;
 
 	/**
+	 * @Flow\Inject
+	 * @var FormDefinitionFactory
+	 */
+	protected $formDefinitionFactory;
+
+	/**
+	 * @Flow\Inject
+	 * @var FormRuntimeFactory
+	 */
+	protected $formRuntimeFactory;
+
+	/**
+	 * @Flow\Inject
+	 * @var FormContextFactory
+	 */
+	protected $formContextFactory;
+
+	/**
+	 * @var FormDefinitionInterface
+	 */
+	protected $formDefinition;
+
+	/**
+	 * @var FormRuntimeInterface
+	 */
+	protected $formRuntime;
+
+	/**
 	 * Create a form definition from the current fusion configuration
 	 *
 	 * @return FormDefinitionInterface
 	 */
 	public function getFormDefinition()
 	{
+		if ($this->formDefinition) {
+			return $this->formDefinition;
+		}
+
 		$fields = $this->tsValue('fields');
 		$finishers = $this->tsValue('finishers');
 		$pages = $this->tsValue('pages');
 
-		$formDefinition = new FormDefinition([
+		$formDefinition = $this->formDefinitionFactory->createFormDefinition([
 			'label' => $this->tsValue('label'),
 			'name' => $this->tsValue('name'),
 			'action' => $this->tsValue('action')
@@ -79,15 +115,25 @@ class FormImplementation extends AbstractTypoScriptObject
 			$formDefinition->addPageDefinition($page);
 		}
 
-		return $formDefinition;
+		return $this->formDefinition = $formDefinition;
 	}
 
+	/**
+	 * Create a new form runtime from the current fusion configuration and the current
+	 * action request
+	 *
+	 * @return FormRuntimeInterface
+	 */
 	public function getFormRuntime()
 	{
+		if ($this->formRuntime) {
+			return $this->formRuntime;
+		}
+
 		$formDefinition = $this->getFormDefinition();
 		$request = $this->tsRuntime->getControllerContext()->getRequest();
 
-		return new FormRuntime($formDefinition, $request);
+		return $this->formRuntime = $this->formRuntimeFactory->createFormRuntime($formDefinition, $request);
 	}
 
 	public function evaluate()
@@ -96,12 +142,31 @@ class FormImplementation extends AbstractTypoScriptObject
 		// Create form definition
 		//
 		$formRuntime = $this->getFormRuntime();
-		$formContext = new FormContext($formRuntime);
+		$formContext = $this->formContextFactory->createFormContext($formRuntime);
 
 		$this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
 			$this->tsValue('formContext') => $formContext
 		]);
 
+		$renderedForm = $this->processForm($formRuntime);
+		$renderedForm = $renderedForm ? $renderedForm : $this->augmentForm(
+			$this->renderForm($formRuntime, $formContext),
+			$formRuntime,
+			$formContext
+		);
+		$this->tsRuntime->popContext();
+
+		return $renderedForm;
+	}
+
+	/**
+	 * Perform runtime tasks on current form state
+	 *
+	 * @param FormRuntimeInterface $formRuntime
+	 * @return string|null
+	 */
+	public function processForm(FormRuntimeInterface $formRuntime)
+	{
 		if ($formRuntime->shouldProcess()) {
 			$formRuntime->process();
 
@@ -126,25 +191,33 @@ class FormImplementation extends AbstractTypoScriptObject
 					}
 
 					if ($content = $response->getContent()) {
-						$this->tsRuntime->popContext();
 						return $content;
 					}
 				}
 			}
 		}
+	}
 
-		//
-		// Render
-		//
-		if ($formRuntime->getFormDefinition()->hasPages()) {
-			$currentPage = $formRuntime->getFormState()->getCurrentPage();
+	/**
+	 * Render the form
+	 *
+	 * @param FormRuntimeInterface $formRuntime
+	 * @return string
+	 */
+	public function renderForm(FormRuntimeInterface $formRuntime, FormContext $formContext)
+	{
+		$formDefinition = $formRuntime->getFormDefinition();
+		$formState = $formRuntime->getFormState();
+
+		if ($formDefinition->hasPages()) {
+			$currentPage = $formState->getCurrentPage();
 			$nextPage = $currentPage;
 
-			if (!$formRuntime->getFormState()->getValidationResult()->hasErrors()) {
-				$nextPage = $formRuntime->getFormDefinition()->getNextPage($currentPage);
+			if (!$formState->getValidationResult()->hasErrors()) {
+				$nextPage = $formDefinition->getNextPage($currentPage);
 			}
 
-			$formRuntime->getFormState()->setCurrentPage($nextPage);
+			$formState->setCurrentPage($nextPage);
 
 			$this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
 				$this->tsValue('pageContext') => $formContext->page($nextPage)
@@ -157,14 +230,22 @@ class FormImplementation extends AbstractTypoScriptObject
 			$renderedForm = $this->tsRuntime->render(sprintf('%s/renderer', $this->path));
 		}
 
-		$this->tsRuntime->popContext();
+		return $renderedForm;
+	}
 
-		//
-		// Augment rendering result with form meta information
-		//
-		// - Form State
-		// - Trusted Properties
-		//
+	/**
+	 * Augment rendering result with form meta information:
+	 *
+	 *	- Form State
+	 *	- Trusted Properties
+	 *
+	 * @param string $renderedForm
+	 * @param FormRuntimeInterface $formRuntime
+	 * @param FormContext $formContext
+	 * @return string
+	 */
+	public function augmentForm($renderedForm, FormRuntimeInterface $formRuntime, FormContext $formContext)
+	{
 		return $this->formAugmentationService->injectStringAfterOpeningFormTag(
 			$renderedForm,
 			sprintf(

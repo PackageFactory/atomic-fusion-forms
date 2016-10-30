@@ -75,10 +75,7 @@ class FormDefinition implements FormDefinitionInterface
     }
 
     /**
-     * Add a new field definition
-     *
-     * @param FieldDefinitionInterface $fieldDefinition
-     * @return void
+     * @inheritdoc
      */
     public function addFieldDefinition(FieldDefinitionInterface $fieldDefinition)
     {
@@ -116,10 +113,7 @@ class FormDefinition implements FormDefinitionInterface
     }
 
     /**
-     * Add a new finisher definition
-     *
-     * @param FinisherDefinitionInterface $finisherDefinition
-     * @return void
+     * @inheritdoc
      */
     public function addFinisherDefinition(FinisherDefinitionInterface $finisherDefinition)
     {
@@ -150,10 +144,7 @@ class FormDefinition implements FormDefinitionInterface
     }
 
     /**
-     * Add a new page definition
-     *
-     * @param PageDefinitionInterface $pageDefinition
-     * @return void
+     * @inheritdoc
      */
     public function addPageDefinition(PageDefinitionInterface $pageDefinition)
     {

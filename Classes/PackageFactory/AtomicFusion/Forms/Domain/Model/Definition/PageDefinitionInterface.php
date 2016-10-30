@@ -47,7 +47,15 @@ interface PageDefinitionInterface
      * @throws DefinitionException when no field can be found under the given name
      */
     public function getFieldDefinition($name);
-    
+
+    /**
+     * Set the owning form definition
+     *
+     * @param FormDefinitionInterface $formDefinition
+     * @return void
+     */
+    public function setFormDefinition(FormDefinitionInterface $formDefinition);
+
     /**
      * Get the owning form definition
      *

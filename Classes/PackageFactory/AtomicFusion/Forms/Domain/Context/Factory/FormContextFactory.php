@@ -13,25 +13,23 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Context\Factory;
 
 use TYPO3\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Context\FieldContext;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 
 /**
- * Creates field contexts
+ * Creates form contexts
  *
  * @Flow\Scope("singleton")
  */
-class FieldContextFactory
+class FormContextFactory
 {
     /**
-	 * Create a field context
+	 * Create a form context
 	 *
 	 * @param FormRuntimeInterface $formRuntime
-	 * @param string $fieldName
-	 * @param string $propertyPath
-	 * @return FieldContext
+	 * @return FormContext
 	 */
-    public function createFieldContext(FormRuntimeInterface $formRuntime, $fieldName, $propertyPath = '')
+    public function createFormContext(FormRuntimeInterface $formRuntime)
     {
-        return new FieldContext($formRuntime, $fieldName, $propertyPath);
+        return new FormContext($formRuntime);
     }
 }
