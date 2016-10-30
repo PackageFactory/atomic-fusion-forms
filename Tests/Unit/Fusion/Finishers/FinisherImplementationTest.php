@@ -12,7 +12,58 @@ class FinisherImplementationTest extends UnitTestCase
     /**
      * @test
      */
-    public function createsFinisherDefinitions()
+    public function evaluatesToAFinisherDefinition()
+    {
+        $fusionRuntime = $this->createMock(FusionRuntime::class);
+        $finisherImplementation = new FinisherImplementation($fusionRuntime, '', '');
+
+        $finisherDefinition = $finisherImplementation->evaluate();
+
+        $this->assertTrue($finisherDefinition instanceof FinisherDefinitionInterface);
+    }
+
+    /**
+     * @test
+     */
+    public function deliversName()
+    {
+        $fusionRuntime = $this->createMock(FusionRuntime::class);
+        $finisherImplementation = new FinisherImplementation($fusionRuntime, '', '');
+
+        $fusionRuntime->expects($this->once())
+            ->method('evaluate')
+            ->with('/name', $finisherImplementation)
+            ->willReturn('SomeName');
+
+        $finisherDefinition = $finisherImplementation->evaluate();
+
+        //
+        // Check twice, call count should stay the same
+        //
+        $this->assertEquals('SomeName', $finisherDefinition->getName());
+        $this->assertEquals('SomeName', $finisherDefinition->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function infersNameFromPath()
+    {
+        $fusionRuntime = $this->createMock(FusionRuntime::class);
+        $finisherImplementation1 = new FinisherImplementation($fusionRuntime, '/path', '');
+        $finisherImplementation2 = new FinisherImplementation($fusionRuntime, '/path<WithType>', '');
+
+        $finisherDefinition1 = $finisherImplementation1->evaluate();
+        $finisherDefinition2 = $finisherImplementation2->evaluate();
+
+        $this->assertEquals('path', $finisherDefinition1->getName());
+        $this->assertEquals('path', $finisherDefinition2->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function deliversImplementationClassName()
     {
         $fusionRuntime = $this->createMock(FusionRuntime::class);
         $finisherImplementation = new FinisherImplementation($fusionRuntime, '', '');
@@ -20,22 +71,53 @@ class FinisherImplementationTest extends UnitTestCase
         $fusionRuntime->expects($this->exactly(3))
             ->method('evaluate')
             ->withConsecutive(
-                ['/name', $finisherImplementation],
                 ['/implementationClassName', $finisherImplementation],
-                ['/options', $finisherImplementation]
+                ['/options', $finisherImplementation],
+                ['/name', $finisherImplementation]
             )
             ->will($this->onConsecutiveCalls(
-                'SomeName',
                 NullFinisher::class,
-                []
+                [],
+                'SomeName'
             ));
 
         $finisherDefinition = $finisherImplementation->evaluate();
 
-        $this->assertTrue($finisherDefinition instanceof FinisherDefinitionInterface);
-        $this->assertEquals('SomeName', $finisherDefinition->getName());
+        //
+        // Check twice, call count should stay the same
+        //
         $this->assertEquals(NullFinisher::class, $finisherDefinition->getImplementationClassName());
-        $this->assertEquals([], $finisherDefinition->getOptions());
+        $this->assertEquals(NullFinisher::class, $finisherDefinition->getImplementationClassName());
+    }
+
+    /**
+     * @test
+     */
+    public function deliversOptions()
+    {
+        $fusionRuntime = $this->createMock(FusionRuntime::class);
+        $finisherImplementation = new FinisherImplementation($fusionRuntime, '', '');
+
+        $fusionRuntime->expects($this->exactly(3))
+            ->method('evaluate')
+            ->withConsecutive(
+                ['/implementationClassName', $finisherImplementation],
+                ['/options', $finisherImplementation],
+                ['/name', $finisherImplementation]
+            )
+            ->will($this->onConsecutiveCalls(
+                NullFinisher::class,
+                ['Some' => 'Options', 'SomeMore' => 'options'],
+                'SomeName'
+            ));
+
+        $finisherDefinition = $finisherImplementation->evaluate();
+
+        //
+        // Check twice, call count should stay the same
+        //
+        $this->assertEquals(['Some' => 'Options', 'SomeMore' => 'options'], $finisherDefinition->getOptions());
+        $this->assertEquals(['Some' => 'Options', 'SomeMore' => 'options'], $finisherDefinition->getOptions());
     }
 
     /**
@@ -73,7 +155,8 @@ class FinisherImplementationTest extends UnitTestCase
             ['/implementationClassName', $finisherImplementation, '']
         ]));
 
-        $finisherImplementation->evaluate();
+        $finisherDefinition = $finisherImplementation->evaluate();
+        $finisherDefinition->getImplementationClassName();
     }
 
     /**
@@ -94,7 +177,8 @@ class FinisherImplementationTest extends UnitTestCase
             ['/implementationClassName', $finisherImplementation, 'Some\\NonExistent\\Class']
         ]));
 
-        $finisherImplementation->evaluate();
+        $finisherDefinition = $finisherImplementation->evaluate();
+        $finisherDefinition->getImplementationClassName();
     }
 
     /**
@@ -115,7 +199,8 @@ class FinisherImplementationTest extends UnitTestCase
             ['/implementationClassName', $finisherImplementation, FusionRuntime::class]
         ]));
 
-        $finisherImplementation->evaluate();
+        $finisherDefinition = $finisherImplementation->evaluate();
+        $finisherDefinition->getImplementationClassName();
     }
 
     /**
@@ -137,6 +222,7 @@ class FinisherImplementationTest extends UnitTestCase
             ['/options', $finisherImplementation, 'SomeString']
         ]));
 
-        $finisherImplementation->evaluate();
+        $finisherDefinition = $finisherImplementation->evaluate();
+        $finisherDefinition->getImplementationClassName();
     }
 }

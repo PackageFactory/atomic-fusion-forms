@@ -14,6 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Finishers;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException;
+use PackageFactory\AtomicFusion\Forms\Fusion\Traits\InferNameFromPathTrait;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
@@ -21,11 +22,17 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinition
 /**
  * Fusion object to create finisher definitions
  */
-class FinisherImplementation extends AbstractTypoScriptObject
+class FinisherImplementation extends AbstractTypoScriptObject implements FinisherDefinitionInterface
 {
+    use InferNameFromPathTrait;
+
     /**
-     * Check if `implementationClassName` and `option` values are in order and return
-     * a new FinisherDefinition based on these
+     * @var FinisherDefinitionInterface
+     */
+    protected $resolvedFinisherDefinition;
+
+    /**
+     * Returns itself for later evaluation
      *
      * @return FinisherDefinitionInterface
      */
@@ -39,7 +46,21 @@ class FinisherImplementation extends AbstractTypoScriptObject
             );
         }
 
-        $name = $this->tsValue('name');
+        return $this;
+    }
+
+    /**
+     * Check if `implementationClassName` and `option` values are in order and return
+     * a new FinisherDefinition based on these
+     *
+     * @return FinisherDefinitionInterface
+     */
+    protected function resolveFinisherDefinition()
+    {
+        if ($this->resolvedFinisherDefinition) {
+            return $this->resolvedFinisherDefinition;
+        }
+
         $implementationClassName = $this->tsValue('implementationClassName');
         $options = $this->tsValue('options');
 
@@ -75,6 +96,27 @@ class FinisherImplementation extends AbstractTypoScriptObject
             );
         }
 
-        return new FinisherDefinition($name, $implementationClassName, $options);
+        $this->resolvedFinisherDefinition = new FinisherDefinition(
+            $this->getName(),
+            $implementationClassName,
+            $options
+        );
+        return $this->resolvedFinisherDefinition;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getImplementationClassName()
+    {
+        return $this->resolveFinisherDefinition()->getImplementationClassName();
+    }
+
+    /**
+     *@inheritdoc
+     */
+    public function getOptions()
+    {
+        return $this->resolveFinisherDefinition()->getOptions();
     }
 }
