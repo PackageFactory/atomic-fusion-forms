@@ -240,7 +240,9 @@ class FormRuntime implements FormRuntimeInterface
 
 		if (is_array($pageDefinitions)) {
 			$lastPageDefinition = array_pop($pageDefinitions);
-			$isOnLastPage = $this->formState->getCurrentPage() === $lastPageDefinition->getName();
+			if ($lastPageDefinition) {
+				$isOnLastPage = $this->formState->getCurrentPage() === $lastPageDefinition->getName();
+			}
 		}
 
 		return !$this->formState->isInitialCall() && !$this->formState->getValidationResult()->hasErrors() && (

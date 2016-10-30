@@ -1,4 +1,6 @@
 form = PackageFactory.AtomicFusion.Forms:Form {
+    name = 'simpleForm'
+    
 	fields {
 		someString {
 			type = 'string'

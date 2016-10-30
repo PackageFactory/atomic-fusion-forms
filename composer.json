@@ -29,6 +29,8 @@
           "rm -f Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms",
           "cd Build/Travis && composer install",
           "rm Build/Travis/Configuration/PackageStates.php",
+          "rm Build/Travis/Configuration/Routes.yaml",
+          "cp Build/Travis/Routes.yaml Build/Travis/Configuration/",
           "ln -s $(pwd) Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms"
         ],
         "test:unit": [

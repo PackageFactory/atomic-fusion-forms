@@ -29,6 +29,7 @@ abstract class BaseTestCase extends FunctionalTestCase
         $view = new TypoScriptView();
 
         $request = $httpRequest->createActionRequest();
+        $request->setArguments($httpRequest->getArguments());
 
         $uriBuilder = new UriBuilder();
         $uriBuilder->setRequest($request);
@@ -85,18 +86,18 @@ abstract class BaseTestCase extends FunctionalTestCase
         $propertyMappingConfigurationService = new PropertyMappingConfigurationService();
 
         return Request::create($uri, 'POST', [
-            sprintf('--%s', $argumentNamespace) => array_merge([
+            sprintf('--%s', $argumentNamespace) => array_merge(
                 [
                     '__state' => $cryptographyService->encodeHiddenFormMetadata(
-                        $formRuntime->getFormState()
+                        $formState
                     ),
                     '__trustedProperties' => $propertyMappingConfigurationService
                         ->generateTrustedPropertiesToken(
-                            $formContext->getRequestedFieldNames()
+                            $trustedProperties
                         )
                 ],
                 $arguments
-            ])
+            )
         ], [], []);
     }
 }
