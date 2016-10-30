@@ -1,0 +1,67 @@
+form = PackageFactory.AtomicFusion.Forms:Form {
+    name = 'simpleForm'
+
+	fields {
+		stringOnFirstPage {
+			type = 'string'
+			name = 'stringOnFirstPage'
+			label = 'Some Name'
+            page = 'firstPage'
+		}
+
+		stringOnSecondPage {
+			type = 'string'
+			name = 'stringOnSecondPage'
+			label = 'Some Name'
+            page = 'secondPage'
+		}
+	}
+
+    pages {
+        firstPage {
+            label = 'First Page'
+            name = 'firstPage'
+        }
+        
+        secondPage {
+            label = 'Second Page'
+            name = 'secondPage'
+        }
+    }
+
+	finishers {
+		confirmation = PackageFactory.AtomicFusion.Forms:Finisher.Message {
+			options.message = ${'Result: ' +
+                form.field('stringOnFirstPage').value
+                + ', ' +
+                form.field('stringOnSecondPage').value
+            }
+		}
+	}
+
+	renderer {
+        firstPage = TYPO3.TypoScript:Tag {
+            tagName = 'form'
+            content = TYPO3.TypoScript:Tag {
+                @context.field = ${form.field('stringOnFirstPage')}
+                tagName = 'input'
+                attributes {
+                    type = 'text'
+                    name = ${field.name}
+                }
+            }
+    	}
+
+        secondPage = TYPO3.TypoScript:Tag {
+            tagName = 'form'
+            content = TYPO3.TypoScript:Tag {
+                @context.field = ${form.field('stringOnSecondPage')}
+                tagName = 'input'
+                attributes {
+                    type = 'text'
+                    name = ${field.name}
+                }
+            }
+    	}
+    }
+}

@@ -46,8 +46,8 @@ abstract class BaseTestCase extends FunctionalTestCase
         $view->setPackageKey('PackageFactory.AtomicFusion.Forms');
         $view->setTypoScriptPath('form');
         $view->setTypoScriptPathPatterns([
-            realpath(__DIR__ . '/../../../TYPO3.TypoScript/Resources/Private/TypoScript'),
-            realpath(__DIR__ . '/../../Resources/Private/TypoScript/Forms'),
+            __DIR__ . '/../../../TYPO3.TypoScript/Resources/Private/TypoScript',
+            __DIR__ . '/../../Resources/Private/TypoScript/Forms',
             $typoScriptPathPattern
         ]);
 

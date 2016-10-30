@@ -181,7 +181,6 @@ class FormState implements FormStateInterface
 	{
 		$this->__isInitialCall = false;
         $this->validationResult = new Result();
-        $this->values = [];
 	}
 
 	/**
@@ -191,6 +190,6 @@ class FormState implements FormStateInterface
 	 */
 	public function __sleep()
 	{
-        return ['arguments', 'currentPage'];
+        return ['arguments', 'values', 'currentPage'];
 	}
 }
