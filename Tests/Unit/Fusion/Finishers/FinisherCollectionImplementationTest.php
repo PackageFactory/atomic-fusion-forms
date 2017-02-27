@@ -2,7 +2,7 @@
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Fusion\Finishers;
 
 use Neos\Flow\Tests\UnitTestCase;
-use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
+use Neos\Fusion\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Fusion\Finishers\FinisherCollectionImplementation;
 

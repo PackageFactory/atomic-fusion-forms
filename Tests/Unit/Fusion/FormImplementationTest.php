@@ -8,7 +8,7 @@ use Neos\Flow\Mvc\FlashMessageContainer;
 use Neos\Error\Messages\Result;
 use Neos\Error\Messages\Message;
 use Neos\Flow\Http\Response;
-use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
+use Neos\Fusion\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Factory\FormRuntimeFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;

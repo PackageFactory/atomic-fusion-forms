@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Pages;
  */
 
 use Neos\Flow\Annotations as Flow;
-use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinitionInterface;
 

@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
  */
 
 use Neos\Flow\Annotations as Flow;
-use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Factory\FormRuntimeFactory;

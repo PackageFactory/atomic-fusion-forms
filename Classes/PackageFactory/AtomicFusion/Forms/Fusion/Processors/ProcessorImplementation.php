@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Processors;
  */
 
 use Neos\Flow\Annotations as Flow;
-use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Processor\ProcessorInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinition;

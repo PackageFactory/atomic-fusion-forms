@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Validators;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Validation\Validator\ValidatorInterface;
-use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;

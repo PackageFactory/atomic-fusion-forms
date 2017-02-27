@@ -3,7 +3,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Fusion\Validators;
 
 use Neos\Flow\Tests\UnitTestCase;
 use Neos\Flow\Validation\Validator\StringValidator;
-use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
+use Neos\Fusion\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Fusion\Validators\ValidatorImplementation;
 

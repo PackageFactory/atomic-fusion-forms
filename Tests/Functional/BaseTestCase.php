@@ -8,7 +8,7 @@ use Neos\Flow\Mvc\Controller\Arguments;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\Tests\FunctionalTestCase;
-use TYPO3\TypoScript\View\TypoScriptView;
+use Neos\Fusion\View\TypoScriptView;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
 use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationService;
@@ -46,7 +46,7 @@ abstract class BaseTestCase extends FunctionalTestCase
         $view->setPackageKey('PackageFactory.AtomicFusion.Forms');
         $view->setTypoScriptPath('form');
         $view->setTypoScriptPathPatterns([
-            getcwd() . '/Build/Travis/Packages/Application/TYPO3.TypoScript/Resources/Private/TypoScript',
+            getcwd() . '/Build/Travis/Packages/Application/Neos.Fusion/Resources/Private/TypoScript',
             getcwd() . '/Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms/Resources/Private/TypoScript/Forms',
             $typoScriptPathPattern
         ]);

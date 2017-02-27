@@ -2,7 +2,7 @@
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Fusion\Processors;
 
 use Neos\Flow\Tests\UnitTestCase;
-use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
+use Neos\Fusion\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Processor\DefaultProcessor;
 use PackageFactory\AtomicFusion\Forms\Fusion\Processors\ProcessorImplementation;
