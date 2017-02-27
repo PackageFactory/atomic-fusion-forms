@@ -1,9 +1,9 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Resolver;
 
-use TYPO3\Flow\Tests\UnitTestCase;
-use TYPO3\Flow\ObjectManagement\ObjectManagerInterface;
-use TYPO3\Flow\Reflection\ReflectionService;
+use Neos\Flow\Tests\UnitTestCase;
+use Neos\Flow\ObjectManagement\ObjectManagerInterface;
+use Neos\Flow\Reflection\ReflectionService;
 
 abstract class ResolverTestCase extends UnitTestCase
 {

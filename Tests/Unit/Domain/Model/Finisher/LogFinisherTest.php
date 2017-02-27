@@ -1,7 +1,7 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finisher;
 
-use TYPO3\Flow\Log\SystemLoggerInterface;
+use Neos\Flow\Log\SystemLoggerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\LogFinisher;
 
 class LogFinisherTest extends FinisherTestCase

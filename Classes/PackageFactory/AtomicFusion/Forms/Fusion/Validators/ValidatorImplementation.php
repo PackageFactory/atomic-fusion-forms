@@ -11,8 +11,8 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Validators;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Validation\Validator\ValidatorInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Validation\Validator\ValidatorInterface;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinition;

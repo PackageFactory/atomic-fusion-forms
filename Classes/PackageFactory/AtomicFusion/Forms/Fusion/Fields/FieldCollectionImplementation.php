@@ -11,7 +11,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Fields;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;

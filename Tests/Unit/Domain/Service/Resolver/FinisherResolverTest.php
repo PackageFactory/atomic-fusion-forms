@@ -1,8 +1,8 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Resolver;
 
-use TYPO3\Flow\ObjectManagement\ObjectManagerInterface;
-use TYPO3\Flow\Reflection\ReflectionService;
+use Neos\Flow\ObjectManagement\ObjectManagerInterface;
+use Neos\Flow\Reflection\ReflectionService;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolver;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;

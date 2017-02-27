@@ -11,8 +11,8 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Mvc\ActionRequest;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Mvc\ActionRequest;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;

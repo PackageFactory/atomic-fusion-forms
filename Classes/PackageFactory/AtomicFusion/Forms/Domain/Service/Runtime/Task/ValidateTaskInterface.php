@@ -11,8 +11,8 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Error\Result;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Error\Result;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 
 /**

@@ -1,10 +1,10 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Processor;
 
-use TYPO3\Flow\Tests\UnitTestCase;
-use TYPO3\Flow\Error\Result;
-use TYPO3\Flow\Property\PropertyMapper;
-use TYPO3\Flow\Property\PropertyMappingConfiguration;
+use Neos\Flow\Tests\UnitTestCase;
+use Neos\Flow\Error\Result;
+use Neos\Flow\Property\PropertyMapper;
+use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Factory\PropertyMapperFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Processor\DefaultProcessor;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;

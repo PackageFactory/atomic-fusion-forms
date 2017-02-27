@@ -11,10 +11,10 @@ namespace PackageFactory\AtomicFusion\Forms\Factory;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Property\PropertyMapper;
-use TYPO3\Flow\Error\Result;
-use TYPO3\Flow\Error\Error;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Property\PropertyMapper;
+use Neos\Flow\Error\Result;
+use Neos\Flow\Error\Error;
 
 /**
  * @Flow\Scope("singleton")

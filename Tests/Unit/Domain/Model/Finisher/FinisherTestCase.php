@@ -1,10 +1,10 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finisher;
 
-use TYPO3\Flow\Tests\UnitTestCase;
-use TYPO3\Flow\Mvc\FlashMessageContainer;
-use TYPO3\Flow\Error\Result;
-use TYPO3\Flow\Http\Response;
+use Neos\Flow\Tests\UnitTestCase;
+use Neos\Flow\Mvc\FlashMessageContainer;
+use Neos\Flow\Error\Result;
+use Neos\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 

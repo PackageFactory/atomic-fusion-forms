@@ -1,10 +1,10 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Service;
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
-use TYPO3\Flow\Property\PropertyMappingConfigurationInterface;
-use TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter;
+use Neos\Flow\Property\PropertyMappingConfigurationInterface;
+use Neos\Flow\Property\TypeConverter\PersistentObjectConverter;
 
 /**
  * @Flow\Scope("singleton")

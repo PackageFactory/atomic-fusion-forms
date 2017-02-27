@@ -1,10 +1,10 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Resolver;
 
-use TYPO3\Flow\Tests\UnitTestCase;
-use TYPO3\Flow\ObjectManagement\ObjectManagerInterface;
-use TYPO3\Flow\Reflection\ReflectionService;
-use TYPO3\Flow\Validation\ValidatorResolver as FlowValidatorResolver;
+use Neos\Flow\Tests\UnitTestCase;
+use Neos\Flow\ObjectManagement\ObjectManagerInterface;
+use Neos\Flow\Reflection\ReflectionService;
+use Neos\Flow\Validation\ValidatorResolver as FlowValidatorResolver;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ValidatorResolver;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Validators\ValidatorInterface;

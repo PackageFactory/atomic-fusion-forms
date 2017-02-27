@@ -1,7 +1,7 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Fusion\Finishers;
 
-use TYPO3\Flow\Tests\UnitTestCase;
+use Neos\Flow\Tests\UnitTestCase;
 use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\NullFinisher;

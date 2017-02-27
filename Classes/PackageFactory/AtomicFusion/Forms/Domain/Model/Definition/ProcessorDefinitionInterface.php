@@ -11,7 +11,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Definition;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * Defines methods for processor definitions

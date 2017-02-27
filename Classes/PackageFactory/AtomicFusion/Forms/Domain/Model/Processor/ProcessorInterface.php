@@ -11,9 +11,9 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Processor;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Error\Result;
-use TYPO3\Flow\Property\PropertyMappingConfiguration;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Error\Result;
+use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 
 /**

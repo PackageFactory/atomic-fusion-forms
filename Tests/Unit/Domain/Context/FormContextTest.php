@@ -1,7 +1,7 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Context;
 
-use TYPO3\Flow\Tests\UnitTestCase;
+use Neos\Flow\Tests\UnitTestCase;
 use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 use PackageFactory\AtomicFusion\Forms\Domain\Context\Factory\FieldContextFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Context\Factory\PageContextFactory;

@@ -11,10 +11,10 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Reflection\ObjectAccess;
-use TYPO3\Flow\Utility\Arrays;
-use TYPO3\Flow\Error\Result;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Reflection\ObjectAccess;
+use Neos\Flow\Utility\Arrays;
+use Neos\Flow\Error\Result;
 
 /**
  * The form state

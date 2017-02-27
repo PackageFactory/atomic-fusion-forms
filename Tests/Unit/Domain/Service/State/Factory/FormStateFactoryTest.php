@@ -1,8 +1,8 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\State\Factory;
 
-use TYPO3\Flow\Tests\UnitTestCase;
-use TYPO3\Flow\Mvc\ActionRequest;
+use Neos\Flow\Tests\UnitTestCase;
+use Neos\Flow\Mvc\ActionRequest;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FormStateFactory;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;

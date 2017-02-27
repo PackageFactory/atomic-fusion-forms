@@ -11,8 +11,8 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Log\SystemLoggerInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Log\SystemLoggerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
 

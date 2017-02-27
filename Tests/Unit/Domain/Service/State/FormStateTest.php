@@ -1,9 +1,9 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime;
 
-use TYPO3\Flow\Tests\UnitTestCase;
+use Neos\Flow\Tests\UnitTestCase;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
-use TYPO3\Flow\Error\Result;
+use Neos\Flow\Error\Result;
 
 interface __getterStub__1476736746 {
 	public function getTest1();

@@ -11,7 +11,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Traits;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * Trait for use in Fusion objects to infer their name by their path, if

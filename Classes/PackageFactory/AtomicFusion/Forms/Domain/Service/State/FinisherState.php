@@ -11,10 +11,10 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Mvc\FlashMessageContainer;
-use TYPO3\Flow\Error\Result;
-use TYPO3\Flow\Http\Response;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Mvc\FlashMessageContainer;
+use Neos\Flow\Error\Result;
+use Neos\Flow\Http\Response;
 
 class FinisherState implements FinisherStateInterface
 {

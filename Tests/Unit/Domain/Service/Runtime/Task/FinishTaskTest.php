@@ -1,8 +1,8 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Task;
 
-use TYPO3\Flow\Tests\UnitTestCase;
-use TYPO3\Flow\Http\Response;
+use Neos\Flow\Tests\UnitTestCase;
+use Neos\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolverInterface;

@@ -11,8 +11,8 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Exception;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Exception;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Exception;
 
 class FinisherStateException extends Exception
 {

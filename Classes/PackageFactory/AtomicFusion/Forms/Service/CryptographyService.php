@@ -11,8 +11,8 @@ namespace PackageFactory\AtomicFusion\Forms\Service;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Security\Cryptography\HashService;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Security\Cryptography\HashService;
 
 /**
  * @Flow\Scope("singleton")

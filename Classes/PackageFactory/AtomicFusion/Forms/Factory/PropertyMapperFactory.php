@@ -11,8 +11,8 @@ namespace PackageFactory\AtomicFusion\Forms\Factory;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Property\PropertyMapper;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Property\PropertyMapper;
 
 /**
  * @Flow\Scope("singleton")

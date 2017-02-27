@@ -11,7 +11,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finishers\FinisherInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\ResolverException;

@@ -11,8 +11,8 @@ namespace PackageFactory\AtomicFusion\Forms\Factory;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Property\PropertyMappingConfiguration;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationService;
 
 /**

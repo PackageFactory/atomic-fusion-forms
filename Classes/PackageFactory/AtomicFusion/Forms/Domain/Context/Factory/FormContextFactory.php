@@ -11,7 +11,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Context\Factory;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 

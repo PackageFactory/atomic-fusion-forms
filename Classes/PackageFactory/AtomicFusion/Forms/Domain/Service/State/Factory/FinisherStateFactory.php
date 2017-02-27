@@ -11,9 +11,9 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherState;
-use TYPO3\Flow\Http\Response;
+use Neos\Flow\Http\Response;
 
 /**
  * Create finisher states

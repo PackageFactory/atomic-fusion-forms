@@ -1,7 +1,7 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Fusion\Pages;
 
-use TYPO3\Flow\Tests\UnitTestCase;
+use Neos\Flow\Tests\UnitTestCase;
 use TYPO3\TypoScript\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
