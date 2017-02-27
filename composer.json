@@ -2,14 +2,14 @@
     "description": "Forms powered by atomic fusion",
     "type": "neos-package",
     "name": "packagefactory/atomicfusion-forms",
-  	"license": "GPL-3.0+",
-  	"authors": [
-  		{
-  			"name": "Wilhelm Behncke",
-  			"email": "wilhelm.behncke@googlemail.com",
-  			"role": "Developer"
-  		}
-  	],
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Wilhelm Behncke",
+            "email": "wilhelm.behncke@googlemail.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "typo3/flow": "*",
         "typo3/typoscript": "*"
@@ -22,34 +22,37 @@
     "extra": {
         "neos": {
             "package-key": "PackageFactory.AtomicFusion.Forms"
-        }
+        },
+        "applied-flow-migrations": [
+            "TYPO3.FLOW3-201201261636"
+        ]
     },
     "scripts": {
         "prepare": [
-          "rm -f Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms",
-          "cd Build/Travis && composer install",
-          "rm Build/Travis/Configuration/PackageStates.php",
-          "rm Build/Travis/Configuration/Routes.yaml",
-          "cp Build/Travis/Routes.yaml Build/Travis/Configuration/",
-          "ln -s $(pwd) Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms"
+            "rm -f Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms",
+            "cd Build/Travis && composer install",
+            "rm Build/Travis/Configuration/PackageStates.php",
+            "rm Build/Travis/Configuration/Routes.yaml",
+            "cp Build/Travis/Routes.yaml Build/Travis/Configuration/",
+            "ln -s $(pwd) Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms"
         ],
         "test:unit": [
-          "composer prepare",
-          "Build/Travis/bin/phpunit --coverage-clover=coverage.xml --verbose -c Build/Travis/unit-tests.xml"
+            "composer prepare",
+            "Build/Travis/bin/phpunit --coverage-clover=coverage.xml --verbose -c Build/Travis/unit-tests.xml"
         ],
         "test:functional": [
-          "composer prepare",
-          "cd Build/Travis && FLOW_CONTEXT=Testing ./flow flow:cache:flush",
-          "Build/Travis/bin/phpunit --verbose -c Build/Travis/functional-tests.xml"
+            "composer prepare",
+            "cd Build/Travis && FLOW_CONTEXT=Testing ./flow flow:cache:flush",
+            "Build/Travis/bin/phpunit --verbose -c Build/Travis/functional-tests.xml"
         ],
         "test:coverage": [
-          "composer prepare",
-          "Build/Travis/bin/phpunit --coverage-html=Build/Reports/Coverage -c Build/Travis/phpunit.xml",
-          "xdg-open Build/Reports/Coverage/index.html"
+            "composer prepare",
+            "Build/Travis/bin/phpunit --coverage-html=Build/Reports/Coverage -c Build/Travis/phpunit.xml",
+            "xdg-open Build/Reports/Coverage/index.html"
         ],
         "test": [
-          "composer test:unit",
-          "composer test:functional"
+            "composer test:unit",
+            "composer test:functional"
         ]
     }
 }
