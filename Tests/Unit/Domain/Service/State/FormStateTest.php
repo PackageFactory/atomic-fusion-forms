@@ -3,7 +3,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime;
 
 use Neos\Flow\Tests\UnitTestCase;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 
 interface __getterStub__1476736746 {
 	public function getTest1();

@@ -2,7 +2,7 @@
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Context;
 
 use Neos\Flow\Tests\UnitTestCase;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 use PackageFactory\AtomicFusion\Forms\Domain\Context\PageContext;
 use PackageFactory\AtomicFusion\Forms\Domain\Context\Factory\FieldContextFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;

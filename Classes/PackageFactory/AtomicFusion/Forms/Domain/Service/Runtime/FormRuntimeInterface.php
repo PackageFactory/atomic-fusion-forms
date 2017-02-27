@@ -14,7 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Http\Response;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntime;
 

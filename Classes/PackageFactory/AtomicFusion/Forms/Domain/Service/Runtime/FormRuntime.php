@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\ActionRequest;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 use Neos\Flow\Http\Response;
 use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;

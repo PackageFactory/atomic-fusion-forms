@@ -12,9 +12,9 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Reflection\ObjectAccess;
-use Neos\Flow\Utility\Arrays;
-use Neos\Flow\Error\Result;
+use Neos\Utility\ObjectAccess;
+use Neos\Utility\Arrays;
+use Neos\Error\Messages\Result;
 
 /**
  * The form state

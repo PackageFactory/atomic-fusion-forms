@@ -3,7 +3,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\State;
 
 use Neos\Flow\Tests\UnitTestCase;
 use Neos\Flow\Mvc\FlashMessageContainer;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 use Neos\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherState;
 

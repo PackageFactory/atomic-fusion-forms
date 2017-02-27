@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Processor;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Factory\PropertyMapperFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;

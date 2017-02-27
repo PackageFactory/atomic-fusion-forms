@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\FlashMessageContainer;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 use Neos\Flow\Http\Response;
 
 class FinisherState implements FinisherStateInterface

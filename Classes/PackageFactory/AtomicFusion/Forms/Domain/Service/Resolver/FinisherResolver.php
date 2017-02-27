@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Reflection\ReflectionService;
-use Neos\Flow\Reflection\ObjectAccess;
+use Neos\Utility\ObjectAccess;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;

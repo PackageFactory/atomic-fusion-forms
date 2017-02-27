@@ -13,8 +13,8 @@ namespace PackageFactory\AtomicFusion\Forms\Factory;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Property\PropertyMapper;
-use Neos\Flow\Error\Result;
-use Neos\Flow\Error\Error;
+use Neos\Error\Messages\Result;
+use Neos\Error\Messages\Error;
 
 /**
  * @Flow\Scope("singleton")

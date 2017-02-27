@@ -3,7 +3,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime;
 
 use Neos\Flow\Tests\UnitTestCase;
 use Neos\Flow\Mvc\ActionRequest;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 use Neos\Flow\Http\Response;
 use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;

@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Definition;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Utility\Arrays;
+use Neos\Utility\Arrays;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\DefinitionException;
 
 /**

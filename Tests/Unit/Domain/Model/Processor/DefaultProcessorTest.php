@@ -2,7 +2,7 @@
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Processor;
 
 use Neos\Flow\Tests\UnitTestCase;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Result;
 use Neos\Flow\Property\PropertyMapper;
 use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Factory\PropertyMapperFactory;

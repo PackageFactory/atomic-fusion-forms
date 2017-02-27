@@ -2,8 +2,8 @@
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Task;
 
 use Neos\Flow\Tests\UnitTestCase;
-use Neos\Flow\Error\Result;
-use Neos\Flow\Error\Error;
+use Neos\Error\Messages\Result;
+use Neos\Error\Messages\Error;
 use Neos\Flow\Validation\Validator\ValidatorInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
