@@ -49,12 +49,12 @@ class FieldListImplementation extends AbstractArrayFusionObject
     protected function renderFieldDefinition($key, $configuration)
     {
         if (isset($configuration['__objectType'])) {
-            return $this->tsRuntime->render(
+            return $this->runtime->render(
                 sprintf('%s/%s', $this->path, $key)
             );
         }
 
-        return $this->tsRuntime->render(
+        return $this->runtime->render(
             sprintf('%s/%s<PackageFactory.AtomicFusion.Forms:Field>', $this->path, $key)
         );
     }

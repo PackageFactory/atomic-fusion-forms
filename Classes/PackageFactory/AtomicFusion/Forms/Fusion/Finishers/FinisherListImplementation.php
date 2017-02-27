@@ -47,7 +47,7 @@ class FinisherListImplementation extends AbstractArrayFusionObject
      */
     protected function renderFinisherDefinition($key)
     {
-        return $this->tsRuntime->render(
+        return $this->runtime->render(
             sprintf('%s/%s', $this->path, $key)
         );
     }

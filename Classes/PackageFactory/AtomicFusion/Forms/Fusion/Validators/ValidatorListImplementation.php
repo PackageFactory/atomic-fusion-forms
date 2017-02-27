@@ -46,7 +46,7 @@ class ValidatorListImplementation extends AbstractArrayFusionObject
      */
     protected function renderValidatorDefinition($key)
     {
-        return $this->tsRuntime->render(
+        return $this->runtime->render(
             sprintf('%s/%s', $this->path, $key)
         );
     }

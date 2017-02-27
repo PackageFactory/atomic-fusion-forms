@@ -4,6 +4,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Functional;
 use Neos\Flow\Http\Request;
 use Neos\Flow\Http\Response;
 use Neos\Flow\Http\Uri;
+use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Controller\Arguments;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Mvc\Routing\UriBuilder;
@@ -28,7 +29,7 @@ abstract class BaseTestCase extends FunctionalTestCase
     {
         $view = new FusionView();
 
-        $request = $httpRequest->createActionRequest();
+        $request = new ActionRequest($httpRequest);
         $request->setArguments($httpRequest->getArguments());
 
         $uriBuilder = new UriBuilder();
@@ -46,8 +47,8 @@ abstract class BaseTestCase extends FunctionalTestCase
         $view->setPackageKey('PackageFactory.AtomicFusion.Forms');
         $view->setFusionPath('form');
         $view->setFusionPathPatterns([
-            getcwd() . '/Build/Travis/Packages/Application/Neos.Fusion/Resources/Private/TypoScript',
-            getcwd() . '/Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms/Resources/Private/TypoScript/Forms',
+            getcwd() . '/Build/Travis/Packages/Application/Neos.Fusion/Resources/Private/Fusion',
+            getcwd() . '/Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms/Resources/Private/Fusion/Forms',
             $fusionPathPattern
         ]);
 

@@ -50,13 +50,13 @@ class FieldCollectionImplementation extends AbstractFusionObject
      */
     protected function renderFieldDefinition($itemName, $item)
     {
-        $this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
+        $this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
             $itemName => $item
         ]);
 
-        $fieldDefinition = $this->tsRuntime->evaluate(sprintf('%s/fieldRenderer', $this->path), $this);
+        $fieldDefinition = $this->runtime->evaluate(sprintf('%s/fieldRenderer', $this->path), $this);
 
-        $this->tsRuntime->popContext();
+        $this->runtime->popContext();
 
         return $fieldDefinition;
     }

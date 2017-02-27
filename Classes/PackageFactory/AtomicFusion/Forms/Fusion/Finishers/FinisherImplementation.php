@@ -38,7 +38,7 @@ class FinisherImplementation extends AbstractFusionObject implements FinisherDef
      */
     public function evaluate()
     {
-        if ($this->typoScriptObjectName === 'PackageFactory.AtomicFusion.Forms:Finisher') {
+        if ($this->fusionObjectName === 'PackageFactory.AtomicFusion.Forms:Finisher') {
             throw new EvaluationException(
                 'Please do not use `PackageFactory.AtomicFusion.Forms:Finisher` directly. ' .
                 'You need to inherit from it and define the finisher implementation class name',

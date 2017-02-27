@@ -49,13 +49,13 @@ class ValidatorCollectionImplementation extends AbstractFusionObject
      */
     protected function renderValidatorDefinition($itemName, $item)
     {
-        $this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
+        $this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
             $itemName => $item
         ]);
 
-        $validatorDefinition = $this->tsRuntime->evaluate(sprintf('%s/validatorRenderer', $this->path), $this);
+        $validatorDefinition = $this->runtime->evaluate(sprintf('%s/validatorRenderer', $this->path), $this);
 
-        $this->tsRuntime->popContext();
+        $this->runtime->popContext();
 
         return $validatorDefinition;
     }

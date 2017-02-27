@@ -31,7 +31,7 @@ class ProcessorImplementation extends AbstractFusionObject
      */
     public function evaluate()
     {
-        if ($this->typoScriptObjectName === 'PackageFactory.AtomicFusion.Forms:Processor') {
+        if ($this->fusionObjectName === 'PackageFactory.AtomicFusion.Forms:Processor') {
             throw new EvaluationException(
                 'Please do not use `PackageFactory.AtomicFusion.Forms:Processor` directly. ' .
                 'You need to inherit from it and define the processor implementation class name',

@@ -31,7 +31,7 @@ class ValidatorImplementation extends AbstractFusionObject
      */
     public function evaluate()
     {
-        if ($this->typoScriptObjectName === 'PackageFactory.AtomicFusion.Forms:Validator') {
+        if ($this->fusionObjectName === 'PackageFactory.AtomicFusion.Forms:Validator') {
             throw new EvaluationException(
                 'Please do not use `PackageFactory.AtomicFusion.Forms:Validator` directly. ' .
                 'You need to inherit from it and define the validator implementation class name',

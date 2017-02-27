@@ -49,13 +49,13 @@ class FinisherCollectionImplementation extends AbstractFusionObject
      */
     protected function renderFinisherDefinition($itemName, $item)
     {
-        $this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
+        $this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
             $itemName => $item
         ]);
 
-        $finisherDefinition = $this->tsRuntime->evaluate(sprintf('%s/finisherRenderer', $this->path), $this);
+        $finisherDefinition = $this->runtime->evaluate(sprintf('%s/finisherRenderer', $this->path), $this);
 
-        $this->tsRuntime->popContext();
+        $this->runtime->popContext();
 
         return $finisherDefinition;
     }

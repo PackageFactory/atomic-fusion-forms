@@ -131,7 +131,7 @@ class FormImplementation extends AbstractFusionObject
 		}
 
 		$formDefinition = $this->getFormDefinition();
-		$request = $this->tsRuntime->getControllerContext()->getRequest();
+		$request = $this->runtime->getControllerContext()->getRequest();
 
 		return $this->formRuntime = $this->formRuntimeFactory->createFormRuntime($formDefinition, $request);
 	}
@@ -144,7 +144,7 @@ class FormImplementation extends AbstractFusionObject
 		$formRuntime = $this->getFormRuntime();
 		$formContext = $this->formContextFactory->createFormContext($formRuntime);
 
-		$this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
+		$this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
 			$this->tsValue('formContext') => $formContext
 		]);
 
@@ -154,7 +154,7 @@ class FormImplementation extends AbstractFusionObject
 			$formRuntime,
 			$formContext
 		);
-		$this->tsRuntime->popContext();
+		$this->runtime->popContext();
 
 		return $renderedForm;
 	}
@@ -176,7 +176,7 @@ class FormImplementation extends AbstractFusionObject
 				if ($formRuntime->shouldRollback()) {
 					$formRuntime->rollback();
 				} else if ($formRuntime->shouldFinish()) {
-					$controllerContext = $this->tsRuntime->getControllerContext();
+					$controllerContext = $this->runtime->getControllerContext();
 					$finisherState = $formRuntime->finish($controllerContext->getResponse());
 					$response = $finisherState->getResponse();
 
@@ -219,15 +219,15 @@ class FormImplementation extends AbstractFusionObject
 
 			$formState->setCurrentPage($nextPage);
 
-			$this->tsRuntime->pushContextArray($this->tsRuntime->getCurrentContext() + [
+			$this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
 				$this->tsValue('pageContext') => $formContext->page($nextPage)
 			]);
 
-			$renderedForm = $this->tsRuntime->render(sprintf('%s/renderer/%s', $this->path, $nextPage));
+			$renderedForm = $this->runtime->render(sprintf('%s/renderer/%s', $this->path, $nextPage));
 
-			$this->tsRuntime->popContext();
+			$this->runtime->popContext();
 		} else {
-			$renderedForm = $this->tsRuntime->render(sprintf('%s/renderer', $this->path));
+			$renderedForm = $this->runtime->render(sprintf('%s/renderer', $this->path));
 		}
 
 		return $renderedForm;
