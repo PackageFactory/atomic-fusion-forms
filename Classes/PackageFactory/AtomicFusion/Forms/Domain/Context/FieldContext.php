@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Context;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Result;
-use TYPO3\Eel\ProtectedContextAwareInterface;
+use Neos\Eel\ProtectedContextAwareInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 
 /**
