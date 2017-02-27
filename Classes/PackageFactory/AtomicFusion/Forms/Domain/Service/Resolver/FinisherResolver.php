@@ -14,7 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Reflection\ReflectionService;
 use TYPO3\Flow\Reflection\ObjectAccess;
-use TYPO3\Flow\Object\ObjectManagerInterface;
+use TYPO3\Flow\ObjectManagement\ObjectManagerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\ResolverException;

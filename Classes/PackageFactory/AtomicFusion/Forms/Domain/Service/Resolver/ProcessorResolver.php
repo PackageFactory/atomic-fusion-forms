@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Reflection\ReflectionService;
-use TYPO3\Flow\Object\ObjectManagerInterface;
+use TYPO3\Flow\ObjectManagement\ObjectManagerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Processor\ProcessorInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\ResolverException;
