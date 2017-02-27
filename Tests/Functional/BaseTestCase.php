@@ -8,7 +8,7 @@ use Neos\Flow\Mvc\Controller\Arguments;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\Tests\FunctionalTestCase;
-use Neos\Fusion\View\TypoScriptView;
+use Neos\Fusion\View\FusionView;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
 use PackageFactory\AtomicFusion\Forms\Service\CryptographyService;
 use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationService;
@@ -22,11 +22,11 @@ abstract class BaseTestCase extends FunctionalTestCase
     /**
      * Helper to build a TypoScript view object
      *
-     * @return TypoScriptView
+     * @return FusionView
      */
-    protected function buildView(Request $httpRequest, $typoScriptPathPattern)
+    protected function buildView(Request $httpRequest, $fusionPathPattern)
     {
-        $view = new TypoScriptView();
+        $view = new FusionView();
 
         $request = $httpRequest->createActionRequest();
         $request->setArguments($httpRequest->getArguments());
@@ -44,11 +44,11 @@ abstract class BaseTestCase extends FunctionalTestCase
         $view->setControllerContext($controllerContext);
         $view->disableFallbackView();
         $view->setPackageKey('PackageFactory.AtomicFusion.Forms');
-        $view->setTypoScriptPath('form');
-        $view->setTypoScriptPathPatterns([
+        $view->setFusionPath('form');
+        $view->setFusionPathPatterns([
             getcwd() . '/Build/Travis/Packages/Application/Neos.Fusion/Resources/Private/TypoScript',
             getcwd() . '/Build/Travis/Packages/Application/PackageFactory.AtomicFusion.Forms/Resources/Private/TypoScript/Forms',
-            $typoScriptPathPattern
+            $fusionPathPattern
         ]);
 
         return $view;
