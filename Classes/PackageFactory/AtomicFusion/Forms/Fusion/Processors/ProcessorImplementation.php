@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Processors;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Processor\ProcessorInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinition;
@@ -21,7 +21,7 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ProcessorDefinitio
 /**
  * Fusion object to create processor definitions
  */
-class ProcessorImplementation extends AbstractTypoScriptObject
+class ProcessorImplementation extends AbstractFusionObject
 {
     /**
      * Check if `implementationClassName` and `option` values are in order and return

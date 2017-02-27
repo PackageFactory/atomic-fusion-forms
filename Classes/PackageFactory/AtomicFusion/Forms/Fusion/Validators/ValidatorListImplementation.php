@@ -12,13 +12,13 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Validators;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Fusion\TypoScriptObjects\AbstractArrayTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractArrayFusionObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
 
 /**
  * Fusion object to create lists of validator definitions
  */
-class ValidatorListImplementation extends AbstractArrayTypoScriptObject
+class ValidatorListImplementation extends AbstractArrayFusionObject
 {
     /**
      * Returns a list of validator definitions

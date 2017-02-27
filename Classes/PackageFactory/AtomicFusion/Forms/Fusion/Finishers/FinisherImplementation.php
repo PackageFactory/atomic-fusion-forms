@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Finishers;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException;
 use PackageFactory\AtomicFusion\Forms\Fusion\Traits\InferNameFromPathTrait;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
@@ -22,7 +22,7 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinition
 /**
  * Fusion object to create finisher definitions
  */
-class FinisherImplementation extends AbstractTypoScriptObject implements FinisherDefinitionInterface
+class FinisherImplementation extends AbstractFusionObject implements FinisherDefinitionInterface
 {
     use InferNameFromPathTrait;
 

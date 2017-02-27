@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Factory\FormRuntimeFactory;
@@ -26,7 +26,7 @@ use PackageFactory\AtomicFusion\Forms\Service\FormAugmentationService;
 use PackageFactory\AtomicFusion\Forms\Service\HiddenInputTagMappingService;
 use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationService;
 
-class FormImplementation extends AbstractTypoScriptObject
+class FormImplementation extends AbstractFusionObject
 {
 	/**
 	 * @Flow\Inject

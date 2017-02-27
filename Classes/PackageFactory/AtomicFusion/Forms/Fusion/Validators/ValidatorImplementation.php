@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Validators;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Validation\Validator\ValidatorInterface;
-use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
@@ -21,7 +21,7 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitio
 /**
  * Fusion object to create validator definitions
  */
-class ValidatorImplementation extends AbstractTypoScriptObject
+class ValidatorImplementation extends AbstractFusionObject
 {
     /**
      * Check if `implementationClassName` and `option` values are in order and return

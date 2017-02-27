@@ -12,13 +12,13 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Finishers;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 
 /**
  * Fusion object to create finisher definitions from collections
  */
-class FinisherCollectionImplementation extends AbstractTypoScriptObject
+class FinisherCollectionImplementation extends AbstractFusionObject
 {
     /**
      * Returns a list of finisher definitions

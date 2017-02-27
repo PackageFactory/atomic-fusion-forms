@@ -12,14 +12,14 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Pages;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Fusion\TypoScriptObjects\AbstractArrayTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractArrayFusionObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\PageDefinitionInterface;
 
 /**
  * Fusion object to create lists of page definitions
  */
-class PageListImplementation extends AbstractArrayTypoScriptObject
+class PageListImplementation extends AbstractArrayFusionObject
 {
     /**
      * Returns itself for later evaluation

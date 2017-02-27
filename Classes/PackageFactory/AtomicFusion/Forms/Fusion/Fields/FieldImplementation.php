@@ -12,14 +12,14 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Fields;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinition;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 
 /**
  * Fusion object to create field definitions
  */
-class FieldImplementation extends AbstractTypoScriptObject
+class FieldImplementation extends AbstractFusionObject
 {
     /**
      * Returns itself for later evaluation
