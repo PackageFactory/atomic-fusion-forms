@@ -20,9 +20,9 @@ form = PackageFactory.AtomicFusion.Forms:Form {
 		}
 	}
 
-	renderer = TYPO3.TypoScript:Tag {
+	renderer = Neos.Fusion:Tag {
         tagName = 'form'
-        content = TYPO3.TypoScript:Tag {
+        content = Neos.Fusion:Tag {
             @context.field = ${form.field('someRequiredString')}
             tagName = 'input'
             attributes {

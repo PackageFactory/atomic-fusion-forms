@@ -1,4 +1,4 @@
 prototype(PackageFactory.AtomicFusion.Forms:Validator) {
 	@class = 'PackageFactory\\AtomicFusion\\Forms\\Fusion\\Validators\\ValidatorImplementation'
-    options = TYPO3.TypoScript:RawArray
+    options = Neos.Fusion:RawArray
 }

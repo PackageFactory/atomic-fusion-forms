@@ -40,9 +40,9 @@ form = PackageFactory.AtomicFusion.Forms:Form {
 	}
 
 	renderer {
-        firstPage = TYPO3.TypoScript:Tag {
+        firstPage = Neos.Fusion:Tag {
             tagName = 'form'
-            content = TYPO3.TypoScript:Tag {
+            content = Neos.Fusion:Tag {
                 @context.field = ${form.field('stringOnFirstPage')}
                 tagName = 'input'
                 attributes {
@@ -52,9 +52,9 @@ form = PackageFactory.AtomicFusion.Forms:Form {
             }
     	}
 
-        secondPage = TYPO3.TypoScript:Tag {
+        secondPage = Neos.Fusion:Tag {
             tagName = 'form'
-            content = TYPO3.TypoScript:Tag {
+            content = Neos.Fusion:Tag {
                 @context.field = ${form.field('stringOnSecondPage')}
                 tagName = 'input'
                 attributes {
