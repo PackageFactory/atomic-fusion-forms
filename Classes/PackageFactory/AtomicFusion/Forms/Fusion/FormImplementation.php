@@ -28,234 +28,234 @@ use PackageFactory\AtomicFusion\Forms\Service\PropertyMappingConfigurationServic
 
 class FormImplementation extends AbstractFusionObject
 {
-	/**
-	 * @Flow\Inject
-	 * @var CryptographyService
-	 */
-	protected $cryptographyService;
+    /**
+     * @Flow\Inject
+     * @var CryptographyService
+     */
+    protected $cryptographyService;
 
-	/**
-	 * @Flow\Inject
-	 * @var FormAugmentationService
-	 */
-	protected $formAugmentationService;
+    /**
+     * @Flow\Inject
+     * @var FormAugmentationService
+     */
+    protected $formAugmentationService;
 
-	/**
-	 * @Flow\Inject
-	 * @var HiddenInputTagMappingService
-	 */
-	protected $hiddenInputTagMappingService;
+    /**
+     * @Flow\Inject
+     * @var HiddenInputTagMappingService
+     */
+    protected $hiddenInputTagMappingService;
 
-	/**
-	 * @Flow\Inject
-	 * @var PropertyMappingConfigurationService
-	 */
-	protected $propertyMappingConfigurationService;
+    /**
+     * @Flow\Inject
+     * @var PropertyMappingConfigurationService
+     */
+    protected $propertyMappingConfigurationService;
 
-	/**
-	 * @Flow\Inject
-	 * @var FormDefinitionFactory
-	 */
-	protected $formDefinitionFactory;
+    /**
+     * @Flow\Inject
+     * @var FormDefinitionFactory
+     */
+    protected $formDefinitionFactory;
 
-	/**
-	 * @Flow\Inject
-	 * @var FormRuntimeFactory
-	 */
-	protected $formRuntimeFactory;
+    /**
+     * @Flow\Inject
+     * @var FormRuntimeFactory
+     */
+    protected $formRuntimeFactory;
 
-	/**
-	 * @Flow\Inject
-	 * @var FormContextFactory
-	 */
-	protected $formContextFactory;
+    /**
+     * @Flow\Inject
+     * @var FormContextFactory
+     */
+    protected $formContextFactory;
 
-	/**
-	 * @var FormDefinitionInterface
-	 */
-	protected $formDefinition;
+    /**
+     * @var FormDefinitionInterface
+     */
+    protected $formDefinition;
 
-	/**
-	 * @var FormRuntimeInterface
-	 */
-	protected $formRuntime;
+    /**
+     * @var FormRuntimeInterface
+     */
+    protected $formRuntime;
 
-	/**
-	 * Create a form definition from the current fusion configuration
-	 *
-	 * @return FormDefinitionInterface
-	 */
-	public function getFormDefinition()
-	{
-		if ($this->formDefinition) {
-			return $this->formDefinition;
-		}
+    /**
+     * Create a form definition from the current fusion configuration
+     *
+     * @return FormDefinitionInterface
+     */
+    public function getFormDefinition()
+    {
+        if ($this->formDefinition) {
+            return $this->formDefinition;
+        }
 
-		$fields = $this->tsValue('fields');
-		$finishers = $this->tsValue('finishers');
-		$pages = $this->tsValue('pages');
+        $fields = $this->tsValue('fields');
+        $finishers = $this->tsValue('finishers');
+        $pages = $this->tsValue('pages');
 
-		$formDefinition = $this->formDefinitionFactory->createFormDefinition([
-			'label' => $this->tsValue('label'),
-			'name' => $this->tsValue('name'),
-			'action' => $this->tsValue('action')
-		]);
+        $formDefinition = $this->formDefinitionFactory->createFormDefinition([
+            'label' => $this->tsValue('label'),
+            'name' => $this->tsValue('name'),
+            'action' => $this->tsValue('action')
+        ]);
 
-		foreach ($fields as $field) {
-			$field->setFormDefinition($formDefinition);
-			$formDefinition->addFieldDefinition($field);
-		}
+        foreach ($fields as $field) {
+            $field->setFormDefinition($formDefinition);
+            $formDefinition->addFieldDefinition($field);
+        }
 
-		foreach ($finishers as $finisher) {
-			$formDefinition->addFinisherDefinition($finisher);
-		}
+        foreach ($finishers as $finisher) {
+            $formDefinition->addFinisherDefinition($finisher);
+        }
 
-		foreach ($pages as $page) {
-			$page->setFormDefinition($formDefinition);
-			$formDefinition->addPageDefinition($page);
-		}
+        foreach ($pages as $page) {
+            $page->setFormDefinition($formDefinition);
+            $formDefinition->addPageDefinition($page);
+        }
 
-		return $this->formDefinition = $formDefinition;
-	}
+        return $this->formDefinition = $formDefinition;
+    }
 
-	/**
-	 * Create a new form runtime from the current fusion configuration and the current
-	 * action request
-	 *
-	 * @return FormRuntimeInterface
-	 */
-	public function getFormRuntime()
-	{
-		if ($this->formRuntime) {
-			return $this->formRuntime;
-		}
+    /**
+     * Create a new form runtime from the current fusion configuration and the current
+     * action request
+     *
+     * @return FormRuntimeInterface
+     */
+    public function getFormRuntime()
+    {
+        if ($this->formRuntime) {
+            return $this->formRuntime;
+        }
 
-		$formDefinition = $this->getFormDefinition();
-		$request = $this->runtime->getControllerContext()->getRequest();
+        $formDefinition = $this->getFormDefinition();
+        $request = $this->runtime->getControllerContext()->getRequest();
 
-		return $this->formRuntime = $this->formRuntimeFactory->createFormRuntime($formDefinition, $request);
-	}
+        return $this->formRuntime = $this->formRuntimeFactory->createFormRuntime($formDefinition, $request);
+    }
 
-	public function evaluate()
-	{
-		//
-		// Create form definition
-		//
-		$formRuntime = $this->getFormRuntime();
-		$formContext = $this->formContextFactory->createFormContext($formRuntime);
+    public function evaluate()
+    {
+        //
+        // Create form definition
+        //
+        $formRuntime = $this->getFormRuntime();
+        $formContext = $this->formContextFactory->createFormContext($formRuntime);
 
-		$this->runtime->pushContext($this->tsValue('formContext'), $formContext);
+        $this->runtime->pushContext($this->tsValue('formContext'), $formContext);
 
-		$renderedForm = $this->processForm($formRuntime);
-		$renderedForm = $renderedForm ? $renderedForm : $this->augmentForm(
-			$this->renderForm($formRuntime, $formContext),
-			$formRuntime,
-			$formContext
-		);
-		$this->runtime->popContext();
+        $renderedForm = $this->processForm($formRuntime);
+        $renderedForm = $renderedForm ? $renderedForm : $this->augmentForm(
+            $this->renderForm($formRuntime, $formContext),
+            $formRuntime,
+            $formContext
+        );
+        $this->runtime->popContext();
 
-		return $renderedForm;
-	}
+        return $renderedForm;
+    }
 
-	/**
-	 * Perform runtime tasks on current form state
-	 *
-	 * @param FormRuntimeInterface $formRuntime
-	 * @return string|null
-	 */
-	public function processForm(FormRuntimeInterface $formRuntime)
-	{
-		if ($formRuntime->shouldProcess()) {
-			$formRuntime->process();
+    /**
+     * Perform runtime tasks on current form state
+     *
+     * @param FormRuntimeInterface $formRuntime
+     * @return string|null
+     */
+    public function processForm(FormRuntimeInterface $formRuntime)
+    {
+        if ($formRuntime->shouldProcess()) {
+            $formRuntime->process();
 
-			if ($formRuntime->shouldValidate()) {
-				$formRuntime->validate();
+            if ($formRuntime->shouldValidate()) {
+                $formRuntime->validate();
 
-				if ($formRuntime->shouldRollback()) {
-					$formRuntime->rollback();
-				} else if ($formRuntime->shouldFinish()) {
-					$controllerContext = $this->runtime->getControllerContext();
-					$finisherState = $formRuntime->finish($controllerContext->getResponse());
-					$response = $finisherState->getResponse();
+                if ($formRuntime->shouldRollback()) {
+                    $formRuntime->rollback();
+                } elseif ($formRuntime->shouldFinish()) {
+                    $controllerContext = $this->runtime->getControllerContext();
+                    $finisherState = $formRuntime->finish($controllerContext->getResponse());
+                    $response = $finisherState->getResponse();
 
-					if ($statusCode = $response->getStatusCode()) {
-						$controllerContext->getResponse()->setStatus($statusCode);
-					}
+                    if ($statusCode = $response->getStatusCode()) {
+                        $controllerContext->getResponse()->setStatus($statusCode);
+                    }
 
-					if ($flashMessages = $finisherState->getFlashMessageContainer()->getMessagesAndFlush()) {
-						foreach ($flashMessages as $flashMessage) {
-							$controllerContext->getFlashMessageContainer()->addMessage($flashMessage);
-						}
-					}
+                    if ($flashMessages = $finisherState->getFlashMessageContainer()->getMessagesAndFlush()) {
+                        foreach ($flashMessages as $flashMessage) {
+                            $controllerContext->getFlashMessageContainer()->addMessage($flashMessage);
+                        }
+                    }
 
-					if ($content = $response->getContent()) {
-						return $content;
-					}
-				}
-			}
-		}
-	}
+                    if ($content = $response->getContent()) {
+                        return $content;
+                    }
+                }
+            }
+        }
+    }
 
-	/**
-	 * Render the form
-	 *
-	 * @param FormRuntimeInterface $formRuntime
-	 * @return string
-	 */
-	public function renderForm(FormRuntimeInterface $formRuntime, FormContext $formContext)
-	{
-		$formDefinition = $formRuntime->getFormDefinition();
-		$formState = $formRuntime->getFormState();
+    /**
+     * Render the form
+     *
+     * @param FormRuntimeInterface $formRuntime
+     * @return string
+     */
+    public function renderForm(FormRuntimeInterface $formRuntime, FormContext $formContext)
+    {
+        $formDefinition = $formRuntime->getFormDefinition();
+        $formState = $formRuntime->getFormState();
 
-		if ($formDefinition->hasPages()) {
-			$currentPage = $formState->getCurrentPage();
-			$nextPage = $currentPage;
+        if ($formDefinition->hasPages()) {
+            $currentPage = $formState->getCurrentPage();
+            $nextPage = $currentPage;
 
-			if (!$formState->getValidationResult()->hasErrors()) {
-				$nextPage = $formDefinition->getNextPage($currentPage);
-			}
+            if (!$formState->getValidationResult()->hasErrors()) {
+                $nextPage = $formDefinition->getNextPage($currentPage);
+            }
 
-			$formState->setCurrentPage($nextPage);
+            $formState->setCurrentPage($nextPage);
 
-			$this->runtime->pushContext($this->tsValue('pageContext'), $formContext->page($nextPage));
+            $this->runtime->pushContext($this->tsValue('pageContext'), $formContext->page($nextPage));
 
-			$renderedForm = $this->runtime->render(sprintf('%s/renderer/%s', $this->path, $nextPage));
+            $renderedForm = $this->runtime->render(sprintf('%s/renderer/%s', $this->path, $nextPage));
 
-			$this->runtime->popContext();
-		} else {
-			$renderedForm = $this->runtime->render(sprintf('%s/renderer', $this->path));
-		}
+            $this->runtime->popContext();
+        } else {
+            $renderedForm = $this->runtime->render(sprintf('%s/renderer', $this->path));
+        }
 
-		return $renderedForm;
-	}
+        return $renderedForm;
+    }
 
-	/**
-	 * Augment rendering result with form meta information:
-	 *
-	 *	- Form State
-	 *	- Trusted Properties
-	 *
-	 * @param string $renderedForm
-	 * @param FormRuntimeInterface $formRuntime
-	 * @param FormContext $formContext
-	 * @return string
-	 */
-	public function augmentForm($renderedForm, FormRuntimeInterface $formRuntime, FormContext $formContext)
-	{
-		return $this->formAugmentationService->injectStringAfterOpeningFormTag(
-			$renderedForm,
-			sprintf(
-				'<div style="display: none;">%s</div>',
-				$this->hiddenInputTagMappingService->convertFlatMapToHiddenInputTags([
-					'__state' => $this->cryptographyService->encodeHiddenFormMetadata(
-						$formRuntime->getFormState()
-					),
-					'__trustedProperties' => $this->propertyMappingConfigurationService
-						->generateTrustedPropertiesToken(
-							$formContext->getRequestedFieldNames()
-						)
-				], $formRuntime->getRequest()->getArgumentNamespace())
-			)
-		);
-	}
+    /**
+     * Augment rendering result with form meta information:
+     *
+     *  - Form State
+     *  - Trusted Properties
+     *
+     * @param string $renderedForm
+     * @param FormRuntimeInterface $formRuntime
+     * @param FormContext $formContext
+     * @return string
+     */
+    public function augmentForm($renderedForm, FormRuntimeInterface $formRuntime, FormContext $formContext)
+    {
+        return $this->formAugmentationService->injectStringAfterOpeningFormTag(
+            $renderedForm,
+            sprintf(
+                '<div style="display: none;">%s</div>',
+                $this->hiddenInputTagMappingService->convertFlatMapToHiddenInputTags([
+                    '__state' => $this->cryptographyService->encodeHiddenFormMetadata(
+                        $formRuntime->getFormState()
+                    ),
+                    '__trustedProperties' => $this->propertyMappingConfigurationService
+                        ->generateTrustedPropertiesToken(
+                            $formContext->getRequestedFieldNames()
+                        )
+                ], $formRuntime->getRequest()->getArgumentNamespace())
+            )
+        );
+    }
 }

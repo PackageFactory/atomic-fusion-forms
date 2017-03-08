@@ -127,5 +127,4 @@ interface FormDefinitionInterface
      * @return boolean
      */
     public function hasPages();
-
 }

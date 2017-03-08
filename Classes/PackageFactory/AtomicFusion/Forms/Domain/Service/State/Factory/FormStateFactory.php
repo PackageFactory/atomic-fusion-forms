@@ -49,8 +49,8 @@ class FormStateFactory
     public function createFromActionRequest(ActionRequest $request)
     {
         if ($serializedFormState = $request->getInternalArgument('__state')) {
-			return $this->cryptographyService->decodeHiddenFormMetadata($serializedFormState);
-		}
+            return $this->cryptographyService->decodeHiddenFormMetadata($serializedFormState);
+        }
 
         return $this->createFormState();
     }
