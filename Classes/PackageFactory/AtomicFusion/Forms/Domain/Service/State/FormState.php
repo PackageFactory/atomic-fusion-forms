@@ -24,7 +24,7 @@ class FormState implements FormStateInterface
     /**
      * @var boolean
      */
-    protected $__isInitialCall = true;
+    protected $initialCall = true;
 
     /**
      * @var array
@@ -166,7 +166,7 @@ class FormState implements FormStateInterface
      */
     public function isInitialCall()
     {
-        return $this->__isInitialCall;
+        return $this->initialCall;
     }
 
     /**
@@ -179,7 +179,7 @@ class FormState implements FormStateInterface
      */
     public function __wakeup()
     {
-        $this->__isInitialCall = false;
+        $this->initialCall = false;
         $this->validationResult = new Result();
     }
 
