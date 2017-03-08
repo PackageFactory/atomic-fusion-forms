@@ -1,0 +1,3 @@
+prototype(PackageFactory.AtomicFusion.Forms:Finisher.Email) < prototype(PackageFactory.AtomicFusion.Forms:Finisher) {
+	implementationClassName = 'PackageFactory\\AtomicFusion\\Forms\\Domain\\Model\\Finisher\\EmailFinisher'
+}
