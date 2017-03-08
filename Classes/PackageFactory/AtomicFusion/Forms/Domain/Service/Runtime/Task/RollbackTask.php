@@ -16,6 +16,7 @@ use Neos\Error\Messages\Result;
 use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ProcessorResolverInterface;
+
 /**
  * Rollback side effects if something went wrong during processing or validation
  *
@@ -38,8 +39,8 @@ class RollbackTask implements RollbackTaskInterface
         $input,
         $value,
         Result $validationResult
-    )
-    {
+    ) {
+    
         $processor = $this->processorResolver->resolve($fieldDefinition->getProcessorDefinition());
 
         $processor->rollback(

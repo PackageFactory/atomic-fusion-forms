@@ -23,12 +23,12 @@ use PackageFactory\AtomicFusion\Forms\Domain\Context\PageContext;
 class PageContextFactory
 {
     /**
-	 * Create a page context
-	 *
-	 * @param FormRuntimeInterface $formRuntime
-	 * @param string $pageName
-	 * @return PageContext
-	 */
+     * Create a page context
+     *
+     * @param FormRuntimeInterface $formRuntime
+     * @param string $pageName
+     * @return PageContext
+     */
     public function createPageContext(FormRuntimeInterface $formRuntime, $pageName)
     {
         return new PageContext($formRuntime, $pageName);

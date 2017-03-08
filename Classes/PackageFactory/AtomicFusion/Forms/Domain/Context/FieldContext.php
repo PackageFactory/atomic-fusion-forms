@@ -21,62 +21,62 @@ use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterfac
  */
 class FieldContext implements ProtectedContextAwareInterface
 {
-	/**
-	 * @var FormRuntimeInterface
-	 */
-	protected $formRuntime;
+    /**
+     * @var FormRuntimeInterface
+     */
+    protected $formRuntime;
 
-	/**
-	 * @var string
-	 */
-	protected $fieldName;
+    /**
+     * @var string
+     */
+    protected $fieldName;
 
-	/**
-	 * @var string
-	 */
-	protected $propertyPath;
+    /**
+     * @var string
+     */
+    protected $propertyPath;
 
-	/**
-	 * Constructor
-	 *
-	 * @param FormRuntimeInterface $formRuntime
-	 * @param string $fieldName
-	 * @param string $propertyPath
-	 */
-	public function __construct(FormRuntimeInterface $formRuntime, $fieldName, $propertyPath = '')
-	{
-		$this->formRuntime = $formRuntime;
-		$this->fieldName = $fieldName;
-		$this->propertyPath = $propertyPath;
-	}
+    /**
+     * Constructor
+     *
+     * @param FormRuntimeInterface $formRuntime
+     * @param string $fieldName
+     * @param string $propertyPath
+     */
+    public function __construct(FormRuntimeInterface $formRuntime, $fieldName, $propertyPath = '')
+    {
+        $this->formRuntime = $formRuntime;
+        $this->fieldName = $fieldName;
+        $this->propertyPath = $propertyPath;
+    }
 
-	/**
-	 * Get the field label
-	 *
-	 * @return string
-	 */
-	public function getLabel()
-	{
-		return $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getLabel();
-	}
+    /**
+     * Get the field label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getLabel();
+    }
 
-	/**
-	 * Get the field name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		$name = $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getName();
-		$name = sprintf('[%s]', $name);
+    /**
+     * Get the field name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        $name = $this->formRuntime->getFormDefinition()->getFieldDefinition($this->fieldName)->getName();
+        $name = sprintf('[%s]', $name);
 
-		if ($this->propertyPath !== '') {
-			$propertyPathParts = explode('.', $this->propertyPath);
-			$name .= '[' . implode('][', $propertyPathParts) . ']';
-		}
+        if ($this->propertyPath !== '') {
+            $propertyPathParts = explode('.', $this->propertyPath);
+            $name .= '[' . implode('][', $propertyPathParts) . ']';
+        }
 
-		return $this->formRuntime->getRequest()->getArgumentNamespace() . $name;
-	}
+        return $this->formRuntime->getRequest()->getArgumentNamespace() . $name;
+    }
 
     /**
      * Get the argument
@@ -85,10 +85,10 @@ class FieldContext implements ProtectedContextAwareInterface
      */
     public function getArgument()
     {
-		$finalPropertyPath = $this->fieldName;
-		if ($this->propertyPath !== '') {
-			$finalPropertyPath .= '.' . $this->propertyPath;
-		}
+        $finalPropertyPath = $this->fieldName;
+        if ($this->propertyPath !== '') {
+            $finalPropertyPath .= '.' . $this->propertyPath;
+        }
 
         return $this->formRuntime->getFormState()->getArgument($finalPropertyPath);
     }
@@ -100,10 +100,10 @@ class FieldContext implements ProtectedContextAwareInterface
      */
     public function getValue()
     {
-		$finalPropertyPath = $this->fieldName;
-		if ($this->propertyPath !== '') {
-			$finalPropertyPath .= '.' . $this->propertyPath;
-		}
+        $finalPropertyPath = $this->fieldName;
+        if ($this->propertyPath !== '') {
+            $finalPropertyPath .= '.' . $this->propertyPath;
+        }
 
         return $this->formRuntime->getFormState()->getValue($finalPropertyPath);
     }
@@ -115,10 +115,10 @@ class FieldContext implements ProtectedContextAwareInterface
      */
     public function getValidationResult()
     {
-		$finalPropertyPath = $this->fieldName;
-		if ($this->propertyPath !== '') {
-			$finalPropertyPath .= '.' . $this->propertyPath;
-		}
+        $finalPropertyPath = $this->fieldName;
+        if ($this->propertyPath !== '') {
+            $finalPropertyPath .= '.' . $this->propertyPath;
+        }
 
         return $this->formRuntime->getFormState()->getValidationResult()->forProperty($finalPropertyPath);
     }
@@ -133,12 +133,12 @@ class FieldContext implements ProtectedContextAwareInterface
         return $this->getValidationResult()->hasErrors();
     }
 
-	/**
+    /**
      * @param string $methodName
      * @return boolean
      */
     public function allowsCallOfMethod($methodName)
     {
-		return true;
+        return true;
     }
 }

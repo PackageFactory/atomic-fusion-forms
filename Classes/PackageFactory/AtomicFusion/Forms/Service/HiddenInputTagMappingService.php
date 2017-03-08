@@ -18,28 +18,28 @@ use Neos\Flow\Annotations as Flow;
  */
 class HiddenInputTagMappingService
 {
-	/**
-	 * Converts flat associative arrays to a string containing hidden input fields
-	 *
-	 * @param array  $map
-	 * @param string $fieldNamePrefix [description]
-	 * @return string
-	 */
-	public function convertFlatMapToHiddenInputTags(array $map, $fieldNamePrefix)
-	{
-		$result = '';
-		foreach ($map as $key => $value) {
-			if (is_array($value) || (is_object($value) && !method_exists($value, 'toString'))) {
-				throw new \Exception('The given map needs to be flat.', 1475408307);
-			}
+    /**
+     * Converts flat associative arrays to a string containing hidden input fields
+     *
+     * @param array  $map
+     * @param string $fieldNamePrefix [description]
+     * @return string
+     */
+    public function convertFlatMapToHiddenInputTags(array $map, $fieldNamePrefix)
+    {
+        $result = '';
+        foreach ($map as $key => $value) {
+            if (is_array($value) || (is_object($value) && !method_exists($value, 'toString'))) {
+                throw new \Exception('The given map needs to be flat.', 1475408307);
+            }
 
-			$result .= sprintf(
-				'<input type="hidden" name="%s" value="%s" />',
-				sprintf('%s[%s]', $fieldNamePrefix, $key),
-				htmlspecialchars($value)
-			);
-		}
+            $result .= sprintf(
+                '<input type="hidden" name="%s" value="%s" />',
+                sprintf('%s[%s]', $fieldNamePrefix, $key),
+                htmlspecialchars($value)
+            );
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }

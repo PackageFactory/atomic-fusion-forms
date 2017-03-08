@@ -27,10 +27,10 @@ use PackageFactory\AtomicFusion\Forms\Factory\PropertyMappingConfigurationFactor
  */
 class FormRuntime implements FormRuntimeInterface
 {
-	/**
-	 * @var ActionRequest
-	 */
-	protected $request;
+    /**
+     * @var ActionRequest
+     */
+    protected $request;
 
     /**
      * @var FormStateInterface
@@ -42,43 +42,43 @@ class FormRuntime implements FormRuntimeInterface
      */
     protected $formDefinition;
 
-	/**
-	 * @Flow\Inject
-	 * @var Task\ProcessTaskInterface
-	 */
-	protected $processTask;
+    /**
+     * @Flow\Inject
+     * @var Task\ProcessTaskInterface
+     */
+    protected $processTask;
 
-	/**
-	 * @Flow\Inject
-	 * @var Task\ValidateTaskInterface
-	 */
-	protected $validateTask;
+    /**
+     * @Flow\Inject
+     * @var Task\ValidateTaskInterface
+     */
+    protected $validateTask;
 
-	/**
-	 * @Flow\Inject
-	 * @var Task\RollbackTaskInterface
-	 */
-	protected $rollbackTask;
+    /**
+     * @Flow\Inject
+     * @var Task\RollbackTaskInterface
+     */
+    protected $rollbackTask;
 
-	/**
-	 * @Flow\Inject
-	 * @var Task\FinishTaskInterface
-	 */
-	protected $finishTask;
+    /**
+     * @Flow\Inject
+     * @var Task\FinishTaskInterface
+     */
+    protected $finishTask;
 
-	/**
+    /**
      * @var PropertyMappingConfiguration
      */
     protected $propertyMappingConfiguration;
 
-	/**
-	 * @Flow\Inject
+    /**
+     * @Flow\Inject
      * @var PropertyMappingConfigurationFactory
      */
     protected $propertyMappingConfigurationFactory;
 
-	/**
-	 * @Flow\Inject
+    /**
+     * @Flow\Inject
      * @var FormStateFactory
      */
     protected $formStateFactory;
@@ -94,9 +94,9 @@ class FormRuntime implements FormRuntimeInterface
         $this->formDefinition = $formDefinition;
 
         //
-		// Create sub request
-		//
-		$rootRequest = $request->getMainRequest() ?: $request;
+        // Create sub request
+        //
+        $rootRequest = $request->getMainRequest() ?: $request;
         $pluginArguments = $rootRequest->getPluginArguments();
 
         $this->request = new ActionRequest($request);
@@ -108,20 +108,20 @@ class FormRuntime implements FormRuntimeInterface
     }
 
     /**
-	 * Restore or initialize form state, create property mapping configuration
-	 *
-	 * @return void
-	 */
-	protected function initializeObject()
-	{
-		$this->formState = $this->formStateFactory->createFromActionRequest($this->request);
-		$this->formState->mergeArguments($this->request->getArguments());
+     * Restore or initialize form state, create property mapping configuration
+     *
+     * @return void
+     */
+    protected function initializeObject()
+    {
+        $this->formState = $this->formStateFactory->createFromActionRequest($this->request);
+        $this->formState->mergeArguments($this->request->getArguments());
 
         $this->propertyMappingConfiguration = $this->propertyMappingConfigurationFactory
-			->createTrustedPropertyMappingConfiguration(
-				$this->request->getInternalArgument('__trustedProperties')
-			);
-	}
+            ->createTrustedPropertyMappingConfiguration(
+                $this->request->getInternalArgument('__trustedProperties')
+            );
+    }
 
     /**
      * @inheritdoc
@@ -147,13 +147,13 @@ class FormRuntime implements FormRuntimeInterface
         return $this->formState;
     }
 
-	/**
+    /**
      * @inheritdoc
      */
-	public function shouldProcess()
-	{
-		return !$this->formState->isInitialCall();
-	}
+    public function shouldProcess()
+    {
+        return !$this->formState->isInitialCall();
+    }
 
     /**
      * @inheritdoc
@@ -166,24 +166,24 @@ class FormRuntime implements FormRuntimeInterface
         foreach ($fieldDefinitions as $fieldDefinition) {
             $argument = $this->formState->getArgument($fieldDefinition->getName());
 
-			$value = $this->processTask->run(
-				$this->propertyMappingConfiguration,
-				$fieldDefinition,
-				$argument,
-				$this->formState->getValidationResult()
-			);
+            $value = $this->processTask->run(
+                $this->propertyMappingConfiguration,
+                $fieldDefinition,
+                $argument,
+                $this->formState->getValidationResult()
+            );
 
-			$this->formState->addValue($fieldDefinition->getName(), $value);
+            $this->formState->addValue($fieldDefinition->getName(), $value);
         }
     }
 
-	/**
+    /**
      * @inheritdoc
      */
-	public function shouldValidate()
-	{
-		return !$this->formState->isInitialCall() && count($this->formState->getValues()) > 0;
-	}
+    public function shouldValidate()
+    {
+        return !$this->formState->isInitialCall() && count($this->formState->getValues()) > 0;
+    }
 
     /**
      * @inheritdoc
@@ -194,61 +194,61 @@ class FormRuntime implements FormRuntimeInterface
 
         foreach ($fieldDefinitions as $fieldDefinition) {
             $value = $this->formState->getValue($fieldDefinition->getName());
-			$this->validateTask->run($fieldDefinition, $value, $this->formState->getValidationResult());
+            $this->validateTask->run($fieldDefinition, $value, $this->formState->getValidationResult());
         }
     }
 
-	/**
+    /**
      * @inheritdoc
      */
-	public function shouldRollback()
-	{
-		return $this->formState->getValidationResult()->hasErrors();
-	}
+    public function shouldRollback()
+    {
+        return $this->formState->getValidationResult()->hasErrors();
+    }
 
     /**
      * @inheritdoc
      */
     public function rollback()
     {
-		$fieldDefinitions = $this->getFieldDefinitionsForCurrentPage();
+        $fieldDefinitions = $this->getFieldDefinitionsForCurrentPage();
 
         foreach ($fieldDefinitions as $fieldDefinition) {
-			$argument = $this->formState->getArgument($fieldDefinition->getName());
-			$value = $this->formState->getValue($fieldDefinition->getName());
+            $argument = $this->formState->getArgument($fieldDefinition->getName());
+            $value = $this->formState->getValue($fieldDefinition->getName());
 
-			$restoredValue = $this->rollbackTask
-				->run(
-					$this->propertyMappingConfiguration,
-					$fieldDefinition,
-					$argument,
-					$value,
-					$this->formState->getValidationResult()
-				);
+            $restoredValue = $this->rollbackTask
+                ->run(
+                    $this->propertyMappingConfiguration,
+                    $fieldDefinition,
+                    $argument,
+                    $value,
+                    $this->formState->getValidationResult()
+                );
 
-			$this->formState->addValue($fieldDefinition->getName(), $restoredValue);
+            $this->formState->addValue($fieldDefinition->getName(), $restoredValue);
         }
     }
 
-	/**
+    /**
      * @inheritdoc
      */
-	public function shouldFinish()
-	{
-		$pageDefinitions = $this->formDefinition->getPageDefinitions();
-		$isOnLastPage = false;
+    public function shouldFinish()
+    {
+        $pageDefinitions = $this->formDefinition->getPageDefinitions();
+        $isOnLastPage = false;
 
-		if (is_array($pageDefinitions)) {
-			$lastPageDefinition = array_pop($pageDefinitions);
-			if ($lastPageDefinition) {
-				$isOnLastPage = $this->formState->getCurrentPage() === $lastPageDefinition->getName();
-			}
-		}
+        if (is_array($pageDefinitions)) {
+            $lastPageDefinition = array_pop($pageDefinitions);
+            if ($lastPageDefinition) {
+                $isOnLastPage = $this->formState->getCurrentPage() === $lastPageDefinition->getName();
+            }
+        }
 
-		return !$this->formState->isInitialCall() && !$this->formState->getValidationResult()->hasErrors() && (
-			!$this->formDefinition->hasPages() || $isOnLastPage
-		);
-	}
+        return !$this->formState->isInitialCall() && !$this->formState->getValidationResult()->hasErrors() && (
+            !$this->formDefinition->hasPages() || $isOnLastPage
+        );
+    }
 
     /**
      * @inheritdoc
@@ -273,6 +273,6 @@ class FormRuntime implements FormRuntimeInterface
                 ->getFieldDefinitions();
         }
 
-		return $this->formDefinition->getFieldDefinitions();
+        return $this->formDefinition->getFieldDefinitions();
     }
 }

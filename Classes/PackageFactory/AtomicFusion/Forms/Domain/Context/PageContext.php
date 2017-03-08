@@ -20,15 +20,15 @@ use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterfac
  */
 class PageContext implements ProtectedContextAwareInterface
 {
-	/**
-	 * @var FormRuntimeInterface
-	 */
-	protected $formRuntime;
+    /**
+     * @var FormRuntimeInterface
+     */
+    protected $formRuntime;
 
-	/**
-	 * @var string
-	 */
-	protected $pageName;
+    /**
+     * @var string
+     */
+    protected $pageName;
 
     /**
      * @Flow\Inject
@@ -36,51 +36,51 @@ class PageContext implements ProtectedContextAwareInterface
      */
     protected $fieldContextFactory;
 
-	/**
-	 * Constructor
-	 *
-	 * @param FormRuntimeInterface $formRuntime
-	 * @param string $pageName
-	 */
-	public function __construct(FormRuntimeInterface $formRuntime, $pageName)
-	{
-		$this->formRuntime = $formRuntime;
-		$this->pageName = $pageName;
-	}
+    /**
+     * Constructor
+     *
+     * @param FormRuntimeInterface $formRuntime
+     * @param string $pageName
+     */
+    public function __construct(FormRuntimeInterface $formRuntime, $pageName)
+    {
+        $this->formRuntime = $formRuntime;
+        $this->pageName = $pageName;
+    }
 
-	/**
-	 * Get the page label
-	 *
-	 * @return string
-	 */
-	public function getLabel()
-	{
-		return $this->formRuntime->getFormDefinition()->getPageDefinition($this->pageName)->getLabel();
-	}
+    /**
+     * Get the page label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->formRuntime->getFormDefinition()->getPageDefinition($this->pageName)->getLabel();
+    }
 
-	/**
-	 * Get the page name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->formRuntime->getFormDefinition()->getPageDefinition($this->pageName)->getName();
-	}
+    /**
+     * Get the page name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->formRuntime->getFormDefinition()->getPageDefinition($this->pageName)->getName();
+    }
 
-	/**
-	 * Create a field context for the given path
-	 *
-	 * @param string $path
-	 * @return FieldContext
-	 */
-	public function field($path)
-	{
+    /**
+     * Create a field context for the given path
+     *
+     * @param string $path
+     * @return FieldContext
+     */
+    public function field($path)
+    {
         $pathParts = explode('.', $path);
         $name = array_shift($pathParts);
 
-		return $this->fieldContextFactory->createFieldContext($this->formRuntime, $name, implode('.', $pathParts));
-	}
+        return $this->fieldContextFactory->createFieldContext($this->formRuntime, $name, implode('.', $pathParts));
+    }
 
     /**
      * Check if this represents the current page
@@ -92,12 +92,12 @@ class PageContext implements ProtectedContextAwareInterface
         return $this->formRuntime->getFormState()->isCurrentPage($this->pageName);
     }
 
-	/**
+    /**
      * @param string $methodName
      * @return boolean
      */
     public function allowsCallOfMethod($methodName)
     {
-		return true;
+        return true;
     }
 }
