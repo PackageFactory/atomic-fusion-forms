@@ -50,9 +50,7 @@ class FieldCollectionImplementation extends AbstractFusionObject
      */
     protected function renderFieldDefinition($itemName, $item)
     {
-        $this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
-            $itemName => $item
-        ]);
+        $this->runtime->pushContext($itemName, $item);
 
         $fieldDefinition = $this->runtime->evaluate(sprintf('%s/fieldRenderer', $this->path), $this);
 

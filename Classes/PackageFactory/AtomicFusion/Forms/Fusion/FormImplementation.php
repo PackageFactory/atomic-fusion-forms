@@ -144,9 +144,7 @@ class FormImplementation extends AbstractFusionObject
 		$formRuntime = $this->getFormRuntime();
 		$formContext = $this->formContextFactory->createFormContext($formRuntime);
 
-		$this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
-			$this->tsValue('formContext') => $formContext
-		]);
+		$this->runtime->pushContext($this->tsValue('formContext'), $formContext);
 
 		$renderedForm = $this->processForm($formRuntime);
 		$renderedForm = $renderedForm ? $renderedForm : $this->augmentForm(
@@ -219,9 +217,7 @@ class FormImplementation extends AbstractFusionObject
 
 			$formState->setCurrentPage($nextPage);
 
-			$this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
-				$this->tsValue('pageContext') => $formContext->page($nextPage)
-			]);
+			$this->runtime->pushContext($this->tsValue('pageContext'), $formContext->page($nextPage));
 
 			$renderedForm = $this->runtime->render(sprintf('%s/renderer/%s', $this->path, $nextPage));
 

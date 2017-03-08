@@ -49,9 +49,7 @@ class ValidatorCollectionImplementation extends AbstractFusionObject
      */
     protected function renderValidatorDefinition($itemName, $item)
     {
-        $this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
-            $itemName => $item
-        ]);
+        $this->runtime->pushContext($itemName, $item);
 
         $validatorDefinition = $this->runtime->evaluate(sprintf('%s/validatorRenderer', $this->path), $this);
 
