@@ -32,6 +32,11 @@ class FinisherImplementation extends AbstractFusionObject implements FinisherDef
     protected $resolvedFinisherDefinition;
 
     /**
+     * @var array
+     */
+    protected $initialFusionContext;
+
+    /**
      * Returns itself for later evaluation
      *
      * @return FinisherDefinitionInterface
@@ -45,6 +50,8 @@ class FinisherImplementation extends AbstractFusionObject implements FinisherDef
                 1477759274
             );
         }
+
+        $this->initialFusionContext = $this->runtime->getCurrentContext() ?: [];
 
         return $this;
     }
@@ -61,8 +68,26 @@ class FinisherImplementation extends AbstractFusionObject implements FinisherDef
             return $this->resolvedFinisherDefinition;
         }
 
+        /*
+         * The form property is taken from the latest context and combined
+         * with the context during the initial evaluation.
+         *
+         * @todo use the form propertyName that is defined in fusion instead of 'form'
+         */
+        $combinedFusionContext = $this->initialFusionContext;
+        $context = $this->runtime->getCurrentContext();
+        $formContextName = 'form';
+
+        if ($context[$formContextName]) {
+            $combinedFusionContext[$formContextName] = $context[$formContextName];
+        }
+
+        $this->runtime->pushContextArray($combinedFusionContext);
+
         $implementationClassName = $this->tsValue('implementationClassName');
         $options = $this->tsValue('options');
+
+        $this->runtime->popContext();
 
         if (!$implementationClassName) {
             throw new EvaluationException(
