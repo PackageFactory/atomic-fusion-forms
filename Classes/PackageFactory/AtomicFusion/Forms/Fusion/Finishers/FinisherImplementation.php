@@ -24,7 +24,9 @@ use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinition
  */
 class FinisherImplementation extends AbstractFusionObject implements FinisherDefinitionInterface
 {
-    use InferNameFromPathTrait;
+    use InferNameFromPathTrait {
+        getName as protected getInferredName;
+    }
 
     /**
      * @var FinisherDefinitionInterface
@@ -143,5 +145,24 @@ class FinisherImplementation extends AbstractFusionObject implements FinisherDef
     public function getOptions()
     {
         return $this->resolveFinisherDefinition()->getOptions();
+    }
+
+    public function getName()
+    {
+        $combinedFusionContext = $this->initialFusionContext;
+        $context = $this->runtime->getCurrentContext();
+        $formContextName = 'form';
+
+        if (array_key_exists($formContextName, $context)) {
+            $combinedFusionContext[$formContextName] = $context[$formContextName];
+        }
+
+        $this->runtime->pushContextArray($combinedFusionContext);
+
+        $name = $this->getInferredName();
+
+        $this->runtime->popContext();
+
+        return $name;
     }
 }
