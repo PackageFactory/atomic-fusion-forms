@@ -25,7 +25,7 @@ interface FormStateInterface
      * @param array $arguments
      * @return void
      */
-	public function setArguments(array $arguments);
+    public function setArguments(array $arguments);
 
     /**
      * Add an argument
@@ -49,7 +49,7 @@ interface FormStateInterface
      *
      * @return array
      */
-	public function getArguments();
+    public function getArguments();
 
     /**
      * Get an argument by path
@@ -104,14 +104,14 @@ interface FormStateInterface
      * @param string $pageIdentifier
      * @return void
      */
-	public function setCurrentPage($pageIdentifier);
+    public function setCurrentPage($pageIdentifier);
 
     /**
      * Get the current page
      *
      * @return string
      */
-	public function getCurrentPage();
+    public function getCurrentPage();
 
     /**
      * Check if the given page is the current page
@@ -119,12 +119,12 @@ interface FormStateInterface
      * @param string  $pageIdentifier
      * @return boolean
      */
-	public function isCurrentPage($pageIdentifier);
+    public function isCurrentPage($pageIdentifier);
 
-	/**
-	 * Determine whether the form is initially called
-	 *
-	 * @return boolean
-	 */
-	public function isInitialCall();
+    /**
+     * Determine whether the form is initially called
+     *
+     * @return boolean
+     */
+    public function isInitialCall();
 }

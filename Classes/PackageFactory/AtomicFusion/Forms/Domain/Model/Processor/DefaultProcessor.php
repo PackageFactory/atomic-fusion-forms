@@ -31,14 +31,14 @@ class DefaultProcessor implements ProcessorInterface
     /**
      * @inheritdoc
      */
-     public function apply(
-         PropertyMappingConfiguration $propertyMappingConfiguration,
-         Result $result,
-         FieldDefinitionInterface $fieldDefinition,
-         array $options,
-         $input
-    )
-    {
+    public function apply(
+        PropertyMappingConfiguration $propertyMappingConfiguration,
+        Result $result,
+        FieldDefinitionInterface $fieldDefinition,
+        array $options,
+        $input
+    ) {
+    
         if ($type = $fieldDefinition->getType()) {
             $propertyMapper = $this->propertyMapperFactory->createPropertyMapper();
             $value = $propertyMapper->convert($input, $type, $propertyMappingConfiguration);
@@ -53,15 +53,15 @@ class DefaultProcessor implements ProcessorInterface
      * @inheritdoc
      * @codeCoverageIgnore
      */
-     public function rollback(
-         PropertyMappingConfiguration $propertyMappingConfiguration,
-         Result $result,
-         FieldDefinitionInterface $fieldDefinition,
-         array $options,
-         $input,
-         $value
-    )
-    {
+    public function rollback(
+        PropertyMappingConfiguration $propertyMappingConfiguration,
+        Result $result,
+        FieldDefinitionInterface $fieldDefinition,
+        array $options,
+        $input,
+        $value
+    ) {
+    
         //
         // Nothing to do here
         //

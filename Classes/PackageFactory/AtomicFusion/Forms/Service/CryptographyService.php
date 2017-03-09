@@ -19,21 +19,21 @@ use Neos\Flow\Security\Cryptography\HashService;
  */
 class CryptographyService
 {
-	/**
-	 * @Flow\Inject
-	 * @var HashService
-	 */
-	protected $hashService;
+    /**
+     * @Flow\Inject
+     * @var HashService
+     */
+    protected $hashService;
 
-	public function encodeHiddenFormMetadata($formMetadata)
-	{
-		$serializedFormState = base64_encode(serialize($formMetadata));
+    public function encodeHiddenFormMetadata($formMetadata)
+    {
+        $serializedFormState = base64_encode(serialize($formMetadata));
         return $this->hashService->appendHmac($serializedFormState);
-	}
+    }
 
-	public function decodeHiddenFormMetadata($encodedHiddenFormMetadata)
-	{
-		$serializedFormMetadata = $this->hashService->validateAndStripHmac($encodedHiddenFormMetadata);
-		return unserialize(base64_decode($serializedFormMetadata));
-	}
+    public function decodeHiddenFormMetadata($encodedHiddenFormMetadata)
+    {
+        $serializedFormMetadata = $this->hashService->validateAndStripHmac($encodedHiddenFormMetadata);
+        return unserialize(base64_decode($serializedFormMetadata));
+    }
 }

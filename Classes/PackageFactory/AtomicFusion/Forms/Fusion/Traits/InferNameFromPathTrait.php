@@ -20,21 +20,12 @@ use Neos\Flow\Annotations as Flow;
 trait InferNameFromPathTrait
 {
     /**
-     * @var string
-     */
-    protected $cachedName;
-
-    /**
      * @inheritdoc
      */
     public function getName()
     {
-        if ($name = $this->cachedName) {
+        if ($name = $this->runtime->evaluate(sprintf('%s/name', $this->path), $this)) {
             return $name;
-        }
-
-        if ($name = $this->tsValue('name')) {
-            return $this->cachedName = $name;
         }
 
         //
@@ -44,6 +35,6 @@ trait InferNameFromPathTrait
         $namePart = array_pop($pathParts);
         list($name) = explode('<', $namePart);
 
-        return $this->cachedName = $name;
+        return $name;
     }
 }

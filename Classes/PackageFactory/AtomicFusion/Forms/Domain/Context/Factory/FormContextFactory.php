@@ -23,11 +23,11 @@ use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 class FormContextFactory
 {
     /**
-	 * Create a form context
-	 *
-	 * @param FormRuntimeInterface $formRuntime
-	 * @return FormContext
-	 */
+     * Create a form context
+     *
+     * @param FormRuntimeInterface $formRuntime
+     * @return FormContext
+     */
     public function createFormContext(FormRuntimeInterface $formRuntime)
     {
         return new FormContext($formRuntime);

@@ -31,10 +31,10 @@ class ValidateTask implements ValidateTaskInterface
     protected $validatorResolver;
 
     /**
-	 * @Flow\Inject
-	 * @var MessageFactory
-	 */
-	protected $messageFactory;
+     * @Flow\Inject
+     * @var MessageFactory
+     */
+    protected $messageFactory;
 
     /**
      * @inheritdoc

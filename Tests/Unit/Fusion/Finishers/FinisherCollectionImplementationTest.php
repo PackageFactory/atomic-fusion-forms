@@ -37,10 +37,10 @@ class FinisherCollectionImplementationTest extends UnitTestCase
             ));
 
         $fusionRuntime->expects($this->exactly(2))
-            ->method('pushContextArray')
+            ->method('pushContext')
             ->withConsecutive(
-                [['TheItemName' => 'Item1']],
-                [['TheItemName' => 'Item2']]
+                ['TheItemName', 'Item1'],
+                ['TheItemName', 'Item2']
             );
 
         $fusionRuntime->expects($this->exactly(2))->method('popContext');

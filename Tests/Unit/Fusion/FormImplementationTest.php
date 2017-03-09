@@ -164,8 +164,8 @@ class FormImplementationTest extends UnitTestCase
             ->willReturn('form');
 
         $fusionRuntime->expects($this->once())
-            ->method('pushContextArray')
-            ->with($this->equalTo(['form' => $formContext]));
+            ->method('pushContext')
+            ->with('form', $formContext);
 
         $fusionRuntime->expects($this->once())
             ->method('popContext');
@@ -312,8 +312,8 @@ class FormImplementationTest extends UnitTestCase
         $fusionRuntime->method('getCurrentContext')->willReturn([]);
 
         $fusionRuntime->expects($this->once())
-            ->method('pushContextArray')
-            ->with($this->equalTo(['page' => $pageContext]));
+            ->method('pushContext')
+            ->with('page', $pageContext);
 
         $fusionRuntime->expects($this->once())
             ->method('popContext');
