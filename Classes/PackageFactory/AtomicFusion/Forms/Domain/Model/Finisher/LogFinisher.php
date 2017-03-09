@@ -32,10 +32,10 @@ class LogFinisher implements FinisherInterface
     protected $severity = 'INFO';
 
     /**
-	 * @Flow\Inject
-	 * @var SystemLoggerInterface
-	 */
-	protected $logger;
+     * @Flow\Inject
+     * @var SystemLoggerInterface
+     */
+    protected $logger;
 
     /**
      * Set the message

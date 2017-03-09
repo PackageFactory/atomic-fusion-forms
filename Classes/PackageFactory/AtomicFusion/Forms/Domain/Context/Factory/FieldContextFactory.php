@@ -23,13 +23,13 @@ use PackageFactory\AtomicFusion\Forms\Domain\Context\FieldContext;
 class FieldContextFactory
 {
     /**
-	 * Create a field context
-	 *
-	 * @param FormRuntimeInterface $formRuntime
-	 * @param string $fieldName
-	 * @param string $propertyPath
-	 * @return FieldContext
-	 */
+     * Create a field context
+     *
+     * @param FormRuntimeInterface $formRuntime
+     * @param string $fieldName
+     * @param string $propertyPath
+     * @return FieldContext
+     */
     public function createFieldContext(FormRuntimeInterface $formRuntime, $fieldName, $propertyPath = '')
     {
         return new FieldContext($formRuntime, $fieldName, $propertyPath);

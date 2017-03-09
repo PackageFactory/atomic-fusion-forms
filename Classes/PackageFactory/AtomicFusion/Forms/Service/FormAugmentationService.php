@@ -18,30 +18,30 @@ use Neos\Flow\Annotations as Flow;
  */
 class FormAugmentationService
 {
-	/**
-	 * Add string information to the beginning of a form
-	 *
-	 * @param  string $formString
-	 * @param  string $toBeInjectedString
-	 * @return string
-	 */
-	public function injectStringAfterOpeningFormTag($formString, $toBeInjectedString)
-	{
-		$openingBracketPosition = -1;
-		$closingBracketPosition = -1;
+    /**
+     * Add string information to the beginning of a form
+     *
+     * @param  string $formString
+     * @param  string $toBeInjectedString
+     * @return string
+     */
+    public function injectStringAfterOpeningFormTag($formString, $toBeInjectedString)
+    {
+        $openingBracketPosition = -1;
+        $closingBracketPosition = -1;
 
-		while (($nextOpeningBracketPosition = strpos($formString, '<', $openingBracketPosition + 1)) !== false) {
-			if (strtolower(substr($formString, $nextOpeningBracketPosition, 5)) === '<form') {
-				$closingBracketPosition = strpos($formString, '>', $nextOpeningBracketPosition);
-				break;
-			}
+        while (($nextOpeningBracketPosition = strpos($formString, '<', $openingBracketPosition + 1)) !== false) {
+            if (strtolower(substr($formString, $nextOpeningBracketPosition, 5)) === '<form') {
+                $closingBracketPosition = strpos($formString, '>', $nextOpeningBracketPosition);
+                break;
+            }
 
-			$openingBracketPosition = $nextOpeningBracketPosition;
-		}
+            $openingBracketPosition = $nextOpeningBracketPosition;
+        }
 
-		$preInjectionString = substr($formString, 0, $closingBracketPosition + 1);
-		$postInjectionString = substr($formString, $closingBracketPosition + 1);
+        $preInjectionString = substr($formString, 0, $closingBracketPosition + 1);
+        $postInjectionString = substr($formString, $closingBracketPosition + 1);
 
-		return $preInjectionString . $toBeInjectedString . $postInjectionString;
-	}
+        return $preInjectionString . $toBeInjectedString . $postInjectionString;
+    }
 }

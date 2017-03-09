@@ -50,9 +50,7 @@ class PageCollectionImplementation extends AbstractFusionObject
      */
     protected function renderPageDefinition($itemName, $item)
     {
-        $this->runtime->pushContextArray($this->runtime->getCurrentContext() + [
-            $itemName => $item
-        ]);
+        $this->runtime->pushContext($itemName, $item);
 
         $pageDefinitionFactory = $this->runtime->evaluate(sprintf('%s/pageRenderer', $this->path), $this);
 

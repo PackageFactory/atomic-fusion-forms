@@ -38,8 +38,8 @@ class ProcessTask implements ProcessTaskInterface
         FieldDefinitionInterface $fieldDefinition,
         $input,
         Result $validationResult
-    )
-    {
+    ) {
+    
         $processor = $this->processorResolver->resolve($fieldDefinition->getProcessorDefinition());
 
         return $processor->apply(
