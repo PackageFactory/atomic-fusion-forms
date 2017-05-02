@@ -1,0 +1,6 @@
+prototype(PackageFactory.AtomicFusion.Forms:Validators.DateTime) < prototype(PackageFactory.AtomicFusion.Forms:Validator) {
+    implementationClassName = 'Neos\\Flow\\Validation\\Validator\\DateTimeValidator'
+    options {
+        # @see http://neos.readthedocs.io/en/stable/References/Validators/Flow.html#datetimevalidator
+    }
+}
