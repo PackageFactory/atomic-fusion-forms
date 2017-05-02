@@ -1,0 +1,6 @@
+prototype(PackageFactory.AtomicFusion.Forms:Validators.EmailAddress) < prototype(PackageFactory.AtomicFusion.Forms:Validator) {
+    implementationClassName = 'Neos\\Flow\\Validation\\Validator\\EmailAddressValidator'
+    options {
+        # @see http://neos.readthedocs.io/en/stable/References/Validators/Flow.html#emailaddressvalidator
+    }
+}

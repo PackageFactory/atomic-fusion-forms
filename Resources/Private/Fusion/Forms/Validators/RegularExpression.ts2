@@ -1,0 +1,6 @@
+prototype(PackageFactory.AtomicFusion.Forms:Validators.RegularExpression) < prototype(PackageFactory.AtomicFusion.Forms:Validator) {
+    implementationClassName = 'Neos\\Flow\\Validation\\Validator\\RegularExpressionValidator'
+    options {
+        # @see http://neos.readthedocs.io/en/stable/References/Validators/Flow.html#regularexpressionvalidator
+    }
+}
