@@ -74,13 +74,13 @@ class RedirectFinisher implements FinisherInterface
         $escapedUri = htmlentities($this->uri, ENT_QUOTES, 'utf-8');
         $response = $finisherState->getResponse();
 
-        if ($this->delay === 0) {
-            $response->setHeader('Location', (string)$this->uri);
-            $response->setContent('<html><head><meta http-equiv="refresh" content="' . $this->delay . ';url=' . $escapedUri . '"/></head></html>');
-            $response->setStatus($this->statusCode);
+        if ($this->delay == 0) {
+            $mainResponse = $response->getParentResponse();
+            $mainResponse->setHeader('Location', (string)$this->uri);
+            $mainResponse->setStatus((int)$this->statusCode);
+            $mainResponse->setContent(sprintf('<html><head><meta http-equiv="refresh" content="%s;url=%s"/></head></html>' . $this->delay . ';url=' . $escapedUri));
         } else {
-            $response->appendContent('<meta http-equiv="refresh" content="' . $this->delay . ';url=' . $escapedUri . '"/>');
-            $response->setStatus($this->statusCode);
+            $response->appendContent(sprintf('<meta http-equiv="refresh" content="%s;url=%s"/>', $this->delay , $escapedUri));
         }
     }
 }
