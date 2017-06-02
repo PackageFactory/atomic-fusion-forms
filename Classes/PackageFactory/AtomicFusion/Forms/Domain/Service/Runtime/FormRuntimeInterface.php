@@ -16,7 +16,7 @@ use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Http\Response;
 use Neos\Error\Messages\Result;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FinisherRuntime;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
 
 /**
  * Method definitions for FormRuntime
@@ -26,7 +26,7 @@ interface FormRuntimeInterface
     /**
      * Get the Form definition
      *
-     * @return FormDefinition
+     * @return FormDefinitionInterface
      */
     public function getFormDefinition();
 
@@ -40,7 +40,7 @@ interface FormRuntimeInterface
     /**
      * Get the form state
      *
-     * @return FormState
+     * @return FormStateInterface
      */
     public function getFormState();
 
@@ -96,8 +96,8 @@ interface FormRuntimeInterface
     /**
      * Finish the form
      *
-     * @param Resopnse $parentResponse
-     * @return FinisherRuntime
+     * @param Response $parentResponse
+     * @return Response
      */
     public function finish(Response $parentResponse);
 }
