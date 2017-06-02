@@ -100,6 +100,14 @@ class FormDefinition implements FormDefinitionInterface
     /**
      * @inheritdoc
      */
+    public function hasFieldDefinition($name)
+    {
+        return array_key_exists($name, $this->fieldDefinitions);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getFieldDefinition($name)
     {
         if (array_key_exists($name, $this->fieldDefinitions)) {
@@ -118,6 +126,14 @@ class FormDefinition implements FormDefinitionInterface
     public function addFinisherDefinition(FinisherDefinitionInterface $finisherDefinition)
     {
         $this->finisherDefinitions[$finisherDefinition->getName()] = $finisherDefinition;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasFinisherDefinition($name)
+    {
+        return array_key_exists($name, $this->finisherDefinitions);
     }
 
     /**
@@ -164,6 +180,14 @@ class FormDefinition implements FormDefinitionInterface
     public function getPageDefinitions()
     {
         return $this->pageDefinitions;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasPageDefinition($name)
+    {
+        return array_key_exists($name, $this->pageDefinitions);
     }
 
     /**

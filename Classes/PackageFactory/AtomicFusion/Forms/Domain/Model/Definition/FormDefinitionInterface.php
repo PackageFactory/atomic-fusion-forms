@@ -56,6 +56,14 @@ interface FormDefinitionInterface
     public function getFieldDefinitions();
 
     /**
+     * Return true if a field definition for the given key exists
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function hasFieldDefinition($name);
+
+    /**
      * Get a single field definition addressed by its name
      *
      * @param string $name
@@ -80,6 +88,14 @@ interface FormDefinitionInterface
     public function getFinisherDefinitions();
 
     /**
+     * Return true if a finisher definition for the given key exists
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function hasFinisherDefinition($name);
+
+    /**
      * Get a single finisher definition addressed by its name
      *
      * @param string $name
@@ -102,6 +118,14 @@ interface FormDefinitionInterface
      * @return array<PageDefinitionInterface>
      */
     public function getPageDefinitions();
+
+    /**
+     * Return true if a page definition for the given key exists
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function hasPageDefinition($name);
 
     /**
      * Get a single page definition addressed by its name

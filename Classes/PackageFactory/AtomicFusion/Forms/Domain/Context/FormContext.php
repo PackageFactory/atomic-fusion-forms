@@ -83,6 +83,18 @@ class FormContext implements ProtectedContextAwareInterface
     }
 
     /**
+     * Test wether a field is defined
+     *
+     * @param $path
+     * @return bool
+     */
+    public function hasField($path)
+    {
+        return $this->formRuntime->getFormDefinition()->hasFieldDefinition($path);
+
+    }
+
+    /**
      * Create a field context for the given path
      *
      * @param string $path
@@ -96,6 +108,18 @@ class FormContext implements ProtectedContextAwareInterface
         $this->requestedFieldNames[] = $path;
 
         return $this->fieldContextFactory->createFieldContext($this->formRuntime, $name, implode('.', $pathParts));
+    }
+
+    /**
+     * Test wether a page is defined
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function hasPage($path)
+    {
+        return $this->formRuntime->getFormDefinition()->hasPageDefinition($path);
+
     }
 
     /**
