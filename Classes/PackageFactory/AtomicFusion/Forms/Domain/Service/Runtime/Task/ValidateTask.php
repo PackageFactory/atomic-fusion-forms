@@ -15,6 +15,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Result;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ValidatorResolverInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 use PackageFactory\AtomicFusion\Forms\Factory\MessageFactory;
 
 /**
@@ -22,7 +23,7 @@ use PackageFactory\AtomicFusion\Forms\Factory\MessageFactory;
  *
  * @Flow\Scope("singleton")
  */
-class ValidateTask implements ValidateTaskInterface
+class ValidateTask implements TaskInterface
 {
     /**
      * @Flow\Inject
@@ -39,7 +40,34 @@ class ValidateTask implements ValidateTaskInterface
     /**
      * @inheritdoc
      */
-    public function run(FieldDefinitionInterface $fieldDefinition, $value, Result $validationResult)
+    public function shouldRun(FormRuntimeInterface $runtime)
+    {
+        return !$runtime->getFormState()->isInitialCall() && count($runtime->getFormState()->getValues()) > 0;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function run(FormRuntimeInterface $runtime)
+    {
+        $fieldDefinitions = $runtime->getFieldDefinitionsForCurrentPage();
+
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            $value = $runtime->getFormState()->getValue($fieldDefinition->getName());
+            $this->validate($fieldDefinition, $value, $runtime->getFormState()->getValidationResult());
+        }
+    }
+
+    /**
+     * Validate the given values by their field definitions and write possibly occuring messages
+     * to the given validation result
+     *
+     * @param FieldDefinitionInterface $fieldDefinition
+     * @param mixed $value
+     * @param Result $validationResult
+     * @return void
+     */
+    public function validate(FieldDefinitionInterface $fieldDefinition, $value, Result $validationResult)
     {
         foreach ($fieldDefinition->getValidatorDefinitions() as $validatorDefinition) {
             $validator = $this->validatorResolver->resolve($validatorDefinition);

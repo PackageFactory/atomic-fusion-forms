@@ -14,10 +14,10 @@ use PackageFactory\AtomicFusion\Forms\Factory\PropertyMappingConfigurationFactor
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FormStateFactory;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\ProcessTaskInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\ValidateTaskInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\RollbackTaskInterface;
-use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\FinishTaskInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\ProcessTask;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\ValidateTask;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\RollbackTask;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task\FinishTask;
 
 class FormRuntimeTest extends UnitTestCase
 {
@@ -81,7 +81,7 @@ class FormRuntimeTest extends UnitTestCase
      */
     public function processesForm()
     {
-        $processTask = $this->createMock(ProcessTaskInterface::class);
+        $processTask = $this->createMock(ProcessTask::class);
         $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $request = $this->createMock(ActionRequest::class);
         $propertyMappingConfiguration = $this->createMock(PropertyMappingConfiguration::class);
@@ -119,7 +119,7 @@ class FormRuntimeTest extends UnitTestCase
         // Expect that the process task will be run three times
         //
         $processTask->expects($this->exactly(3))
-            ->method('run')
+            ->method('process')
             ->withConsecutive(
                 [$propertyMappingConfiguration, $fieldDefinition1, 'Input1', $validationResult],
                 [$propertyMappingConfiguration, $fieldDefinition2, 'Input2', $validationResult],
@@ -135,7 +135,7 @@ class FormRuntimeTest extends UnitTestCase
      */
     public function validatesForm()
     {
-        $validateTask = $this->createMock(ValidateTaskInterface::class);
+        $validateTask = $this->createMock(ValidateTask::class);
         $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $request = $this->createMock(ActionRequest::class);
         $validationResult = $this->createMock(Result::class);
@@ -236,7 +236,7 @@ class FormRuntimeTest extends UnitTestCase
      */
     public function rollsbackInCaseOfError()
     {
-        $rollbackTask = $this->createMock(RollbackTaskInterface::class);
+        $rollbackTask = $this->createMock(RollbackTask::class);
         $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $request = $this->createMock(ActionRequest::class);
         $propertyMappingConfiguration = $this->createMock(PropertyMappingConfiguration::class);
@@ -297,7 +297,7 @@ class FormRuntimeTest extends UnitTestCase
      */
     public function finishesForm()
     {
-        $finishTask = $this->createMock(FinishTaskInterface::class);
+        $finishTask = $this->createMock(FinishTask::class);
         $formDefinition = $this->createMock(FormDefinitionInterface::class);
         $request = $this->createMock(ActionRequest::class);
         $response = $this->createMock(Response::class);

@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Validation\ValidatorResolver as FlowValidatorResolver;
-use Neos\Flow\Validation\Validators\ValidatorInterface;
+use Neos\Flow\Validation\Validator\ValidatorInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\ResolverException;
 

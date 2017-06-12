@@ -19,6 +19,7 @@ use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FormStateFactory;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
 use PackageFactory\AtomicFusion\Forms\Factory\PropertyMappingConfigurationFactory;
 
@@ -44,25 +45,25 @@ class FormRuntime implements FormRuntimeInterface
 
     /**
      * @Flow\Inject
-     * @var Task\ProcessTaskInterface
+     * @var Task\ProcessTask
      */
     protected $processTask;
 
     /**
      * @Flow\Inject
-     * @var Task\ValidateTaskInterface
+     * @var Task\ValidateTask
      */
     protected $validateTask;
 
     /**
      * @Flow\Inject
-     * @var Task\RollbackTaskInterface
+     * @var Task\RollbackTask
      */
     protected $rollbackTask;
 
     /**
      * @Flow\Inject
-     * @var Task\FinishTaskInterface
+     * @var Task\FinishTask
      */
     protected $finishTask;
 
@@ -152,7 +153,7 @@ class FormRuntime implements FormRuntimeInterface
      */
     public function shouldProcess()
     {
-        return !$this->formState->isInitialCall();
+        return $this->processTask->shouldRun($this);
     }
 
     /**
@@ -160,21 +161,7 @@ class FormRuntime implements FormRuntimeInterface
      */
     public function process()
     {
-        $fieldDefinitions = $this->getFieldDefinitionsForCurrentPage();
-
-        $this->values = [];
-        foreach ($fieldDefinitions as $fieldDefinition) {
-            $argument = $this->formState->getArgument($fieldDefinition->getName());
-
-            $value = $this->processTask->run(
-                $this->propertyMappingConfiguration,
-                $fieldDefinition,
-                $argument,
-                $this->formState->getValidationResult()
-            );
-
-            $this->formState->addValue($fieldDefinition->getName(), $value);
-        }
+        return $this->processTask->run($this);
     }
 
     /**
@@ -182,7 +169,7 @@ class FormRuntime implements FormRuntimeInterface
      */
     public function shouldValidate()
     {
-        return !$this->formState->isInitialCall() && count($this->formState->getValues()) > 0;
+        return $this->validateTask->shouldRun($this);
     }
 
     /**
@@ -190,12 +177,7 @@ class FormRuntime implements FormRuntimeInterface
      */
     public function validate()
     {
-        $fieldDefinitions = $this->getFieldDefinitionsForCurrentPage();
-
-        foreach ($fieldDefinitions as $fieldDefinition) {
-            $value = $this->formState->getValue($fieldDefinition->getName());
-            $this->validateTask->run($fieldDefinition, $value, $this->formState->getValidationResult());
-        }
+        return $this->validateTask->run($this);
     }
 
     /**
@@ -203,7 +185,7 @@ class FormRuntime implements FormRuntimeInterface
      */
     public function shouldRollback()
     {
-        return $this->formState->getValidationResult()->hasErrors();
+        return $this->rollbackTask->shouldRun($this);
     }
 
     /**
@@ -211,23 +193,7 @@ class FormRuntime implements FormRuntimeInterface
      */
     public function rollback()
     {
-        $fieldDefinitions = $this->getFieldDefinitionsForCurrentPage();
-
-        foreach ($fieldDefinitions as $fieldDefinition) {
-            $argument = $this->formState->getArgument($fieldDefinition->getName());
-            $value = $this->formState->getValue($fieldDefinition->getName());
-
-            $restoredValue = $this->rollbackTask
-                ->run(
-                    $this->propertyMappingConfiguration,
-                    $fieldDefinition,
-                    $argument,
-                    $value,
-                    $this->formState->getValidationResult()
-                );
-
-            $this->formState->addValue($fieldDefinition->getName(), $restoredValue);
-        }
+        return $this->rollbackTask->run($this);
     }
 
     /**
@@ -235,19 +201,7 @@ class FormRuntime implements FormRuntimeInterface
      */
     public function shouldFinish()
     {
-        $pageDefinitions = $this->formDefinition->getPageDefinitions();
-        $isOnLastPage = false;
-
-        if (is_array($pageDefinitions)) {
-            $lastPageDefinition = array_pop($pageDefinitions);
-            if ($lastPageDefinition) {
-                $isOnLastPage = $this->formState->getCurrentPage() === $lastPageDefinition->getName();
-            }
-        }
-
-        return !$this->formState->isInitialCall() && !$this->formState->getValidationResult()->hasErrors() && (
-            !$this->formDefinition->hasPages() || $isOnLastPage
-        );
+        return $this->finishTask->shouldRun($this);
     }
 
     /**
@@ -255,9 +209,7 @@ class FormRuntime implements FormRuntimeInterface
      */
     public function finish(Response $parentResponse)
     {
-        $finisherDefinitions = $this->formDefinition->getFinisherDefinitions();
-
-        return $this->finishTask->run($finisherDefinitions, $parentResponse);
+        return $this->finishTask->run($this, $parentResponse);
     }
 
     /**
@@ -265,7 +217,7 @@ class FormRuntime implements FormRuntimeInterface
      *
      * @return array<FieldDefinitionInterface>
      */
-    protected function getFieldDefinitionsForCurrentPage()
+    public function getFieldDefinitionsForCurrentPage()
     {
         if ($this->formDefinition->hasPages()) {
             return $this->formDefinition
@@ -274,5 +226,13 @@ class FormRuntime implements FormRuntimeInterface
         }
 
         return $this->formDefinition->getFieldDefinitions();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPropertyMappingConfiguration()
+    {
+        return $this->propertyMappingConfiguration;
     }
 }
