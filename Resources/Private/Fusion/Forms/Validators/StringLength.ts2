@@ -1,6 +1,6 @@
 prototype(PackageFactory.AtomicFusion.Forms:Validators.StringLength) < prototype(PackageFactory.AtomicFusion.Forms:Validator) {
-    implementationClassName = 'Neos\\Flow\\Validation\\Validator\\StringLengthValidator'
+    implementationClassName = 'PackageFactory\\AtomicFusion\\Forms\\Domain\\Model\\Validator\\FlowValidatorAdapter'
     options {
-        # @see http://neos.readthedocs.io/en/stable/References/Validators/Flow.html#stringlengthvalidator
+        validator = 'Neos\\Flow\\Validation\\Validator\\StringLengthValidator'
     }
 }

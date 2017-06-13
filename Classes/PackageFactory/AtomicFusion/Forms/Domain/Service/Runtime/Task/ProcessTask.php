@@ -16,13 +16,14 @@ use Neos\Error\Messages\Result;
 use Neos\Flow\Property\PropertyMappingConfiguration;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ProcessorResolverInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 
 /**
  * Process request arguments
  *
  * @Flow\Scope("singleton")
  */
-class ProcessTask implements ProcessTaskInterface
+class ProcessTask implements TaskInterface
 {
     /**
      * @Flow\Inject
@@ -33,7 +34,45 @@ class ProcessTask implements ProcessTaskInterface
     /**
      * @inheritdoc
      */
-    public function run(
+    public function shouldRun(FormRuntimeInterface $runtime)
+    {
+        return !$runtime->getFormState()->isInitialCall();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function run(FormRuntimeInterface $runtime)
+    {
+        $fieldDefinitions = $runtime->getFieldDefinitionsForCurrentPage();
+        $propertyMappingConfiguration = $runtime->getPropertyMappingConfiguration();
+
+        $this->values = [];
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            $argument = $runtime->getFormState()->getArgument($fieldDefinition->getName());
+
+            $value = $this->process(
+                $propertyMappingConfiguration,
+                $fieldDefinition,
+                $argument,
+                $runtime->getFormState()->getValidationResult()
+            );
+
+            $runtime->getFormState()->addValue($fieldDefinition->getName(), $value);
+        }
+    }
+
+    /**
+     * Process the given arguments by their field definitions and write possibly occuring messages
+     * to the given validation result
+     *
+     * @param PropertyMappingConfiguration $propertyMappingConfiguration
+     * @param FieldDefinitionInterface $fieldDefinition
+     * @param mixed $input
+     * @param Result $validationResult
+     * @return array The processed arguments
+     */
+    protected function process(
         PropertyMappingConfiguration $propertyMappingConfiguration,
         FieldDefinitionInterface $fieldDefinition,
         $input,

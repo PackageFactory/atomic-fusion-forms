@@ -1,3 +1,6 @@
 prototype(PackageFactory.AtomicFusion.Forms:Validators.NotEmpty) < prototype(PackageFactory.AtomicFusion.Forms:Validator) {
-    implementationClassName = 'Neos\\Flow\\Validation\\Validator\\NotEmptyValidator'
+    implementationClassName = 'PackageFactory\\AtomicFusion\\Forms\\Domain\\Model\\Validator\\FlowValidatorAdapter'
+    options {
+        validator = 'Neos\\Flow\\Validation\\Validator\\NotEmptyValidator'
+    }
 }

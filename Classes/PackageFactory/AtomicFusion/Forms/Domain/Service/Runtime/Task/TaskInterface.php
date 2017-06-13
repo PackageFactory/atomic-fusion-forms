@@ -12,13 +12,13 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
  */
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Cli\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
-use Neos\Flow\Http\Response;
 
 /**
- * Method definitions for generic the finish task
+ * Method definitions for generic Form Tasks
  */
-interface FinishTaskInterface
+interface TaskInterface
 {
 
     /**
@@ -33,8 +33,7 @@ interface FinishTaskInterface
      * Run the defined task
      *
      * @param FormRuntimeInterface $runtime
-     * @param Respone $parentResponse
      * @return void
      */
-    public function run(FormRuntimeInterface $runtime, Response $parentResponse);
+    public function run(FormRuntimeInterface $runtime);
 }

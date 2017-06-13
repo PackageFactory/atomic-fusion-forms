@@ -15,6 +15,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Http\Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FinisherStateFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolverInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 
 /**
  * Run finishers
@@ -38,7 +39,42 @@ class FinishTask implements FinishTaskInterface
     /**
      * @inheritdoc
      */
-    public function run(array $finisherDefinitions, Response $parentResponse)
+    public function shouldRun(FormRuntimeInterface $runtime)
+    {
+        $pageDefinitions = $runtime->getFormDefinition()->getPageDefinitions();
+        $isOnLastPage = false;
+
+        if (is_array($pageDefinitions)) {
+            $lastPageDefinition = array_pop($pageDefinitions);
+            if ($lastPageDefinition) {
+                $isOnLastPage = $runtime->getFormState()->getCurrentPage() === $lastPageDefinition->getName();
+            }
+        }
+
+        return !$runtime->getFormState()->isInitialCall() && !$runtime->getFormState()->getValidationResult()->hasErrors() && (
+                !$runtime->getFormDefinition()->hasPages() || $isOnLastPage
+            );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function run(FormRuntimeInterface $runtime, Response $parentResponse)
+    {
+        $finisherDefinitions = $runtime->getFormDefinition()->getFinisherDefinitions();
+
+        return $this->finish($finisherDefinitions, $parentResponse);
+
+    }
+
+    /**
+     * Run all defined finishers
+     *
+     * @param array<FinisherDefinitionInterface> $finisherDefinitions
+     * @param Response $parentResponse
+     * @return void
+     */
+    protected function finish(array $finisherDefinitions, Response $parentResponse)
     {
         $finisherState = $this->finisherStateFactory->createFinisherState($parentResponse);
 
