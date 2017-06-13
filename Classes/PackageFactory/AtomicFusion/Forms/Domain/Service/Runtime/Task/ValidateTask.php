@@ -13,6 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Result;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\ValidatorResolverInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
@@ -54,7 +55,12 @@ class ValidateTask implements TaskInterface
 
         foreach ($fieldDefinitions as $fieldDefinition) {
             $value = $runtime->getFormState()->getValue($fieldDefinition->getName());
-            $this->validate($fieldDefinition, $value, $runtime->getFormState()->getValidationResult());
+            $this->validate(
+                $fieldDefinition,
+                $value,
+                $runtime->getFormState()->getValidationResult(),
+                $runtime->getFormContext()
+            );
         }
     }
 
@@ -65,13 +71,14 @@ class ValidateTask implements TaskInterface
      * @param FieldDefinitionInterface $fieldDefinition
      * @param mixed $value
      * @param Result $validationResult
+     * @param FormContext $runtime
      * @return void
      */
-    public function validate(FieldDefinitionInterface $fieldDefinition, $value, Result $validationResult)
+    public function validate(FieldDefinitionInterface $fieldDefinition, $value, Result $validationResult, FormContext $context)
     {
         foreach ($fieldDefinition->getValidatorDefinitions() as $validatorDefinition) {
             $validator = $this->validatorResolver->resolve($validatorDefinition);
-            $singleValidationResult = $validator->validate($value);
+            $singleValidationResult = $validator->validate($value, $context);
 
             if ($singleValidationResult->hasErrors() && $validatorDefinition->hasCustomErrorMessage()) {
                 $customErrorMessage = $this->messageFactory

@@ -16,9 +16,11 @@ use Neos\Flow\Mvc\ActionRequest;
 use Neos\Error\Messages\Result;
 use Neos\Flow\Http\Response;
 use Neos\Flow\Property\PropertyMappingConfiguration;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FormStateFactory;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\Factory\FormContextFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormState;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
 use PackageFactory\AtomicFusion\Forms\Factory\PropertyMappingConfigurationFactory;
@@ -32,6 +34,11 @@ class FormRuntime implements FormRuntimeInterface
      * @var ActionRequest
      */
     protected $request;
+
+    /**
+     * @var FormContext
+     */
+    protected $formContext;
 
     /**
      * @var FormStateInterface
@@ -85,6 +92,12 @@ class FormRuntime implements FormRuntimeInterface
     protected $formStateFactory;
 
     /**
+     * @Flow\Inject
+     * @var FormContextFactory
+     */
+    protected $formContextFactory;
+
+    /**
      * Constructor
      *
      * @param FormDefinitionInterface $formDefinition
@@ -122,6 +135,8 @@ class FormRuntime implements FormRuntimeInterface
             ->createTrustedPropertyMappingConfiguration(
                 $this->request->getInternalArgument('__trustedProperties')
             );
+        $this->formContext = $this->formContextFactory->createFormContext($this);
+
     }
 
     /**
@@ -146,6 +161,14 @@ class FormRuntime implements FormRuntimeInterface
     public function getFormState()
     {
         return $this->formState;
+    }
+
+    /**
+     * @return FormContext
+     */
+    public function getFormContext()
+    {
+        return $this->formContext;
     }
 
     /**

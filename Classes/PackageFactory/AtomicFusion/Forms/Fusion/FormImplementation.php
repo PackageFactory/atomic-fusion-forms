@@ -65,12 +65,6 @@ class FormImplementation extends AbstractFusionObject
     protected $formRuntimeFactory;
 
     /**
-     * @Flow\Inject
-     * @var FormContextFactory
-     */
-    protected $formContextFactory;
-
-    /**
      * @var FormDefinitionInterface
      */
     protected $formDefinition;
@@ -142,7 +136,7 @@ class FormImplementation extends AbstractFusionObject
         // Create form definition
         //
         $formRuntime = $this->getFormRuntime();
-        $formContext = $this->formContextFactory->createFormContext($formRuntime);
+        $formContext = $formRuntime->getFormContext();
 
         $this->runtime->pushContext($this->tsValue('formContext'), $formContext);
 

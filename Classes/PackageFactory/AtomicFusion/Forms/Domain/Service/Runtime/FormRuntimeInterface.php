@@ -17,6 +17,7 @@ use Neos\Flow\Http\Response;
 use Neos\Error\Messages\Result;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FormDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FormStateInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 
 /**
  * Method definitions for FormRuntime
@@ -36,6 +37,13 @@ interface FormRuntimeInterface
      * @return ActionRequest
      */
     public function getRequest();
+
+    /**
+     * Get the form context
+     *
+     * @return FormContext
+     */
+    public function getFormContext();
 
     /**
      * Get the form state

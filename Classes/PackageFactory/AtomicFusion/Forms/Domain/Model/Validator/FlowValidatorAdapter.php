@@ -14,7 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Validator;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Validation\ValidatorResolver as FlowValidatorResolver;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\ResolverException;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Validator\ValidatorInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 
 /**
  * Defines methods for validators
@@ -80,10 +80,11 @@ class FlowValidatorAdapter implements ValidatorInterface
      * the Error Messages object which occurred.
      *
      * @param mixed $value The value that should be validated
+     * @param FormContext $formContext The form context
      * @return ErrorResult
      * @api
      */
-    public function validate($value) {
+    public function validate($value, FormContext $formContext) {
         $this->validator = $this->resolveValidator($this->validator, $this->options);
         return $this->validator->validate($value);
     }

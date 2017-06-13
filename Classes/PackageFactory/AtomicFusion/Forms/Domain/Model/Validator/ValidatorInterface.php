@@ -13,8 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Validator;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Result;
-use Neos\Flow\Property\PropertyMappingConfiguration;
-use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FieldDefinitionInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Context\FormContext;
 
 /**
  * Defines methods for validators
@@ -27,8 +26,9 @@ interface ValidatorInterface
      * the Error Messages object which occurred.
      *
      * @param mixed $value The value that should be validated
-     * @return ErrorResult
+     * @paran FormContext $formContext
+     * @return Result
      * @api
      */
-    public function validate($value);
+    public function validate($value, FormContext $formContext);
 }
