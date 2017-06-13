@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Fusion\Validators;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Validation\Validator\ValidatorInterface;
+use PackageFactory\AtomicFusion\Forms\Domain\Model\Validator\ValidatorInterface;
 use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use PackageFactory\AtomicFusion\Forms\Fusion\Exception\EvaluationException;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\ValidatorDefinition;
