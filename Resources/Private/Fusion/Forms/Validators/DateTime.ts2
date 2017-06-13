@@ -2,8 +2,5 @@ prototype(PackageFactory.AtomicFusion.Forms:Validators.DateTime) < prototype(Pac
     implementationClassName = 'PackageFactory\\AtomicFusion\\Forms\\Domain\\Model\\Validator\\FlowValidatorAdapter'
     options {
         validator = 'Neos\\Flow\\Validation\\Validator\\DateTimeValidator'
-        options {
-
-        }
     }
 }

@@ -77,7 +77,7 @@ class ValidatorResolver implements ValidatorResolverInterface
     }
 
     /**
-     * Returns all class names implementing the ProcessorInterface.
+     * Returns all class names implementing the ValidatorInterface.
      *
      * @param ObjectManagerInterface $objectManager
      * @return array Array of class names implementing ValidatorInterface indexed by class name

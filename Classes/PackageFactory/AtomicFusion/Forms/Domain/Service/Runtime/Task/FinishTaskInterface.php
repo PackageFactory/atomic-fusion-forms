@@ -16,7 +16,7 @@ use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterfac
 use Neos\Flow\Http\Response;
 
 /**
- * Method definitions for generic Form Tasks
+ * Method definitions for generic the finish task
  */
 interface FinishTaskInterface
 {
