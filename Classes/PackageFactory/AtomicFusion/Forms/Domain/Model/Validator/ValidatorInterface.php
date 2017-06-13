@@ -26,7 +26,7 @@ interface ValidatorInterface
      * the Error Messages object which occurred.
      *
      * @param mixed $value The value that should be validated
-     * @paran FormContext $formContext
+     * @param FormContext $formContext
      * @return Result
      * @api
      */
