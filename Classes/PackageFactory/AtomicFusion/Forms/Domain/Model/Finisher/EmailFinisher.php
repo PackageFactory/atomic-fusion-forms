@@ -14,6 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher;
 use Neos\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
+use Neos\Utility\MediaTypes;
 
 /**
  * Finisher that sends an email message
@@ -77,6 +78,16 @@ class EmailFinisher implements FinisherInterface
      * @var string
      */
     protected $testMode;
+
+    /**
+     * @var array
+     */
+    protected $embeddedFiles;
+
+    /**
+     * @var array
+     */
+    protected $attachments;
 
     /**
      * @param string $subject
@@ -167,6 +178,22 @@ class EmailFinisher implements FinisherInterface
     }
 
     /**
+     * @param array $embeddedFiles
+     */
+    public function setEmbeddedFiles($embeddedFiles)
+    {
+        $this->embeddedFiles = $embeddedFiles;
+    }
+
+    /**
+     * @param array $attachments
+     */
+    public function setAttachments($attachments)
+    {
+        $this->attachments = $attachments;
+    }
+
+    /**
      * @inheritdoc
      */
     public function execute(FinisherStateInterface $finisherState)
@@ -229,6 +256,26 @@ class EmailFinisher implements FinisherInterface
             $mail->setBody($this->message, 'text/plain');
         } else {
             $mail->setBody($this->message, 'text/html');
+        }
+
+        if ($this->embeddedFiles && is_array($this->embeddedFiles)) {
+            foreach ($this->embeddedFiles as $identifier => $fileReference) {
+                $fileName = basename($fileReference);
+                $mediaType = MediaTypes::getMediaTypeFromFilename($fileName);
+                $embeddable = new \Swift_EmbeddedFile(file_get_contents($fileReference), $fileName, $mediaType);
+                $embeddable->setId($identifier);
+                $mail->embed($embeddable);
+            }
+        }
+
+        if ($this->attachments && is_array($this->attachments)) {
+            foreach ($this->attachments as $identifier => $fileReference) {
+                $fileName = basename($fileReference);
+                $mediaType = MediaTypes::getMediaTypeFromFilename($fileName);
+                $attachment = new \Swift_Attachment(file_get_contents($fileReference), $fileName, $mediaType);
+                $attachment->setId($identifier);
+                $mail->attach($attachment);
+            }
         }
 
         if ($this->testMode === true) {
