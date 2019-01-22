@@ -15,8 +15,8 @@
         "neos/fusion": "*"
     },
     "autoload": {
-        "psr-0": {
-            "PackageFactory\\AtomicFusion\\Forms": "Classes/"
+        "psr-4": {
+            "PackageFactory\\AtomicFusion\\Forms\\": "Classes/"
         }
     },
     "extra": {
