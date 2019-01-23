@@ -85,14 +85,14 @@ class FormImplementation extends AbstractFusionObject
             return $this->formDefinition;
         }
 
-        $fields = $this->tsValue('fields');
-        $finishers = $this->tsValue('finishers');
-        $pages = $this->tsValue('pages');
+        $fields = $this->fusionValue('fields');
+        $finishers = $this->fusionValue('finishers');
+        $pages = $this->fusionValue('pages');
 
         $formDefinition = $this->formDefinitionFactory->createFormDefinition([
-            'label' => $this->tsValue('label'),
-            'name' => $this->tsValue('name'),
-            'action' => $this->tsValue('action')
+            'label' => $this->fusionValue('label'),
+            'name' => $this->fusionValue('name'),
+            'action' => $this->fusionValue('action')
         ]);
 
         foreach ($fields as $field) {
@@ -138,7 +138,7 @@ class FormImplementation extends AbstractFusionObject
         $formRuntime = $this->getFormRuntime();
         $formContext = $formRuntime->getFormContext();
 
-        $this->runtime->pushContext($this->tsValue('formContext'), $formContext);
+        $this->runtime->pushContext($this->fusionValue('formContext'), $formContext);
 
         $renderedForm = $this->processForm($formRuntime);
         $renderedForm = $renderedForm ? $renderedForm : $this->augmentForm(
@@ -211,7 +211,7 @@ class FormImplementation extends AbstractFusionObject
 
             $formState->setCurrentPage($nextPage);
 
-            $this->runtime->pushContext($this->tsValue('pageContext'), $formContext->page($nextPage));
+            $this->runtime->pushContext($this->fusionValue('pageContext'), $formContext->page($nextPage));
 
             $renderedForm = $this->runtime->render(sprintf('%s/renderer/%s', $this->path, $nextPage));
 

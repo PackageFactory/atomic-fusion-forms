@@ -29,8 +29,8 @@ class PageImplementation extends AbstractFusionObject
     public function evaluate()
     {
         $fusionConfiguration = [
-            'label' => $this->tsValue('label'),
-            'name' => $this->tsValue('name')
+            'label' => $this->fusionValue('label'),
+            'name' => $this->fusionValue('name')
         ];
 
         return new PageDefinition($fusionConfiguration);

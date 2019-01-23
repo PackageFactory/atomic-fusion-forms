@@ -1,1 +1,2 @@
-include: ./Forms/**/*.ts2
+include: ./Forms/**/*.fusion
+include: ./Forms/*.fusion

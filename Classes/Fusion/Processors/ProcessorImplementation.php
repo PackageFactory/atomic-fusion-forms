@@ -39,8 +39,8 @@ class ProcessorImplementation extends AbstractFusionObject
             );
         }
 
-        $implementationClassName = $this->tsValue('implementationClassName');
-        $options = $this->tsValue('options');
+        $implementationClassName = $this->fusionValue('implementationClassName');
+        $options = $this->fusionValue('options');
 
         if (!$implementationClassName) {
             throw new EvaluationException(

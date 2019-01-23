@@ -29,14 +29,14 @@ class FieldImplementation extends AbstractFusionObject
     public function evaluate()
     {
         $fusionConfiguration = [
-            'label' => $this->tsValue('label'),
-            'name' => $this->tsValue('name'),
-            'type' => $this->tsValue('type'),
-            'page' => $this->tsValue('page')
+            'label' => $this->fusionValue('label'),
+            'name' => $this->fusionValue('name'),
+            'type' => $this->fusionValue('type'),
+            'page' => $this->fusionValue('page')
         ];
 
-        $processorDefinition = $this->tsValue('processor');
-        $validatorDefinitions = $this->tsValue('validators');
+        $processorDefinition = $this->fusionValue('processor');
+        $validatorDefinitions = $this->fusionValue('validators');
 
         $fieldDefinition = new FieldDefinition($fusionConfiguration);
         $fieldDefinition->setProcessorDefinition($processorDefinition);

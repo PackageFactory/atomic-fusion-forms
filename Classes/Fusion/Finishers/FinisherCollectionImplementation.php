@@ -28,8 +28,8 @@ class FinisherCollectionImplementation extends AbstractFusionObject
     public function evaluate()
     {
         $result = [];
-        $collection = $this->tsValue('collection');
-        $itemName = $this->tsValue('itemName');
+        $collection = $this->fusionValue('collection');
+        $itemName = $this->fusionValue('itemName');
 
         foreach ($collection as $item) {
             $finisherDefinition = $this->renderFinisherDefinition($itemName, $item);

@@ -28,8 +28,8 @@ class ValidatorCollectionImplementation extends AbstractFusionObject
     public function evaluate()
     {
         $result = [];
-        $collection = $this->tsValue('collection');
-        $itemName = $this->tsValue('itemName');
+        $collection = $this->fusionValue('collection');
+        $itemName = $this->fusionValue('itemName');
 
         foreach ($collection as $item) {
             $validatorDefinition = $this->renderValidatorDefinition($itemName, $item);

@@ -86,8 +86,8 @@ class FinisherImplementation extends AbstractFusionObject implements FinisherDef
 
         $this->runtime->pushContextArray($combinedFusionContext);
 
-        $implementationClassName = $this->tsValue('implementationClassName');
-        $options = $this->tsValue('options');
+        $implementationClassName = $this->fusionValue('implementationClassName');
+        $options = $this->fusionValue('options');
 
         $this->runtime->popContext();
 

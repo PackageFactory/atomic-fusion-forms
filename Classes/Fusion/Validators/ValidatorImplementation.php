@@ -39,10 +39,10 @@ class ValidatorImplementation extends AbstractFusionObject
             );
         }
 
-        $name = $this->tsValue('name');
-        $implementationClassName = $this->tsValue('implementationClassName');
-        $options = $this->tsValue('options');
-        $customErrorMessage = $this->tsValue('message');
+        $name = $this->fusionValue('name');
+        $implementationClassName = $this->fusionValue('implementationClassName');
+        $options = $this->fusionValue('options');
+        $customErrorMessage = $this->fusionValue('message');
 
         if (!$implementationClassName) {
             throw new EvaluationException(
