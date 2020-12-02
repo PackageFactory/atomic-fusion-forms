@@ -4,7 +4,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Fusion;
 use Neos\Flow\Tests\UnitTestCase;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Mvc\ActionRequest;
-use Neos\Flow\Mvc\FlashMessageContainer;
+use Neos\Flow\Mvc\FlashMessage\FlashMessageContainer;
 use Neos\Error\Messages\Result;
 use Neos\Error\Messages\Message;
 use Neos\Flow\Http\Response;
