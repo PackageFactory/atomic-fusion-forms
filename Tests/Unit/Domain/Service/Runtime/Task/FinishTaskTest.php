@@ -2,7 +2,7 @@
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\Runtime\Task;
 
 use Neos\Flow\Tests\UnitTestCase;
-use Neos\Flow\Http\Response;
+use Neos\Flow\Mvc\ActionResponse as Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Definition\FinisherDefinitionInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\FinisherInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolverInterface;

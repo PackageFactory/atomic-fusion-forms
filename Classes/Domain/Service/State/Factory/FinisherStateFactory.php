@@ -13,7 +13,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory;
 
 use Neos\Flow\Annotations as Flow;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherState;
-use Neos\Flow\Http\Response;
+use Neos\Flow\Mvc\ActionResponse as Response;
 
 /**
  * Create finisher states

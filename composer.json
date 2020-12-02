@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "neos/flow": "*",
-        "neos/fusion": "*"
+        "neos/flow": "^6.0",
+        "neos/fusion": "^5.0"
     },
     "autoload": {
         "psr-4": {

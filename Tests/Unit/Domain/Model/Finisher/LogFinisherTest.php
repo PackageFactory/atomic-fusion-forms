@@ -1,8 +1,8 @@
 <?php
 namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Model\Finisher;
 
-use Neos\Flow\Log\SystemLoggerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher\LogFinisher;
+use Psr\Log\LoggerInterface;
 
 class LogFinisherTest extends FinisherTestCase
 {
@@ -11,7 +11,7 @@ class LogFinisherTest extends FinisherTestCase
      */
     public function logsConfiguredMessageWithConfiguredSeverityWithNoFurtherSideEffects()
     {
-        $logger = $this->createMock(SystemLoggerInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
 
         $finisher = new LogFinisher();
         $finisher->setMessage('SomeMessage');
@@ -44,7 +44,7 @@ class LogFinisherTest extends FinisherTestCase
 
         $logger->expects($this->once())
             ->method('log')
-            ->with('SomeMessage', LOG_INFO);
+            ->with(LOG_INFO, 'SomeMessage');
 
         $this->executeFinisher($finisher);
 
@@ -70,7 +70,7 @@ class LogFinisherTest extends FinisherTestCase
 
         $logger->expects($this->once())
             ->method('log')
-            ->with('SomeString');
+            ->with(LOG_WARNING, 'SomeString');
 
         $this->executeFinisher($finisher);
 

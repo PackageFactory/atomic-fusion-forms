@@ -12,7 +12,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Task;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Http\Response;
+use Neos\Flow\Mvc\ActionResponse as Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\Factory\FinisherStateFactory;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Resolver\FinisherResolverInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;

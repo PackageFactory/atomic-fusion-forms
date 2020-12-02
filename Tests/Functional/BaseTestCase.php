@@ -2,7 +2,7 @@
 namespace PackageFactory\AtomicFusion\Forms\Tests\Functional;
 
 use Neos\Flow\Http\Request;
-use Neos\Flow\Http\Response;
+use Neos\Flow\Mvc\ActionResponse as Response;
 use Neos\Flow\Http\Uri;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Controller\Arguments;

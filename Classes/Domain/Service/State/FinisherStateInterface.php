@@ -14,7 +14,7 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Service\State;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\FlashMessage\FlashMessageContainer;
 use Neos\Error\Messages\Result;
-use Neos\Flow\Http\Response;
+use Neos\Flow\Mvc\ActionResponse as Response;
 
 /**
  * Method definitions for finisher runtime

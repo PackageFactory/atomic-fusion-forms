@@ -7,14 +7,14 @@
         "bin-dir": "bin"
     },
     "require": {
-        "php": "^7.0",
-        "neos/fusion": "^3.0",
-        "neos/flow": "^4.0"
+        "php": "^7.2",
+        "neos/fusion": "^5.0",
+        "neos/flow": "^6.0"
     },
     "require-dev": {
-        "neos/buildessentials": "~4.0.0",
+        "neos/buildessentials": "6.3.x-dev",
         "mikey179/vfsstream": "~1.6",
-        "phpunit/phpunit": "~5.4.0",
+        "phpunit/phpunit": "~8.1",
         "symfony/css-selector": "~2.0",
         "neos/behat": "dev-master"
     },

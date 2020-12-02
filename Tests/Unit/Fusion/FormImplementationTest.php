@@ -7,7 +7,7 @@ use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\FlashMessage\FlashMessageContainer;
 use Neos\Error\Messages\Result;
 use Neos\Error\Messages\Message;
-use Neos\Flow\Http\Response;
+use Neos\Flow\Mvc\ActionResponse as Response;
 use Neos\Fusion\Core\Runtime as FusionRuntime;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\FormRuntimeInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\Runtime\Factory\FormRuntimeFactory;

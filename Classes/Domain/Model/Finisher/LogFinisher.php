@@ -12,9 +12,9 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Log\SystemLoggerInterface;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Finisher that leaves a log message in the system log with configurable severity
@@ -33,7 +33,7 @@ class LogFinisher implements FinisherInterface
 
     /**
      * @Flow\Inject
-     * @var SystemLoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
@@ -78,6 +78,6 @@ class LogFinisher implements FinisherInterface
             );
         }
 
-        $this->logger->log($this->message, constant($severity));
+        $this->logger->log(constant($severity), $this->message);
     }
 }

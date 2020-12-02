@@ -4,7 +4,7 @@ namespace PackageFactory\AtomicFusion\Forms\Tests\Unit\Domain\Service\State;
 use Neos\Flow\Tests\UnitTestCase;
 use Neos\Flow\Mvc\FlashMessage\FlashMessageContainer;
 use Neos\Error\Messages\Result;
-use Neos\Flow\Http\Response;
+use Neos\Flow\Mvc\ActionResponse as Response;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherState;
 
 class FinisherStateTest extends UnitTestCase
