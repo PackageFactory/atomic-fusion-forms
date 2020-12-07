@@ -30,8 +30,6 @@ class FinisherStateFactory
      */
     public function createFinisherState(Response $parentResponse)
     {
-        $response = new Response($parentResponse);
-
-        return new FinisherState($response);
+        return new FinisherState($parentResponse);
     }
 }

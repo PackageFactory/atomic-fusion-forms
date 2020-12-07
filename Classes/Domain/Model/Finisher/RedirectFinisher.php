@@ -12,8 +12,10 @@ namespace PackageFactory\AtomicFusion\Forms\Domain\Model\Finisher;
  */
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Http\Component\SetHeaderComponent;
 use PackageFactory\AtomicFusion\Forms\Domain\Exception\FinisherStateException;
 use PackageFactory\AtomicFusion\Forms\Domain\Service\State\FinisherStateInterface;
+use GuzzleHttp\Psr7\Uri;
 
 /**
  * Finisher that sends an email message
@@ -75,10 +77,8 @@ class RedirectFinisher implements FinisherInterface
         $response = $finisherState->getResponse();
 
         if ($this->delay == 0) {
-            $mainResponse = $response->getParentResponse();
-            $mainResponse->setHeader('Location', (string)$this->uri);
-            $mainResponse->setStatus((int)$this->statusCode);
-            $mainResponse->setContent(sprintf('<html><head><meta http-equiv="refresh" content="%s;url=%s"/></head></html>' . $this->delay . ';url=' . $escapedUri));
+            $response->setRedirectUri(new Uri($this->uri), (int)$this->statusCode);
+            $response->setContent(sprintf('<html><head><meta http-equiv="refresh" content="%s;url=%s"/></head></html>', $this->delay, $escapedUri));
         } else {
             $response->appendContent(sprintf('<meta http-equiv="refresh" content="%s;url=%s"/>', $this->delay , $escapedUri));
         }

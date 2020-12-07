@@ -173,7 +173,7 @@ class FormImplementation extends AbstractFusionObject
                     $response = $finisherState->getResponse();
 
                     if ($statusCode = $response->getStatusCode()) {
-                        $controllerContext->getResponse()->setStatus($statusCode);
+                        $controllerContext->getResponse()->setStatusCode($statusCode);
                     }
 
                     if ($flashMessages = $finisherState->getFlashMessageContainer()->getMessagesAndFlush()) {
